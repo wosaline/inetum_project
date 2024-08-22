@@ -12,11 +12,11 @@ public class Comment {
     private int commentId;
 
     @ManyToOne
-    @Column(name = "EVENT_ID")
+    @JoinColumn(name = "EVENT_ID")
     private Event event;
 
     @ManyToOne
-    @Column(name = "USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @Column(name = "CONTENT")

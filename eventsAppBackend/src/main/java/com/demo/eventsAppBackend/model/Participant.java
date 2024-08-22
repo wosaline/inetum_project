@@ -12,11 +12,11 @@ public class Participant {
     private int participantId;
 
     @ManyToOne
-    @Column(name = "USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @ManyToOne
-    @Column(name = "EVENT_ID")
+    @JoinColumn(name = "EVENT_ID")
     private Event event;
 
     @Column(name = "INVITED_AT")

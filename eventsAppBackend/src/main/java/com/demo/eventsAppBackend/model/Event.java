@@ -29,7 +29,7 @@ public class Event {
     private boolean isPrivate;
 
     @ManyToOne
-    @Column(name = "CREATED_BY")
+    @JoinColumn(name = "CREATED_BY")
     private User user;
 
     @Column(name = "CREATED_AT")
