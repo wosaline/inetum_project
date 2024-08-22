@@ -78,7 +78,7 @@ ng serve
 
 ## Contributors
 
-- [nom](https://)
-- [nom](https://)
-- [nom](https://)
-- [nom](https://) 
+- [Rosaline](https://github.com/wosaline)
+- [Hatem](https://github.com/hatem-marzougui)
+- [Gill Christ](https://github.com/gbiyoghe27)
+- [Anliat](https://github.com/moleela) 
