@@ -25,6 +25,7 @@ CREATE TABLE events (
     time TIME NOT NULL,  -- format = HH:MM:SS
     logo VARCHAR(255) NULL,  -- Chemin ou URL du logo qui peut être null
     capacity INT,
+    is_private BOOLEAN NOT NULL,
     created_by INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
