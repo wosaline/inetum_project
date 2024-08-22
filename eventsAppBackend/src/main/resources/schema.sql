@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS events_db;
 USE events_db;
 
 -- Create the users table
-CREATE TABLE `user` (
+CREATE TABLE user (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -21,8 +21,8 @@ CREATE TABLE `user` (
 CREATE TABLE event (
     event_id INT PRIMARY KEY AUTO_INCREMENT,
     description TEXT NOT NULL,
-    `date` DATE NOT NULL,  -- format = YYYY-MM-DD
-    `time` TIME NOT NULL,  -- format = HH:MM:SS
+    date DATE NOT NULL,  -- format = YYYY-MM-DD
+    time TIME NOT NULL,  -- format = HH:MM:SS
     logo VARCHAR(255) NULL,  -- Chemin ou URL du logo qui peut être null
     capacity INT,
     is_private BOOLEAN NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE event (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     title VARCHAR(100),
     location VARCHAR(255),
-    FOREIGN KEY (created_by) REFERENCES `user`(user_id)
+    FOREIGN KEY (created_by) REFERENCES user(user_id)
 );
 
 -- Create the participants table
@@ -42,7 +42,7 @@ CREATE TABLE participant (
     invited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     responded_at TIMESTAMP DEFAULT NULL,  -- peut être NULL si non répondu
     status ENUM('invited', 'accepted', 'declined', 'canceled') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES `user`(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE notification (
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     type ENUM('invitation', 'reminder', 'update') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES `user`(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
 
@@ -68,10 +68,10 @@ CREATE TABLE comment (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     rating INT CHECK (rating BETWEEN 1 AND 5),  -- Note entre 1 et 5
-    FOREIGN KEY (user_id) REFERENCES `user`(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
 
 
---drop database events_db_test;
---create database if not exists events_db_test;
+-- drop database events_db_test;
+-- create database if not exists events_db_test;
