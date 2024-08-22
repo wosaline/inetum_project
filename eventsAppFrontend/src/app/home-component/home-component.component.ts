@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { EventsListComponent } from '../events-list/events-list.component';
 
 @Component({
   selector: 'app-home-component',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, EventsListComponent],
   templateUrl: './home-component.component.html',
   styleUrl: './home-component.component.css',
 })
