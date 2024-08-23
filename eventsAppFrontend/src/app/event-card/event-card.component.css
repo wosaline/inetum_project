@@ -41,6 +41,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis; /* Add ellipsis (...) */
+  text-align: flex-start;
+  margin-left: 10px;
 }
 .subtitle {
   font-weight: 500;
