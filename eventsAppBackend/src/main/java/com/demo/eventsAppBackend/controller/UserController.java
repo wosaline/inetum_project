@@ -1,13 +1,16 @@
 package com.demo.eventsAppBackend.controller;
 
+import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     private final UserService userService;
@@ -31,8 +34,11 @@ public class UserController {
     // Get user by id
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
-        User user = userService.getUserById(userId);
-        return ResponseEntity.ok(user);
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Update user
@@ -43,7 +49,6 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-
     // Get all users
 
     @GetMapping("/users")
@@ -51,5 +56,15 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/users/{userId}/events")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getAllEventsByUserId(@PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(userService.getAllEventsByUserId(userId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

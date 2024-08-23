@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int notificationId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -32,12 +32,12 @@ public class Notification {
     @Column(name = "TYPE")
     private NotificationType type;
 
-    public int getNotificationId() {
-        return notificationId;
+    public int getId() {
+        return id;
     }
 
-    public void setNotificationId(int notificationId) {
-        this.notificationId = notificationId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser() {
