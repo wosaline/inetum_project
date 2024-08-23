@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public class UserController {
 
     private final UserService userService;
@@ -24,7 +25,7 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
         User user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
