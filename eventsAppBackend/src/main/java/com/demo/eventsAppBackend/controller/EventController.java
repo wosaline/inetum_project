@@ -32,11 +32,11 @@ public class EventController {
         return ResponseEntity.ok(eventService.getEventById(eventId));
     }
 
-    @GetMapping("/events/by_user/{userId}")
-    @ResponseBody
-    public ResponseEntity<List<Event>> getEventsByUserId(@PathVariable int userId){
-        return ResponseEntity.ok(eventService.getAllEventsByUserId(userId));
-    }
+//    @GetMapping("/events/by_user/{userId}")
+//    @ResponseBody
+//    public ResponseEntity<List<Event>> getEventsByUserId(@PathVariable int userId){
+//        return ResponseEntity.ok(eventService.getAllEventsByUserId(userId));
+//    }
 
     @PostMapping("/events")
     @ResponseBody

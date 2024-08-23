@@ -30,10 +30,10 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findById(eventId);
     }
 
-    @Override
-    public List<Event> getAllEventsByUserId(int userId) {
-        return eventRepository.findAllByCreatedById(userId);
-    }
+//    @Override
+//    public List<Event> getAllEventsByUserId(int userId) {
+//        return eventRepository.findAllByCreatedById(userId);
+//    }
 
     @Override
     public Event addEvent(Event event) {

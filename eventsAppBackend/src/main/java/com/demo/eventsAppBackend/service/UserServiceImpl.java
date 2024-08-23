@@ -1,6 +1,8 @@
 package com.demo.eventsAppBackend.service;
 
+import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
+import com.demo.eventsAppBackend.repository.EventRepository;
 import com.demo.eventsAppBackend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,9 +13,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, EventRepository eventRepository) {
         this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class UserServiceImpl implements UserService {
             user.setId(userId);
             user.setCreatedAt(userToUpdate.getCreatedAt());
             return userRepository.save(user);
-        }else{
+        } else {
             throw new EntityNotFoundException("Utilisateur à mettre à jour non trouvé");
         }
     }
@@ -41,6 +45,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<Event> getAllEventsByUserId(int userId) {
+        if (userRepository.findById(userId) != null) {
+            return eventRepository.findAllByCreatedById(userId);
+        }else{
+            throw new EntityNotFoundException("Utilisateur non trouvé");
+        }
     }
 
 }
