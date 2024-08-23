@@ -6,6 +6,10 @@
 
 API and Frontend for the event management application developed as part of the TP FINAL project. This application allows users to create, manage, and participate in events through an intuitive user interface and an integrated notification system.
 
+
+### Color palette
+https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
+
 ### Language
 
 **Backend:**
