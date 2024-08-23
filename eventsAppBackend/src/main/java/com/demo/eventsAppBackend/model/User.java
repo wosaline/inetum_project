@@ -107,4 +107,15 @@ public class User {
     public void setRole(UserRole role) {
         this.role = role;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = null; // null lors de la création
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now(); // Met à jour updatedAt lors des modifications
+    }
 }

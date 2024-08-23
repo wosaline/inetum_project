@@ -25,13 +25,14 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
+    // Get user by id
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
         User user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
 
-    // En tant qu'utilisateur, je veux pouvoir avoir accès à tous les utilisateurs ?
+    // Get all users
 
     @GetMapping("/users")
     @ResponseBody
