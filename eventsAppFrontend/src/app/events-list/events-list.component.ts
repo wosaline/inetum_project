@@ -16,10 +16,10 @@ export class EventsListComponent implements OnInit {
   loading: boolean = true;
   constructor(private httpProviderService: HttpProviderService) {}
   ngOnInit(): void {
-    this.loadCompartiments();
+    this.loadEvents();
   }
 
-  loadCompartiments() {
+  loadEvents() {
     this.httpProviderService.getAllEvents().subscribe(
       (res) => {
         this.eventsList = res.body || [];
