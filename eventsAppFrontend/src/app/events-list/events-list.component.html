@@ -1,4 +1,7 @@
 <div class="events-list-container">
+  <div *ngIf="loading" class="spinner-container">
+    <app-spinner></app-spinner>
+  </div>
   <app-event-card
     *ngFor="let item of eventsList"
     [event]="item"

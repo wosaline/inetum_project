@@ -13,3 +13,12 @@
   height: 500px or give to precentage(30% like that);
   width: 1000px or give to precentage (70%);
 }
+
+.spinner-container {
+  position: absolute;
+  right: 50%;
+  left: 50%;
+  top: 50%;
+  height: 80px;
+  width: 80px;
+}
