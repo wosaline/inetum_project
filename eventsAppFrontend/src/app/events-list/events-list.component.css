@@ -1,3 +1,15 @@
 .events-list-container {
-  height: 90%;
+  height: 86%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px; /* Espace entre les cartes */
+  width: 80%; /* Ajuste la largeur selon tes besoins */
+  padding: 20px;
+  margin: 0 auto;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+
+  height: 500px or give to precentage(30% like that);
+  width: 1000px or give to precentage (70%);
 }

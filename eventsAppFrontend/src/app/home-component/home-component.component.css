@@ -3,4 +3,7 @@
   width: 100vw;
   padding: 0;
   margin: 0;
+  overflow-y: hidden;
+  /* background-image: url("../../../public/bg-events.jpeg"); */
+  background-size: cover;
 }
