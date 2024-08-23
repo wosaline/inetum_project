@@ -111,7 +111,7 @@ public class User {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.updatedAt = null; // null lors de la création
+        this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
