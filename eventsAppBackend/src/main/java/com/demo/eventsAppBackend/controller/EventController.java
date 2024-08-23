@@ -23,6 +23,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/events")
     @ResponseBody
     public ResponseEntity<List<Event>> getAllEvents(){
