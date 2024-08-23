@@ -4,7 +4,6 @@ import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class EventConverter {
@@ -14,8 +13,6 @@ public class EventConverter {
                                        int capacity,
                                        boolean isPrivate,
                                        User createdBy,
-                                       LocalDateTime createdAt,
-                                       LocalDateTime updatedAt,
                                        String title,
                                        String location,
                                        String logo) {
@@ -26,9 +23,7 @@ public class EventConverter {
         event.setTime(time);
         event.setCapacity(capacity);
         event.setPrivate(isPrivate);
-        event.setUser(createdBy);
-        event.setCreatedAt(createdAt);
-        event.setUpdatedAt(updatedAt);
+        event.setCreatedBy(createdBy);
         event.setTitle(title);
         event.setLocation(location);
         event.setLogo(logo);

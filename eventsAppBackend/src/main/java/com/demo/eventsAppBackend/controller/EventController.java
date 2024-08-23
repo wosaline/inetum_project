@@ -8,6 +8,7 @@ import com.demo.eventsAppBackend.service.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,7 +57,7 @@ public class EventController {
     ) {
         User user = userRepository.findById(createdBy);
         if (user != null) {
-            Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, LocalDateTime.now(), LocalDateTime.now(), title, location, logo);
+            Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
             return ResponseEntity.ok(eventService.addEvent(event));
         } else {
             return ResponseEntity.badRequest().build();
