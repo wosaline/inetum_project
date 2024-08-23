@@ -1,10 +1,10 @@
 INSERT INTO `user` (username, email, password_hash, first_name, last_name, role)
 VALUES
-('john_doe', 'john@example.com', 'hash1', 'John', 'Doe', 'user'),
-('jane_smith', 'jane@example.com', 'hash2', 'Jane', 'Smith', 'admin'),
-('michael_brown', 'michael@example.com', 'hash3', 'Michael', 'Brown', 'user'),
-('emily_davis', 'emily@example.com', 'hash4', 'Emily', 'Davis', 'user'),
-('william_jones', 'william@example.com', 'hash5', 'William', 'Jones', 'user');
+('john_doe', 'john@example.com', 'hash1', 'John', 'Doe', 'USER'),
+('jane_smith', 'jane@example.com', 'hash2', 'Jane', 'Smith', 'ADMIN'),
+('michael_brown', 'michael@example.com', 'hash3', 'Michael', 'Brown', 'USER'),
+('emily_davis', 'emily@example.com', 'hash4', 'Emily', 'Davis', 'USER'),
+('william_jones', 'william@example.com', 'hash5', 'William', 'Jones', 'USER');
 
 INSERT INTO `event` (description, `date`, `time`, logo, capacity, is_private, created_by, title, location)
 VALUES
@@ -16,20 +16,20 @@ VALUES
 
 INSERT INTO participant (user_id, event_id, responded_at, status)
 VALUES
-(1, 1, '2024-09-10 12:00:00', 'accepted'),
-(2, 1, NULL, 'invited'),
-(3, 2, '2024-10-01 09:30:00', 'declined'),
-(4, 3, NULL, 'invited'),
-(5, 4, '2024-11-01 14:00:00', 'accepted'),
-(1, 4, '2024-11-02 09:00:00', 'accepted');
+(1, 1, '2024-09-10 12:00:00', 'ACCEPTED'),
+(2, 1, NULL, 'INVITED'),
+(3, 2, '2024-10-01 09:30:00', 'DECLINED'),
+(4, 3, NULL, 'INVITED'),
+(5, 4, '2024-11-01 14:00:00', 'ACCEPTED'),
+(1, 4, '2024-11-02 09:00:00', 'ACCEPTED');
 
 INSERT INTO notification (user_id, event_id, message, type)
 VALUES
-(1, 1, 'You are invited to the Annual Company Meeting', 'invitation'),
-(2, 1, 'Reminder: Annual Company Meeting on 2024-09-15', 'reminder'),
-(3, 2, 'You are invited to the Tech Conference', 'invitation'),
-(4, 3, 'Project Kickoff meeting has been scheduled', 'update'),
-(5, 4, 'You are invited to the Networking Event', 'invitation');
+(1, 1, 'You are invited to the Annual Company Meeting', 'INVITATION'),
+(2, 1, 'Reminder: Annual Company Meeting on 2024-09-15', 'REMINDER'),
+(3, 2, 'You are invited to the Tech Conference', 'INVITATION'),
+(4, 3, 'Project Kickoff meeting has been scheduled', 'UPDATE'),
+(5, 4, 'You are invited to the Networking Event', 'INVITATION');
 
 INSERT INTO comment (user_id, event_id, content, rating)
 VALUES
