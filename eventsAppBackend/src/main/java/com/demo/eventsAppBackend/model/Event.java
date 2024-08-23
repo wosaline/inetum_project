@@ -30,7 +30,7 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "CREATED_BY")
-    private User user;
+    private User createdBy;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
@@ -43,6 +43,9 @@ public class Event {
 
     @Column(name = "LOCATION")
     private String location;
+
+    @Column(name = "LOGO")
+    private String logo;
 
     public int getEventId() {
         return eventId;
@@ -92,12 +95,12 @@ public class Event {
         isPrivate = aPrivate;
     }
 
-    public User getUser() {
-        return user;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -130,5 +133,24 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    @PrePersist
+    private void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        this.updatedAt = LocalDateTime.now(); // Met à jour updatedAt lors des modifications
     }
 }
