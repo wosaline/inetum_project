@@ -1,0 +1,19 @@
+<div class="event-card-container">
+  <div class="image-container">
+    <img class="event-image" src="event-image.jpg" alt="event_img" />
+  </div>
+  <h4 class="event-title">{{ event.title }}</h4>
+  <span class="event-description">{{ event.description }}</span>
+  <div class="event-inf">
+    <span class="subtitle">Date : </span>
+    <span> {{ event.date }} à {{ event.time }} </span>
+  </div>
+  <div class="event-inf">
+    <span class="subtitle">Lieu : </span>
+    <span> {{ event.location }} </span>
+  </div>
+
+  <div class="event-inf">
+    <span class="subtitle">Capacity :</span><span>{{ event.capacity }}</span>
+  </div>
+</div>
