@@ -14,7 +14,7 @@ CREATE TABLE user (
     password_hash VARCHAR(255) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    role ENUM('user', 'admin') NOT NULL
+    role ENUM('USER', 'ADMIN') NOT NULL
 );
 
 -- Create the events table
@@ -41,7 +41,7 @@ CREATE TABLE participant (
     event_id INT NOT NULL,
     invited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     responded_at TIMESTAMP DEFAULT NULL,  -- peut être NULL si non répondu
-    status ENUM('invited', 'accepted', 'declined', 'canceled') NOT NULL,
+    status ENUM('INVITED', 'ACCEPTED', 'DECLINED', 'CANCELED') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
@@ -54,7 +54,7 @@ CREATE TABLE notification (
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    type ENUM('invitation', 'reminder', 'update') NOT NULL,
+    type ENUM('INVITATION', 'REMINDER', 'UPDATE') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
