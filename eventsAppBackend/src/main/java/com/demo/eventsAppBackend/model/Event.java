@@ -44,6 +44,9 @@ public class Event {
     @Column(name = "LOCATION")
     private String location;
 
+    @Column(name = "LOGO")
+    private String logo;
+
     public int getEventId() {
         return eventId;
     }
@@ -130,5 +133,13 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

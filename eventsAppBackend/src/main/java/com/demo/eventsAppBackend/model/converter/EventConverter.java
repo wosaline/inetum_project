@@ -17,7 +17,8 @@ public class EventConverter {
                                        LocalDateTime createdAt,
                                        LocalDateTime updatedAt,
                                        String title,
-                                       String Location) {
+                                       String location,
+                                       String logo) {
         Event event = new Event();
 
         event.setDescription(description);
@@ -29,7 +30,8 @@ public class EventConverter {
         event.setCreatedAt(createdAt);
         event.setUpdatedAt(updatedAt);
         event.setTitle(title);
-        event.setLocation(event.getLocation());
+        event.setLocation(location);
+        event.setLogo(logo);
 
         return event;
     }

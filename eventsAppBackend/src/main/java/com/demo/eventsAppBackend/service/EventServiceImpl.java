@@ -4,6 +4,8 @@ import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EventServiceImpl implements EventService{
 
@@ -11,6 +13,21 @@ public class EventServiceImpl implements EventService{
 
     public EventServiceImpl(EventRepository eventRepository){
         this.eventRepository = eventRepository;
+    }
+
+    @Override
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+
+    @Override
+    public Event getEventById(int eventId) {
+        return eventRepository.findById(eventId);
+    }
+
+    @Override
+    public List<Event> getAllEventsByUserId(int userId) {
+        return eventRepository.findAllByUserUserId(userId);
     }
 
     @Override
