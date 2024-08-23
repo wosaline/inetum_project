@@ -58,13 +58,19 @@ Navigate to the eventsAppBackend directory:
 cd eventsAppBackend
 ```
 
-Create a configuration file .env :
+Create a configuration file **.env** :
 
 ```bash
 DATABASE_PASSWORD=[YourSQLPassword]
 ```
 
-### 3. Frontend Setup
+### 3. Database Setup
+
+Create database using the file **schema.sql** that can be found in eventsAppBackend/src/main/resources
+
+The database must be accessible on port 3306
+
+### 4. Frontend Setup
 
 Navigate to the eventsAppFrontend directory:
 
