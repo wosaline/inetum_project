@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventController {
     private final EventService eventService;
 
