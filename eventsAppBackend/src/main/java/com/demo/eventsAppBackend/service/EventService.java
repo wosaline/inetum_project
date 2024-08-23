@@ -9,4 +9,5 @@ public interface EventService {
     Event getEventById(int eventId);
     List<Event> getAllEventsByUserId(int userId);
     Event addEvent(Event event);
+    void deleteEvent(int eventId);
 }

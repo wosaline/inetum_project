@@ -5,6 +5,7 @@ import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.model.converter.EventConverter;
 import com.demo.eventsAppBackend.repository.UserRepository;
 import com.demo.eventsAppBackend.service.EventService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +62,17 @@ public class EventController {
             return ResponseEntity.ok(eventService.addEvent(event));
         } else {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/events/{eventId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteEvent(@PathVariable int eventId){
+        try{
+            eventService.deleteEvent(eventId);
+            return ResponseEntity.ok("Event successfully deleted");
+        }catch(EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
         }
     }
 }

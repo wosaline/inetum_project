@@ -43,7 +43,7 @@ CREATE TABLE participant (
     responded_at TIMESTAMP DEFAULT NULL,  -- peut être NULL si non répondu
     status ENUM('INVITED', 'ACCEPTED', 'DECLINED', 'CANCELED') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (event_id) REFERENCES event(event_id)
+    FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE
 );
 
 -- Create the notifications table
@@ -56,7 +56,7 @@ CREATE TABLE notification (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     type ENUM('INVITATION', 'REMINDER', 'UPDATE') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (event_id) REFERENCES event(event_id)
+    FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE
 );
 
 -- Create the comments table
@@ -69,7 +69,7 @@ CREATE TABLE comment (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     rating INT CHECK (rating BETWEEN 1 AND 5),  -- Note entre 1 et 5
     FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (event_id) REFERENCES event(event_id)
+    FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE
 );
 
 
