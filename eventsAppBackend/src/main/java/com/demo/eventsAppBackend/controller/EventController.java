@@ -18,11 +18,9 @@ import java.util.List;
 @RestController
 public class EventController {
     private final EventService eventService;
-    private final UserRepository userRepository;
 
-    public EventController(EventService eventService, UserRepository userRepository) {
+    public EventController(EventService eventService) {
         this.eventService = eventService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/events")
@@ -56,11 +54,35 @@ public class EventController {
             @RequestParam("location") String location,
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo
     ) {
-        User user = userRepository.findById(createdBy);
-        if (user != null) {
+        try{
+            User user = new User();
+            user.setUserId(createdBy);
             Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
             return ResponseEntity.ok(eventService.addEvent(event));
-        } else {
+        } catch(EntityNotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/events/{eventId}")
+    @ResponseBody
+    public ResponseEntity<Event> updateEvent(
+            @PathVariable int eventId,
+            @RequestParam("description") String description,
+            @RequestParam("date") LocalDate date,
+            @RequestParam("time") LocalTime time,
+            @RequestParam("capacity") int capacity,
+            @RequestParam("is_private") boolean isPrivate,
+            @RequestParam("created_by") int createdBy,
+            @RequestParam("title") String title,
+            @RequestParam("location") String location,
+            @RequestParam(value = "logo", required = false, defaultValue = "") String logo){
+        try{
+            User user = new User();
+            user.setUserId(createdBy);
+            Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
+            return ResponseEntity.ok(eventService.updateEvent(eventId, event));
+        } catch(EntityNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
