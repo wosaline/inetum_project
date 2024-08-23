@@ -17,6 +17,7 @@ public class UserController {
 
     // En tant qu'utilisateur, je veux pouvoir m'inscrire sur la plateforme en créant un compte
     //avec mon email et un mot de passe, afin d'accéder aux fonctionnalités de l'application.
+
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.addUser(user);
@@ -30,6 +31,7 @@ public class UserController {
     }
 
     // En tant qu'utilisateur, je veux pouvoir avoir accès à tous les utilisateurs ?
+
     @GetMapping("/users")
     @ResponseBody
     public ResponseEntity<List<User>> getAllUsers() {
