@@ -28,7 +28,7 @@ CREATE TABLE event (
     is_private BOOLEAN NOT NULL,
     created_by INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     title VARCHAR(100),
     location VARCHAR(255),
     FOREIGN KEY (created_by) REFERENCES user(user_id)
