@@ -27,7 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(int userId) {
-        return userRepository.findById(userId);
+        User user = userRepository.findById(userId);
+        if (user != null) {
+            return user;
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé");
+        }
     }
 
     @Override
@@ -51,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public List<Event> getAllEventsByUserId(int userId) {
         if (userRepository.findById(userId) != null) {
             return eventRepository.findAllByCreatedById(userId);
-        }else{
+        } else {
             throw new EntityNotFoundException("Utilisateur non trouvé");
         }
     }

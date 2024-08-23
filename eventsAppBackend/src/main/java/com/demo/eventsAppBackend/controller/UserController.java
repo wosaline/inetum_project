@@ -33,8 +33,11 @@ public class UserController {
     // Get user by id
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
-        User user = userService.getUserById(userId);
-        return ResponseEntity.ok(user);
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Update user
@@ -56,10 +59,10 @@ public class UserController {
 
     @GetMapping("/users/{userId}/events")
     @ResponseBody
-    public ResponseEntity<List<Event>> getAllEventsByUserId(@PathVariable int userId){
-        try{
+    public ResponseEntity<List<Event>> getAllEventsByUserId(@PathVariable int userId) {
+        try {
             return ResponseEntity.ok(userService.getAllEventsByUserId(userId));
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
