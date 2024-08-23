@@ -1,12 +1,16 @@
 package com.demo.eventsAppBackend.service;
 
 import com.demo.eventsAppBackend.model.Event;
+import com.demo.eventsAppBackend.model.Participant;
+import com.demo.eventsAppBackend.model.ParticipantStatus;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.repository.EventRepository;
+import com.demo.eventsAppBackend.repository.ParticipantRepository;
 import com.demo.eventsAppBackend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,10 +18,12 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final ParticipantRepository participantRepository;
 
-    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository) {
+    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, ParticipantRepository participantRepository) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+        this.participantRepository = participantRepository;
     }
 
     @Override
@@ -40,7 +46,16 @@ public class EventServiceImpl implements EventService {
         User user = userRepository.findById(event.getCreatedBy().getUserId());
         if (user != null) {
             event.setCreatedBy(user);
-            return eventRepository.save(event);
+            Event savedEvent = eventRepository.save(event);
+
+            // create participant : save the event's organiser as participant
+            Participant participant = new Participant();
+            participant.setUser(user);
+            participant.setEvent(savedEvent);
+            participant.setStatus(ParticipantStatus.ACCEPTED);
+            participant.setRespondedAt(LocalDateTime.now());
+
+            return savedEvent;
         } else {
             throw new EntityNotFoundException("Créateur de l'événement non trouvé");
         }
