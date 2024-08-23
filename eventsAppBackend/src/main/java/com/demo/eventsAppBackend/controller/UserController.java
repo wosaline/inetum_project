@@ -25,12 +25,23 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
+    //  En tant qu'utilisateur, je veux pouvoir visualiser et mettre à jour mes informations
+    //personnelles dans mon profil, afin de gérer mes informations de manière sécurisée.
+
     // Get user by id
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
         User user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
+
+    // Update user
+    @PutMapping("/users")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User updatedUser = userService.updateUser(user);
+        return ResponseEntity.ok(updatedUser);
+    }
+
 
     // Get all users
 

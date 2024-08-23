@@ -8,6 +8,7 @@ public interface UserService {
 
     User addUser(User user);
     User getUserById(int userId);
+    User updateUser(User user);
 
     List<User> getAllUsers();
 }
