@@ -41,12 +41,6 @@ Navigate to the API's working directory
 cd tp-final
 ```
 
-Create a configuration file .env :
-
-```bash
-DATABASE_PASSWORD=[YourSQLPassword]
-```
-
 ### 2. Backend Setup
 
 Navigate to the eventsAppBackend directory:
@@ -55,6 +49,11 @@ Navigate to the eventsAppBackend directory:
 cd eventsAppBackend
 ```
 
+Create a configuration file .env :
+
+```bash
+DATABASE_PASSWORD=[YourSQLPassword]
+```
 
 ### 3. Frontend Setup
 
