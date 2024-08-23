@@ -8,5 +8,5 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     Event findById(int id);
     List<Event> findAll();
-    List<Event> findAllByCreatedByUserId(int userId);
+    List<Event> findAllByCreatedById(int userId);
 }

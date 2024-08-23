@@ -3,15 +3,12 @@ package com.demo.eventsAppBackend.controller;
 import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.model.converter.EventConverter;
-import com.demo.eventsAppBackend.repository.UserRepository;
 import com.demo.eventsAppBackend.service.EventService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -56,7 +53,7 @@ public class EventController {
     ) {
         try{
             User user = new User();
-            user.setUserId(createdBy);
+            user.setId(createdBy);
             Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
             return ResponseEntity.ok(eventService.addEvent(event));
         } catch(EntityNotFoundException e) {
@@ -79,7 +76,7 @@ public class EventController {
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo){
         try{
             User user = new User();
-            user.setUserId(createdBy);
+            user.setId(createdBy);
             Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
             return ResponseEntity.ok(eventService.updateEvent(eventId, event));
         } catch(EntityNotFoundException e) {

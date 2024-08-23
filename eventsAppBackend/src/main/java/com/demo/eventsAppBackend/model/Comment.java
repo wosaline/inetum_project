@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int commentId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "EVENT_ID")
@@ -31,12 +31,12 @@ public class Comment {
     @Column(name = "RATING")
     private int rating;
 
-    public int getCommentId() {
-        return commentId;
+    public int getId() {
+        return id;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Event getEvent() {
