@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User updateUser(User user) {
+        System.out.println("Created At: " + user.getCreatedAt());
         return userRepository.save(user);
     }
 
