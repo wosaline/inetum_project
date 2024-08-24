@@ -10,7 +10,7 @@ API and Frontend for the event management application developed as part of the T
 ### Color palette
 https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
 
-**#264653**, **#2a9d8f**, **#e9c46a**, **#f4a261**, **#e76f51**
+**#264653**, **#2a9d8f**, **#e9c46a**, **#f4a261**, **#e76f51**, also add **#3a738a** for a **lighter deep blue**
 
 ![Events-palette-hex](https://github.com/user-attachments/assets/ac213551-222d-4827-9f4e-ca302677a997)
 
