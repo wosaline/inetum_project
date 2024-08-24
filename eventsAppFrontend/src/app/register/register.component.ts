@@ -40,8 +40,6 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     if (this.registerForm.valid) {
         const user: User = {
-        createdAt: new Date(),
-        updatedAt: new Date(),
         username: this.registerForm.value.username,
         email: this.registerForm.value.email,
         passwordHash: this.registerForm.value.password,
