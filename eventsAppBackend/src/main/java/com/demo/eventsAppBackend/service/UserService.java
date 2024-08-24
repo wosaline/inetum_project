@@ -6,7 +6,7 @@ import com.demo.eventsAppBackend.model.User;
 import java.util.List;
 
 public interface UserService {
-
+    boolean isEmailUnique(String email);
     User addUser(User user);
     User getUserById(int userId);
     User updateUser(int userId, User user);
