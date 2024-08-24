@@ -1,10 +1,12 @@
 package com.demo.eventsAppBackend.controller;
 
 import com.demo.eventsAppBackend.model.Event;
+import com.demo.eventsAppBackend.model.Participant;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.model.converter.EventConverter;
 import com.demo.eventsAppBackend.service.EventService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,4 +96,22 @@ public class EventController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/events/{eventId}/invite")
+    @ResponseBody
+    public ResponseEntity<Participant> inviteUserToEvent(
+            @PathVariable int eventId,
+            @RequestParam("userId") int userId,
+            @RequestParam("creatorId") int creatorId) {
+        try {
+            Participant participant = eventService.inviteUsersToEvent(eventId, userId, creatorId);
+            return ResponseEntity.ok(participant);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+
 }
