@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
         error => {
           if (error.status === 400) {
             // Si le back-end renvoie une erreur 400, afficher un message spécifique
-            this.errorMessage = "Un compte existe déjà pour cette adresse email.";
+            this.errorMessage = "Un compte existe déjà pour cette adresse email";
           } else {
             console.error('Error creating user', error);
             this.errorMessage = "Une erreur est survenue. Veuillez réessayer.";
