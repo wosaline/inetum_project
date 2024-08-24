@@ -4,6 +4,7 @@ import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.repository.EventRepository;
 import com.demo.eventsAppBackend.repository.UserRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isEmailUnique(String email) {
+        User user = userRepository.findByEmail(email);
+        return user == null;
+    }
+
+    @Override
     public User addUser(User user) {
-        return userRepository.save(user);
+        if(isEmailUnique(user.getEmail()))
+            return userRepository.save(user);
+        throw new EntityExistsException("Utilisateur existe déjà pour cette adresse mail");
     }
 
     @Override
@@ -39,6 +48,9 @@ public class UserServiceImpl implements UserService {
     public User updateUser(int userId, User user) {
         User userToUpdate = userRepository.findById(userId);
         if (userToUpdate != null) {
+            if(!userToUpdate.getEmail().equals(user.getEmail()) && !isEmailUnique(user.getEmail())){
+                throw new EntityExistsException("Utilisateur existe déjà pour cette adresse mail");
+            }
             user.setId(userId);
             user.setCreatedAt(userToUpdate.getCreatedAt());
             return userRepository.save(user);
