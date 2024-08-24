@@ -9,4 +9,10 @@ import { Component, Input } from '@angular/core';
 })
 export class EventCardComponent {
   @Input() event: any;
+
+  // Méthode pour formater l'heure en HH:MM
+  formatTime(time: string): string {
+    const [hours, minutes] = time.split(':');
+    return `${hours}:${minutes}`;
+  }
 }

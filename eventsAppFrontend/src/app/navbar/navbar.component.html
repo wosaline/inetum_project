@@ -1,20 +1,21 @@
 <mat-toolbar class="navbar-container">
-  <span class="app-title"> Eventify</span>
+  <span class="app-title" [routerLink]="['']">Eventify</span>
 
   <span class="spacer"></span>
   <button
     mat-stroked-button
     class="login-button"
     aria-label="Example icon-button with heart icon"
+    [routerLink]="['/login']"
   >
-    Login
+    Se connecter
   </button>
   <button
     mat-flat-button
-    class="example-icon"
+    class="register-button"
     aria-label="Example icon-button with share icon"
     [routerLink]="['/register']"
   >
-    Register
+    S'enregistrer
   </button>
 </mat-toolbar>
