@@ -19,6 +19,6 @@ export class HttpProviderService {
   }
 
   createUser(user: User) {
-    return this.webApiService.post(this.httpLinks.mappingUsers, this.webApiService.convertUserToFormData(user));
+    return this.webApiService.post(this.httpLinks.mappingUsers, user);
   }
 }

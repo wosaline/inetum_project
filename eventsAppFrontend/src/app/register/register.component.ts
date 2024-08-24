@@ -9,6 +9,8 @@ import {
 
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { HttpProviderService } from '../../services/http-provider.service';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private httpProviderService: HttpProviderService) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -37,13 +39,27 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted!', this.registerForm.value);
+        const user: User = {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        username: this.registerForm.value.username,
+        email: this.registerForm.value.email,
+        passwordHash: this.registerForm.value.password,
+        firstName: this.registerForm.value.firstName,
+        lastName: this.registerForm.value.lastName,
+        role: 'USER', // Rôle par défaut
+      }
 
-      // Add logic to send data to the backend
-
-      // Redirect to another page after successful registration
-
-      this.router.navigate(['/login']); //Replace '/login' with the route you want to redirect the user to
+      this.httpProviderService.createUser(user).subscribe(
+        response => {
+          console.log('User created successfully', response);
+          this.router.navigate(['/login']);
+        },
+        error => {
+          console.error('Error creating user', error);
+        }
+      );
+        
     }else{
       console.log("Form incomplete?");
     }

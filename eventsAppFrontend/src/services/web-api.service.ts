@@ -33,8 +33,13 @@ export class WebAPIService {
     return this.httpClient.get(url, httpOptions);
   }
 
-  post(url: string, obj: FormData): Observable<any>{
+  post(url: string, obj: any): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
     console.log(obj);
-    return this.httpClient.post<any>(url, obj);
+    return this.httpClient.post<any>(url, obj, httpOptions);
   }
 }
