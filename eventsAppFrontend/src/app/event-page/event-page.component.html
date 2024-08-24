@@ -1,5 +1,27 @@
 <app-navbar></app-navbar>
 <div class="event-page-container">
+    <div class="event-page-card">
+        <h2>{{ isEditing ? 'Modifier l\'événement' : 'Créer un nouvel événement' }}</h2>
     
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+            <!-- Champs du formulaire -->
+            <input type="text" placeholder="Titre" formControlName="title" />
+            <textarea placeholder="Description" formControlName="description"></textarea>
+            <input type="date" formControlName="date" />
+            <input type="time" formControlName="time" />
+            <input type="text" placeholder="Lieu" formControlName="location" />
+            <input type="number" placeholder="Capacité" formControlName="capacity" />
+            
+            <button type="submit">{{ isEditing ? 'Mettre à jour' : 'Créer' }}</button>
+        </form>
+    
+        <h3>Liste des événements</h3>
+        <ul>
+            <li *ngFor="let event of events">
+            {{ event.title }} - {{ event.date }} à {{ event.time }}
+            <button (click)="editEvent(event)">Modifier</button>
+            <button (click)="deleteEvent(event.id)">Supprimer</button>
+            </li>
+        </ul>
+    </div>
 </div>
-<p>event-page works!</p>

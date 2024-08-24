@@ -30,4 +30,23 @@ export class WebAPIService {
     console.log(obj);
     return this.httpClient.post<any>(url, obj, httpOptions);
   }
+
+  put(url: string, obj: any): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    console.log(obj);
+    return this.httpClient.put<any>(url, obj, httpOptions);
+  }
+
+  delete(url: string){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.httpClient.delete<any>(url, httpOptions);
+  }
 }
