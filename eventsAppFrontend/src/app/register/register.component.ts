@@ -21,6 +21,7 @@ import { User } from '../../interfaces/user';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private router: Router, private httpProviderService: HttpProviderService) {}
 
@@ -54,7 +55,13 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error => {
-          console.error('Error creating user', error);
+          if (error.status === 400) {
+            // Si le back-end renvoie une erreur 400, afficher un message spécifique
+            this.errorMessage = "Un compte existe déjà pour cette adresse email.";
+          } else {
+            console.error('Error creating user', error);
+            this.errorMessage = "Une erreur est survenue. Veuillez réessayer.";
+          }
         }
       );
         

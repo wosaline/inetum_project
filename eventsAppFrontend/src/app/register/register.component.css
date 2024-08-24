@@ -85,3 +85,10 @@ button {
   font-size: 12px;
   margin-top: 5px;
 }
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+}
