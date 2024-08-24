@@ -8,11 +8,12 @@ import {
 } from '@angular/forms';
 
 import { Router } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })

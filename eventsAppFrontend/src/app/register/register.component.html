@@ -1,19 +1,20 @@
+<app-navbar></app-navbar>
 <div class="register-container">
   <div class="register-card">
-    <h2>CREATE ACCOUNT</h2>
+    <h2>Créer un compte</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
       <div class="form-group">
-        <input type="text" placeholder="Your Name" formControlName="username" />
+        <input type="text" placeholder="Nom d'utilisateur" formControlName="username" />
       </div>
 
       <div class="form-group">
-        <input type="email" placeholder="Your Email" formControlName="email" />
+        <input type="email" placeholder="Email" formControlName="email" />
       </div>
 
       <div class="form-group">
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Mot de passe"
           formControlName="password"
         />
       </div>
@@ -21,26 +22,26 @@
       <div class="form-group">
         <input
           type="text"
-          placeholder="First Name"
+          placeholder="Nom"
           formControlName="firstName"
         />
       </div>
 
       <div class="form-group">
-        <input type="text" placeholder="Last Name" formControlName="lastName" />
+        <input type="text" placeholder="Prénom" formControlName="lastName" />
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <input type="checkbox" formControlName="terms" />
         <label>
           I agree all statements in <a href="#">Terms of service</a>
         </label>
-      </div>
+      </div> -->
 
-      <button type="submit" [disabled]="!registerForm.valid">SIGN UP</button>
+      <button type="submit" [disabled]="!registerForm.valid">CREER MON COMPTE</button>
     </form>
     <p class="login-link">
-      Have already an account? <a href="#">Login here</a>
+      Vous avez déjà un compte ? <a href="#">Me connecter</a>
     </p>
   </div>
 </div>
