@@ -76,4 +76,14 @@ public class Participant {
     public void setStatus(ParticipantStatus status) {
         this.status = status;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        this.invitedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.respondedAt = LocalDateTime.now(); // Met à jour updatedAt lors des modifications
+    }
 }

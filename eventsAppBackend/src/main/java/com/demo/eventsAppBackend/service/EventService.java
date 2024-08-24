@@ -1,6 +1,7 @@
 package com.demo.eventsAppBackend.service;
 
 import com.demo.eventsAppBackend.model.Event;
+import com.demo.eventsAppBackend.model.Participant;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ public interface EventService {
     Event addEvent(Event event);
     Event updateEvent(int eventId, Event event);
     void deleteEvent(int eventId);
+    Participant inviteUsersToEvent(int eventId, int userId, int creatorId);
 }
