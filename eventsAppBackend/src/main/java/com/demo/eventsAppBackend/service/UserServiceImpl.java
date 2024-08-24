@@ -1,24 +1,31 @@
 package com.demo.eventsAppBackend.service;
 
 import com.demo.eventsAppBackend.model.Event;
+import com.demo.eventsAppBackend.model.Participant;
+import com.demo.eventsAppBackend.model.ParticipantStatus;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.repository.EventRepository;
+import com.demo.eventsAppBackend.repository.ParticipantRepository;
 import com.demo.eventsAppBackend.repository.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
+    private final ParticipantRepository participantRepository;
 
-    public UserServiceImpl(UserRepository userRepository, EventRepository eventRepository) {
+
+    public UserServiceImpl(UserRepository userRepository, EventRepository eventRepository, ParticipantRepository participantRepository) {
         this.userRepository = userRepository;
         this.eventRepository = eventRepository;
+        this.participantRepository = participantRepository;
     }
 
     @Override
@@ -66,8 +73,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Event> getAllEventsByUserId(int userId) {
-        if (userRepository.findById(userId) != null) {
-            return eventRepository.findAllByCreatedById(userId);
+        User user = userRepository.findById(userId);
+
+        if (user != null) {
+
+            List<Participant> participantEvents = participantRepository.findAllByUserIdAndStatusIn(userId, List.of(ParticipantStatus.INVITED, ParticipantStatus.ACCEPTED));
+
+            // Convertir la liste des participants en liste d'événements
+            return participantEvents.stream()
+                    .map(Participant::getEvent)
+                    .collect(Collectors.toList());
         } else {
             throw new EntityNotFoundException("Utilisateur non trouvé");
         }

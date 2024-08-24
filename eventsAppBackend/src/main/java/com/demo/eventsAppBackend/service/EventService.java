@@ -12,4 +12,5 @@ public interface EventService {
     Event updateEvent(int eventId, Event event);
     void deleteEvent(int eventId);
     Participant inviteUsersToEvent(int eventId, int userId, int creatorId);
+    Participant updateParticipant(int participantId, int eventId, int userId, String reponse);
 }
