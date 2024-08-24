@@ -53,6 +53,8 @@ public class EventServiceImpl implements EventService {
             participant.setUser(user);
             participant.setEvent(savedEvent);
             participant.setStatus(ParticipantStatus.ACCEPTED);
+            participant.setInvitedAt(LocalDateTime.now());
+            participant.setRespondedAt(LocalDateTime.now());
 
             participantRepository.save(participant);
 
