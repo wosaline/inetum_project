@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int participantId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -29,12 +29,12 @@ public class Participant {
     @Column(name = "STATUS")
     private ParticipantStatus status;
 
-    public int getParticipantId() {
-        return participantId;
+    public int getId() {
+        return id;
     }
 
-    public void setParticipantId(int participantId) {
-        this.participantId = participantId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser() {

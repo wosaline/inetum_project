@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int eventId;
+    private int id;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -47,12 +47,12 @@ public class Event {
     @Column(name = "LOGO")
     private String logo;
 
-    public int getEventId() {
-        return eventId;
+    public int getId() {
+        return id;
     }
 
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescription() {
