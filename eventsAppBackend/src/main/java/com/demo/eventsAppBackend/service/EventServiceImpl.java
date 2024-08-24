@@ -53,7 +53,6 @@ public class EventServiceImpl implements EventService {
             participant.setUser(user);
             participant.setEvent(savedEvent);
             participant.setStatus(ParticipantStatus.ACCEPTED);
-            participant.setInvitedAt(LocalDateTime.now());
             participant.setRespondedAt(LocalDateTime.now());
 
             participantRepository.save(participant);
@@ -86,5 +85,33 @@ public class EventServiceImpl implements EventService {
         } else {
             throw new EntityNotFoundException("Evénement à supprimer non trouvé");
         }
+    }
+
+    @Override
+    public Participant inviteUsersToEvent(int eventId, int userId, int creatorId) {
+        Event event = eventRepository.findById(eventId);
+        if (event == null) {
+            throw new EntityNotFoundException("Événement non trouvé");
+        }
+
+        if (event.getCreatedBy().getId() != creatorId) {
+            throw new SecurityException("Seul le créateur de l'événement peut inviter des utilisateurs");
+        }
+
+        User user = userRepository.findById(userId);
+        if (user != null) {
+            Participant participant = new Participant();
+            participant.setUser(user);
+            participant.setEvent(event);
+            participant.setStatus(ParticipantStatus.INVITED);
+
+            Participant addedParticipant = participantRepository.save(participant);
+
+            return addedParticipant;
+
+        } else {
+            throw new EntityNotFoundException("Utilisateur avec ID " + userId + " non trouvé");
+        }
+
     }
 }
