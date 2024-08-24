@@ -7,19 +7,23 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { HttpProviderService } from '../../services/http-provider.service';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private httpProviderService: HttpProviderService) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -27,30 +31,42 @@ export class RegisterComponent implements OnInit {
         username: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        terms: [false, Validators.requiredTrue],
       },
-      { validator: this.passwordMatchValidator }
     );
   }
 
-  passwordMatchValidator(form: FormGroup) {
-    return form.get('password')?.value === form.get('confirmPassword')?.value
-      ? null
-      : { mismatch: true };
-  }
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted!', this.registerForm.value);
+        const user: User = {
+        username: this.registerForm.value.username,
+        email: this.registerForm.value.email,
+        passwordHash: this.registerForm.value.password,
+        firstName: this.registerForm.value.firstName,
+        lastName: this.registerForm.value.lastName,
+        role: 'USER', // Rôle par défaut
+      }
 
-      // Add logic to send data to the backend
-
-      // Redirect to another page after successful registration
-
-      this.router.navigate(['/login']); //Replace '/login' with the route you want to redirect the user to
+      this.httpProviderService.createUser(user).subscribe(
+        response => {
+          console.log('User created successfully', response);
+          this.router.navigate(['/login']);
+        },
+        error => {
+          if (error.status === 400) {
+            // Si le back-end renvoie une erreur 400, afficher un message spécifique
+            this.errorMessage = "Un compte existe déjà pour cette adresse email";
+          } else {
+            console.error('Error creating user', error);
+            this.errorMessage = "Une erreur est survenue. Veuillez réessayer.";
+          }
+        }
+      );
+        
+    }else{
+      console.log("Form incomplete?");
     }
   }
 }
