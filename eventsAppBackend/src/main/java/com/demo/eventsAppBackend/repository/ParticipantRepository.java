@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
 
+    Participant findById(int id);
     List<Participant> findAllByUserIdAndStatusIn(int userId, List<ParticipantStatus> statuses);
 
 }
