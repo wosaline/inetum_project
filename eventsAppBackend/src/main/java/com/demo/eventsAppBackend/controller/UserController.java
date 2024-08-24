@@ -3,6 +3,7 @@ package com.demo.eventsAppBackend.controller;
 import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.service.UserService;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,11 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.addUser(user);
-        return ResponseEntity.ok(createdUser);
+        try {
+            return ResponseEntity.ok(userService.addUser(user));
+        } catch (EntityExistsException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     //  En tant qu'utilisateur, je veux pouvoir visualiser et mettre à jour mes informations
@@ -45,8 +49,13 @@ public class UserController {
     @PutMapping("/users/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable int userId,
                                            @RequestBody User user) {
-        User updatedUser = userService.updateUser(userId, user);
-        return ResponseEntity.ok(updatedUser);
+        try {
+            return ResponseEntity.ok(userService.updateUser(userId, user));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (EntityExistsException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     // Get all users
@@ -54,8 +63,7 @@ public class UserController {
     @GetMapping("/users")
     @ResponseBody
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/users/{userId}/events")
