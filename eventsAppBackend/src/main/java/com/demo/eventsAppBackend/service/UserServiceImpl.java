@@ -1,6 +1,8 @@
 package com.demo.eventsAppBackend.service;
 
+import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.User;
+import com.demo.eventsAppBackend.repository.EventRepository;
 import com.demo.eventsAppBackend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +18,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EventRepository eventRepository;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, EventRepository eventRepository,  PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -31,17 +35,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(int userId) {
-        return userRepository.findById(userId);
+        User user = userRepository.findById(userId);
+        if (user != null) {
+            return user;
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé");
+        }
     }
 
     @Override
     public User updateUser(int userId, User user) {
         User userToUpdate = userRepository.findById(userId);
         if (userToUpdate != null) {
-            user.setUserId(userId);
+            user.setId(userId);
             user.setCreatedAt(userToUpdate.getCreatedAt());
             return userRepository.save(user);
-        }else{
+        } else {
             throw new EntityNotFoundException("Utilisateur à mettre à jour non trouvé");
         }
     }
@@ -62,4 +71,13 @@ public class UserServiceImpl implements UserService {
 //        builder.roles(user.getRole().name());
 //        return builder.build();
 //    }
+    @Override
+    public List<Event> getAllEventsByUserId(int userId) {
+        if (userRepository.findById(userId) != null) {
+            return eventRepository.findAllByCreatedById(userId);
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé");
+        }
+    }
+
 }

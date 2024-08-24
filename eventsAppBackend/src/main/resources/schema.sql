@@ -6,7 +6,7 @@ USE events_db;
 
 -- Create the users table
 CREATE TABLE user (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     username VARCHAR(50) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE user (
 
 -- Create the events table
 CREATE TABLE event (
-    event_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     description TEXT NOT NULL,
     date DATE NOT NULL,  -- format = YYYY-MM-DD
     time TIME NOT NULL,  -- format = HH:MM:SS
@@ -31,45 +31,45 @@ CREATE TABLE event (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     title VARCHAR(100),
     location VARCHAR(255),
-    FOREIGN KEY (created_by) REFERENCES user(user_id)
+    FOREIGN KEY (created_by) REFERENCES user(id)
 );
 
 -- Create the participants table
 CREATE TABLE participant (
-    participant_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     invited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     responded_at TIMESTAMP DEFAULT NULL,  -- peut être NULL si non répondu
     status ENUM('INVITED', 'ACCEPTED', 'DECLINED', 'CANCELED') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (event_id) REFERENCES event(event_id)
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
 );
 
 -- Create the notifications table
 CREATE TABLE notification (
-    notification_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     type ENUM('INVITATION', 'REMINDER', 'UPDATE') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (event_id) REFERENCES event(event_id)
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
 );
 
 -- Create the comments table
 CREATE TABLE comment (
-    comment_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     rating INT CHECK (rating BETWEEN 1 AND 5),  -- Note entre 1 et 5
-    FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (event_id) REFERENCES event(event_id)
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
 );
 
 

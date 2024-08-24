@@ -1,21 +1,21 @@
 package com.demo.eventsAppBackend.controller;
 
 import com.demo.eventsAppBackend.model.Event;
+import com.demo.eventsAppBackend.model.Participant;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.model.converter.EventConverter;
-import com.demo.eventsAppBackend.repository.UserRepository;
 import com.demo.eventsAppBackend.service.EventService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventController {
     private final EventService eventService;
 
@@ -26,20 +26,18 @@ public class EventController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/events")
     @ResponseBody
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @GetMapping("/events/{eventId}")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@PathVariable int eventId){
-        return ResponseEntity.ok(eventService.getEventById(eventId));
-    }
-
-    @GetMapping("/events/by_user/{userId}")
-    @ResponseBody
-    public ResponseEntity<List<Event>> getEventsByUserId(@PathVariable int userId){
-        return ResponseEntity.ok(eventService.getAllEventsByUserId(userId));
+    public ResponseEntity<Event> getEventById(@PathVariable int eventId) {
+        try {
+            return ResponseEntity.ok(eventService.getEventById(eventId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/events")
@@ -55,12 +53,12 @@ public class EventController {
             @RequestParam("location") String location,
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo
     ) {
-        try{
+        try {
             User user = new User();
-            user.setUserId(createdBy);
+            user.setId(createdBy);
             Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
             return ResponseEntity.ok(eventService.addEvent(event));
-        } catch(EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -77,14 +75,43 @@ public class EventController {
             @RequestParam("created_by") int createdBy,
             @RequestParam("title") String title,
             @RequestParam("location") String location,
-            @RequestParam(value = "logo", required = false, defaultValue = "") String logo){
-        try{
+            @RequestParam(value = "logo", required = false, defaultValue = "") String logo) {
+        try {
             User user = new User();
-            user.setUserId(createdBy);
+            user.setId(createdBy);
             Event event = EventConverter.convertToEvent(description, date, time, capacity, isPrivate, user, title, location, logo);
             return ResponseEntity.ok(eventService.updateEvent(eventId, event));
-        } catch(EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping("/events/{eventId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteEvent(@PathVariable int eventId) {
+        try {
+            eventService.deleteEvent(eventId);
+            return ResponseEntity.ok("Event successfully deleted");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/events/{eventId}/invite")
+    @ResponseBody
+    public ResponseEntity<Participant> inviteUserToEvent(
+            @PathVariable int eventId,
+            @RequestParam("userId") int userId,
+            @RequestParam("creatorId") int creatorId) {
+        try {
+            Participant participant = eventService.inviteUsersToEvent(eventId, userId, creatorId);
+            return ResponseEntity.ok(participant);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+
 }
