@@ -34,57 +34,54 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event getEventById(int eventId) {
         Event event = eventRepository.findById(eventId);
-        if (event != null) {
-            return event;
-        } else {
+        if (event == null) {
             throw new EntityNotFoundException("Evénement non trouvé");
         }
+        return event;
     }
 
     @Override
     public Event addEvent(Event event) {
         User user = userRepository.findById(event.getCreatedBy().getId());
-        if (user != null) {
-            event.setCreatedBy(user);
-            Event savedEvent = eventRepository.save(event);
-
-            // create participant : save the event's organiser as participant
-            Participant participant = new Participant();
-            participant.setUser(user);
-            participant.setEvent(savedEvent);
-            participant.setStatus(ParticipantStatus.ACCEPTED);
-            participant.setRespondedAt(LocalDateTime.now());
-
-            participantRepository.save(participant);
-
-            return savedEvent;
-        } else {
+        if (user == null) {
             throw new EntityNotFoundException("Créateur de l'événement non trouvé");
         }
+        event.setCreatedBy(user);
+        Event savedEvent = eventRepository.save(event);
+
+        // create participant : save the event's organiser as participant
+        Participant participant = new Participant();
+        participant.setUser(user);
+        participant.setEvent(savedEvent);
+        participant.setStatus(ParticipantStatus.ACCEPTED);
+        participant.setRespondedAt(LocalDateTime.now());
+
+        participantRepository.save(participant);
+
+        return savedEvent;
     }
 
     @Override
     public Event updateEvent(int eventId, Event event) {
         User user = userRepository.findById(event.getCreatedBy().getId());
         Event eventToUpdate = eventRepository.findById(eventId);
-        if (user != null || eventToUpdate != null) {
-            event.setId(eventId);
-            event.setCreatedBy(user);
-            event.setCreatedAt(eventToUpdate.getCreatedAt());
-            return eventRepository.save(event);
-        } else {
+
+        if (user == null || eventToUpdate == null) {
             throw new EntityNotFoundException("Créateur de l'événement et/ou événement non trouvé");
         }
+        event.setId(eventId);
+        event.setCreatedBy(user);
+        event.setCreatedAt(eventToUpdate.getCreatedAt());
+        return eventRepository.save(event);
     }
 
     @Override
     public void deleteEvent(int eventId) {
         Event event = eventRepository.findById(eventId);
-        if (event != null) {
-            eventRepository.delete(event);
-        } else {
+        if (event == null) {
             throw new EntityNotFoundException("Evénement à supprimer non trouvé");
         }
+        eventRepository.delete(event);
     }
 
     @Override
@@ -99,19 +96,15 @@ public class EventServiceImpl implements EventService {
         }
 
         User user = userRepository.findById(userId);
-        if (user != null) {
-            Participant participant = new Participant();
-            participant.setUser(user);
-            participant.setEvent(event);
-            participant.setStatus(ParticipantStatus.INVITED);
-
-            Participant addedParticipant = participantRepository.save(participant);
-
-            return addedParticipant;
-
-        } else {
+        if (user == null) {
             throw new EntityNotFoundException("Utilisateur avec ID " + userId + " non trouvé");
         }
 
+        Participant participant = new Participant();
+        participant.setUser(user);
+        participant.setEvent(event);
+        participant.setStatus(ParticipantStatus.INVITED);
+
+        return participantRepository.save(participant);
     }
 }
