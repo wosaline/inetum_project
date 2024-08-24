@@ -4,12 +4,13 @@
   align-items: center;
   height: 100vh;
   background: url("../../assets/login_background.jpg") no-repeat center
-    center/cover;
+center/cover;
 }
 
 .register-card {
   background: white;
   padding: 30px;
+  margin: 0 auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
@@ -29,7 +30,7 @@ h2 {
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
