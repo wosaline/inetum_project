@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { User } from '../../interfaces/user';
@@ -15,7 +15,7 @@ import { User } from '../../interfaces/user';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
