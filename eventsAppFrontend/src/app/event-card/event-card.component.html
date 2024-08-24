@@ -1,3 +1,7 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
 <div class="event-card-container">
   <div class="image-container">
     <img class="event-image" src="event-image.jpg" alt="event_img" />
@@ -6,7 +10,7 @@
   <span class="event-description">{{ event.description }}</span>
   <div class="event-inf">
     <span class="subtitle">Date : </span>
-    <span> {{ event.date }} à {{ event.time }} </span>
+    <span> {{ event.date }} à {{ formatTime(event.time) }} </span>
   </div>
   <div class="event-inf">
     <span class="subtitle">Lieu : </span>
@@ -14,6 +18,6 @@
   </div>
 
   <div class="event-inf">
-    <span class="subtitle">Capacity :</span><span>{{ event.capacity }}</span>
+    <span class="subtitle">Capacité :</span><span>{{ event.capacity }}</span>
   </div>
 </div>
