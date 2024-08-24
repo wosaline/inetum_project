@@ -28,20 +28,17 @@ public class UserController {
     @ResponseBody
     public ResponseEntity login(@RequestParam("username") String username,
                                 @RequestParam("password") String password) {
-        try {
-            Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
-            System.out.println("REQUEST "+ authenticationRequest);
-            Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
-            System.out.println("RESPONSE"+ authenticationResponse);
-            if (authenticationResponse.isAuthenticated()) {
-                return ResponseEntity.ok(authenticationResponse);
-            } else {
-                return ResponseEntity.badRequest().build();
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return ResponseEntity.notFound().build();
+
+        Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
+        System.out.println("REQUEST " + authenticationRequest);
+        Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
+        System.out.println("RESPONSE" + authenticationResponse);
+        if (authenticationResponse.isAuthenticated()) {
+            return ResponseEntity.ok(authenticationResponse);
+        } else {
+            return ResponseEntity.badRequest().build();
         }
+
     }
 
     // En tant qu'utilisateur, je veux pouvoir m'inscrire sur la plateforme en créant un compte
