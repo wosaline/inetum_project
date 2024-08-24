@@ -2,27 +2,34 @@ package com.demo.eventsAppBackend.service;
 
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository){
+    UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Utilisateur non trouvé");
-        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPasswordHash(), getAuthorities(user.getRole().label));
+    }
 
-        org.springframework.security.core.userdetails.User.UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(username);
-        builder.password(user.getPasswordHash());
-        builder.roles(user.getRole().name());
-        return builder.build();
+    private List<GrantedAuthority> getAuthorities(String role) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_"  + role));
+        return authorities;
     }
 }

@@ -3,7 +3,10 @@ package com.demo.eventsAppBackend.controller;
 import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -11,9 +14,31 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
-    private UserController(UserService userService) {
+    private UserController(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+    }
+
+    @GetMapping("/login")
+    @ResponseBody
+    public ResponseEntity login(@RequestParam("username") String username,
+                                @RequestParam("password") String password) {
+        try {
+            Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
+            System.out.println("REQUEST "+ authenticationRequest);
+            Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
+            System.out.println("RESPONSE"+ authenticationResponse);
+            if (authenticationResponse.isAuthenticated()) {
+                return ResponseEntity.ok(authenticationResponse);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // En tant qu'utilisateur, je veux pouvoir m'inscrire sur la plateforme en créant un compte
