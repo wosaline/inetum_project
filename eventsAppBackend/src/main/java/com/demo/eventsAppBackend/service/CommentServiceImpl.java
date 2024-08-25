@@ -35,6 +35,12 @@ public class CommentServiceImpl implements CommentService{
         if (event == null) {
             throw new EntityNotFoundException("Event not found");
         }
+
+        // Check if the event is finished
+        if (event.getDate() == null || event.getDate().isAfter(LocalDate.now())) {
+            throw new IllegalStateException("Event is not finished yet. Cannot add comment.");
+        }
+
         //   Vérifiez si l'utilisateur est un participant à l'événement avec le statut ACCEPTED
          Participant participant = participantService.findParticipantByUserIdAndEventId( user.getId(),event.getId());
         if (participant == null || participant.getStatus() != ParticipantStatus.ACCEPTED) {
