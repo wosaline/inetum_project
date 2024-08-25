@@ -18,28 +18,29 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
+  baseUrl = 'http://localhost:8080';
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
-      .post<LoginResponse>(`${this.apiUrl}/auth/login`, { email, password })
+      .post<LoginResponse>(`${this.baseUrl}/auth/login`, { email, password })
       .pipe(
         tap((response) => {
-          // Stocker le token dans le localStorage ou un autre mécanisme de stockage
-          localStorage.setItem('authToken', response.token);
+          // Stocker le user dans le localStorage ou un autre mécanisme de stockage
+          // localStorage.setItem('eventAppUser', user);
         }),
         catchError(this.handleError)
       );
   }
 
   logout() {
-    // Supprimer le token du stockage
-    localStorage.removeItem('authToken');
+    // Supprimer le ser du stockage
+    localStorage.removeItem('eventAppUser');
   }
 
   isAuthenticated(): boolean {
     // Vérifier si le token existe et est valide
-    return !!localStorage.getItem('authToken');
+    return !!localStorage.getItem('eventAppUser');
   }
 
   private handleError(error: any) {

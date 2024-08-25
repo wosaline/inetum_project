@@ -6,13 +6,15 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { HttpProviderService } from '../../services/http-provider.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private httpProviderService: HttpProviderService
   ) {}
 
   ngOnInit(): void {
@@ -55,27 +58,23 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     this.errorMessage = '';
-
-    if (this.loginForm.invalid) {
-      return;
-    }
-
+    console.log('this.loginForm', this.loginForm.value);
     this.isLoading = true;
 
     const { email, password } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe(
-      (response) => {
-        this.isLoading = false;
-
-        // Rediriger vers la page souhaitée après une connexion réussie
-        this.router.navigate(['/home']);
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorMessage =
-          error.error.message || 'An error occurred. Please try again.';
-      }
-    );
+    // this.authService.login(email, password).subscribe(
+    //   (response) => {
+    //     this.isLoading = false;
+    //     console.log('response', response);
+    //     // Rediriger vers la page souhaitée après une connexion réussie
+    //     this.router.navigate(['/home']);
+    //   },
+    //   (error) => {
+    //     this.isLoading = false;
+    //     this.errorMessage =
+    //       error.error.message || 'An error occurred. Please try again.';
+    //   }
+    // );
   }
 }

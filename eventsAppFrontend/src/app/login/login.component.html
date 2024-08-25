@@ -1,34 +1,42 @@
+<app-navbar></app-navbar>
 <div class="login-container">
   <div class="login-card">
-    <h2>User Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="input-group">
-        <span class="input-icon">
-          <img src="../../assets/icons8-user-30.png" alt="User Icon" />
-        </span>
-        <input
-          type="text"
-          formControlName="username"
-          placeholder="Username"
-          class="input-field"
-        />
+    <h2>Connexion</h2>
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <div class="form-group">
+        <input type="email" placeholder="Email" formControlName="email" />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+          class="error"
+        >
+          Veuillez entrer une adresse email valide
+        </div>
       </div>
 
-      <div class="input-group">
-        <span class="input-icon">
-          <img src="../../assets/locked.png" alt="Lock Icon" />
-        </span>
+      <div class="form-group">
         <input
           type="password"
+          placeholder="Mot de passe"
           formControlName="password"
-          placeholder="Password"
-          class="input-field"
         />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+          class="error"
+        >
+          Le mot de passe doit contenir au moins 6 caractères
+        </div>
       </div>
 
-      <button type="submit" class="login-button" [disabled]="!loginForm.valid">
-        Login
-      </button>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.valid">Se connecter</button>
     </form>
   </div>
 </div>
