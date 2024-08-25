@@ -47,8 +47,8 @@ public class EventController {
             @RequestParam("date") LocalDate date,
             @RequestParam("time") LocalTime time,
             @RequestParam("capacity") int capacity,
-            @RequestParam("is_private") boolean isPrivate,
-            @RequestParam("created_by") int createdBy,
+            @RequestParam("private") boolean isPrivate,
+            @RequestParam("createdBy") int createdBy,
             @RequestParam("title") String title,
             @RequestParam("location") String location,
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo
@@ -71,8 +71,8 @@ public class EventController {
             @RequestParam("date") LocalDate date,
             @RequestParam("time") LocalTime time,
             @RequestParam("capacity") int capacity,
-            @RequestParam("is_private") boolean isPrivate,
-            @RequestParam("created_by") int createdBy,
+            @RequestParam("private") boolean isPrivate,
+            @RequestParam("createdBy") int createdBy,
             @RequestParam("title") String title,
             @RequestParam("location") String location,
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo) {
@@ -88,10 +88,10 @@ public class EventController {
 
     @DeleteMapping("/events/{eventId}")
     @ResponseBody
-    public ResponseEntity<String> deleteEvent(@PathVariable int eventId) {
+    public ResponseEntity deleteEvent(@PathVariable int eventId) {
         try {
             eventService.deleteEvent(eventId);
-            return ResponseEntity.ok("Event successfully deleted");
+            return ResponseEntity.ok().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

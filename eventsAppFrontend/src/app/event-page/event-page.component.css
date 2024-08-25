@@ -1,28 +1,50 @@
+:root {
+    --color-primary: #264653;
+    --color-secondary: #2a9d8f;
+    --color-accent1: #e9c46a;
+    --color-accent2: #f4a261;
+    --color-accent3: #e76f51;
+}
+
 .event-page-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: url("../../assets/background-register2.jpg") no-repeat center
-  center/cover;
+    align-items: flex-start;
+    height: 90vh; /* Assure que le conteneur prend au moins toute la hauteur de la fenêtre */
+    background: url("../../assets/background-register2.jpg") no-repeat center center/cover;
+    padding-bottom: 20px;
+    overflow-y: auto; /* Permet le défilement vertical */
 }
 
 .event-page-card {
-    margin-top: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 30px;
     margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
     max-width: 600px;
     width: 100%;
     background: rgba(255, 255, 255, 1);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    min-height: 60vh;
 }
-  
+
+.event-list-container {
+    position: -webkit-sticky; /* Pour les anciens navigateurs WebKit */
+    position: sticky;
+    top: 0; /* Fixe la liste en haut du conteneur */
+    max-height: 300px; /* Définir une hauteur maximale pour la liste des événements */
+    overflow-y: auto; /* Permet le défilement vertical dans la liste */
+    width: 100%;
+    padding: 10px; /* Ajoute un peu d'espace autour de la liste */
+    background: rgba(255, 255, 255, 1); /* Assure que la liste a un fond blanc pour la visibilité */
+    border-radius: 8px; /* Assure une continuité visuelle avec la carte des événements */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajoute une ombre subtile */
+}
+
 h2 {
     margin-bottom: 20px;
     font-size: 24px;
@@ -39,12 +61,14 @@ form input[type="time"],
 form input[type="number"] {
     width: 95%;
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
+    margin-bottom: 5px; /* Réduit l'espacement en dessous du champ */
+    border: 1px solid #3a738a;
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
 }
+
+
 
 form input:focus,
 form textarea:focus,
@@ -52,6 +76,18 @@ form input:valid,
 form textarea:valid {
     border-color: #3a738a;
     outline-color: #3a738a;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 2px; /* Ajuste l'espacement au-dessus de l'erreur */
+    margin-bottom: 10px; /* Assure un bon espacement en dessous de l'erreur */
+    text-align: left;
 }
 
 button[type="submit"] {
@@ -84,36 +120,108 @@ ul {
     list-style-type: none;
     padding: 0;
     width: 100%;
+    margin: 0 auto;
 }
 
 ul li {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Assure que le titre et les boutons sont espacés */
     align-items: center;
     padding: 10px;
     margin: 5px 0;
-    background: #f9f9f9;
+    color:white;
     border-radius: 5px;
+}
+
+ul li:nth-child(5n+1) {
+    background: hsl(197, 37%, 24%, 100%);
+}
+
+ul li:nth-child(5n+2) {
+    background: hsl(173, 58%, 39%, 100%)
+}
+
+ul li:nth-child(5n+3) {
+    background: hsl(43, 74%, 66%, 100%)
+}
+
+ul li:nth-child(5n+4) {
+    background: hsl(12, 76%, 61%, 100%);
+}
+
+ul li:nth-child(5n+5) {
+    background: hsl(7, 63%, 51%, 100%);
+}
+
+ul li .event-title {
+    flex: 1; /* Permet au titre de s'étendre */
+    text-align: left; /* Assure que le texte est aligné à gauche */
 }
 
 ul li button {
     padding: 5px 10px;
-    background: #e76f51;
+    background: white;
     border: none;
     border-radius: 5px;
     color: white;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.3s ease;
+    margin-left: 5px; /* Ajoute un petit espace entre les boutons */
 }
 
-ul li button:hover {
-    background: #d14532;
+ul li:nth-child(5n+1) button {
+    color: hsl(197, 37%, 24%, 100%);
 }
 
-.error-message {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-    font-size: 14px;
+ul li:nth-child(5n+2) button {
+    color: hsl(173, 58%, 39%, 100%);
+}
+
+ul li:nth-child(5n+3) button {
+    color: hsl(43, 74%, 66%, 100%);
+}
+
+ul li:nth-child(5n+4) button {
+    color: hsl(12, 76%, 61%, 100%);
+}
+
+ul li:nth-child(5n+5) button {
+    color: hsl(7, 63%, 51%, 100%);
+}
+
+ul li button:hover{
+    background: transparent;
+    color: white
+}
+
+.time-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    /* gap: 10px; */
+    padding-left: 14px;
+    width: 95.3%;
+}
+  
+.time-container input[type="date"],
+.time-container select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #3a738a;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+  
+.time-container select {
+    appearance: none;
+    background-size: 1em;
+}
+  
+.time-container input:focus,
+.time-container select:focus {
+    border-color: #3a738a;
+    outline-color: #3a738a;
 }
