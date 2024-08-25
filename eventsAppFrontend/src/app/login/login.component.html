@@ -1,1 +1,42 @@
 <app-navbar></app-navbar>
+<div class="login-container">
+  <div class="login-card">
+    <h2>Connexion</h2>
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <div class="form-group">
+        <input type="email" placeholder="Email" formControlName="email" />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+          class="error"
+        >
+          Veuillez entrer une adresse email valide
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          formControlName="password"
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+          class="error"
+        >
+          Le mot de passe doit contenir au moins 6 caractères
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.valid">Se connecter</button>
+    </form>
+  </div>
+</div>
