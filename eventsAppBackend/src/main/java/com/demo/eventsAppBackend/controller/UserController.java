@@ -20,9 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // En tant qu'utilisateur, je veux pouvoir m'inscrire sur la plateforme en créant un compte
-    //avec mon email et un mot de passe, afin d'accéder aux fonctionnalités de l'application.
-
+    // create user
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
@@ -32,10 +30,7 @@ public class UserController {
         }
     }
 
-    //  En tant qu'utilisateur, je veux pouvoir visualiser et mettre à jour mes informations
-    //personnelles dans mon profil, afin de gérer mes informations de manière sécurisée.
-
-    // Get user by id
+    // Get user
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
         try {
@@ -59,13 +54,13 @@ public class UserController {
     }
 
     // Get all users
-
     @GetMapping("/users")
     @ResponseBody
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    // Get all events by userID
     @GetMapping("/users/{userId}/events")
     @ResponseBody
     public ResponseEntity<List<Event>> getAllEventsByUserId(@PathVariable int userId) {
