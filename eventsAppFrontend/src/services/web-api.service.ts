@@ -7,7 +7,32 @@ import { User } from '../interfaces/user';
   providedIn: 'root',
 })
 export class WebAPIService {
+  // Generic requests, can be used for any interface
+
   constructor(private httpClient: HttpClient) {}
+
+  // requestBody(obj:any, isRequestParam:boolean): [any, any] {
+  //   let httpOptions;
+  //   if(isRequestParam){
+  //     let body = new HttpParams();
+  //     for (const key of Object.keys(obj)) {
+  //       body = body.set(key, obj[key]);
+  //     }
+  //     httpOptions = {
+  //       headers: new HttpHeaders({
+  //         'Content-Type': 'application/x-www-form-urlencoded',
+  //       }),
+  //     }
+  //     return body.toString(), httpOptions;
+  //   }else{
+  //     httpOptions = {
+  //       headers: new HttpHeaders({
+  //         'Content-Type': 'application/json',
+  //       }),
+  //     }
+  //     return obj, httpOptions;
+  //   }
+  // }
 
   get(url: string): Observable<any> {
     const httpOptions = {
@@ -21,32 +46,52 @@ export class WebAPIService {
     return this.httpClient.get(url, httpOptions);
   }
 
-  post(url: string, obj: any): Observable<any>{
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }),
-    };
+  post(url: string, obj: any, isRequestParam: boolean): Observable<any>{
+    let httpOptions;
     console.log(obj);
-    let body = new HttpParams();
-    for (const key of Object.keys(obj)) {
-      body = body.set(key, obj[key]);
+    if(isRequestParam){
+      let body = new HttpParams();
+      for (const key of Object.keys(obj)) {
+        body = body.set(key, obj[key]);
+      }
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }),
+      }
+      return this.httpClient.post<any>(url, body.toString(), httpOptions);
+    }else{
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      }
+      return this.httpClient.post<any>(url, obj, httpOptions);
     }
-    return this.httpClient.post<any>(url, body.toString(), httpOptions);
   }
 
-  put(url: string, obj: any): Observable<any>{
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }),
-    };
+  put(url: string, obj: any, isRequestParam: boolean): Observable<any>{
+    let httpOptions;
     console.log(obj);
-    let body = new HttpParams();
-    for (const key of Object.keys(obj)) {
-      body = body.set(key, obj[key]);
+    if(isRequestParam){
+      let body = new HttpParams();
+      for (const key of Object.keys(obj)) {
+        body = body.set(key, obj[key]);
+      }
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }),
+      }
+      return this.httpClient.put<any>(url, body.toString(), httpOptions);
+    }else{
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      }
+      return this.httpClient.put<any>(url, obj, httpOptions);
     }
-    return this.httpClient.put<any>(url, body.toString(), httpOptions);
   }
 
   delete(url: string){

@@ -20,11 +20,11 @@ export class HttpProviderService {
   }
 
   postEvent(event: Event) {
-    return this.webApiService.post(this.httpLinks.mappingEvents, event);
+    return this.webApiService.post(this.httpLinks.mappingEvents, event, true);
   }
 
   putEvent(event: Event){
-    return this.webApiService.put(this.httpLinks.mappingEvents+`/${event.id}`, event);
+    return this.webApiService.put(this.httpLinks.mappingEvents+`/${event.id}`, event, true);
   }
 
   deleteEvent(id: number){
@@ -32,6 +32,6 @@ export class HttpProviderService {
   }
 
   createUser(user: User) {
-    return this.webApiService.post(this.httpLinks.mappingUsers, user);
+    return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
   }
 }
