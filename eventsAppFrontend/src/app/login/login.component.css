@@ -16,7 +16,7 @@
   max-width: 400px;
   width: 100%;
   text-align: center;
-  height: 240px;
+  min-height: 240px;
 }
 
 h2 {
