@@ -140,4 +140,26 @@ public class EventController {
             return ResponseEntity.badRequest().body(null);  // Statut non modifiable
         }
     }
+
+    // get event by date --> ex : /events/date/2024-08-25
+    @GetMapping("/events/date/{date}")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getAllEventsByDate(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(eventService.getAllEventsByDate(date));
+    }
+
+    // get event by month
+    @GetMapping("/events/date/{year}/{month}")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getAllEventsByMonth(@PathVariable int year, @PathVariable int month) {
+        return ResponseEntity.ok(eventService.getAllEventsByMonth(year, month));
+    }
+
+    // get all dates with event
+    @GetMapping("/events/dates/{year}/{month}")
+    @ResponseBody
+    public ResponseEntity<List<LocalDate>> getDatesWithEvents(@PathVariable int year, @PathVariable int month) {
+        List<LocalDate> dates = eventService.getDatesWithEvents(year, month);
+        return ResponseEntity.ok(dates);
+    }
 }

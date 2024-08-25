@@ -60,6 +60,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    // Get all events by userID
     @GetMapping("/users/{userId}/events")
     @ResponseBody
     public ResponseEntity<List<Event>> getAllEventsByUserId(@PathVariable int userId) {

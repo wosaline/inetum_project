@@ -10,6 +10,7 @@ import com.demo.eventsAppBackend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -152,5 +153,19 @@ public class EventServiceImpl implements EventService {
 
         participant.setStatus(newStatus);
         return participantRepository.save(participant);
+    }
+
+    @Override
+    public List<Event> getAllEventsByDate(LocalDate date) { // format : YYYY-MM-DD
+        return eventRepository.findAllByDate(date);
+    }
+
+    public List<Event> getAllEventsByMonth(int year, int month) {
+        return eventRepository.findAllByYearAndMonth(year, month);
+    }
+
+    @Override
+    public List<LocalDate> getDatesWithEvents(int year, int month) {
+        return eventRepository.findDatesWithEvents(year, month);
     }
 }
