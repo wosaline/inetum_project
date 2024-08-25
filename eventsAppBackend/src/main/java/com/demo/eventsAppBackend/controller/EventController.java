@@ -23,6 +23,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    // Get all events
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/events")
     @ResponseBody
@@ -30,6 +31,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
+    // Get event
     @GetMapping("/events/{eventId}")
     @ResponseBody
     public ResponseEntity<Event> getEventById(@PathVariable int eventId) {
@@ -40,6 +42,7 @@ public class EventController {
         }
     }
 
+    // Create an event (creator = accepted participant)
     @PostMapping("/events")
     @ResponseBody
     public ResponseEntity<Event> createNewEvent(
@@ -63,6 +66,7 @@ public class EventController {
         }
     }
 
+    // Update event
     @PutMapping("/events/{eventId}")
     @ResponseBody
     public ResponseEntity<Event> updateEvent(
@@ -86,6 +90,7 @@ public class EventController {
         }
     }
 
+    // Delete event
     @DeleteMapping("/events/{eventId}")
     @ResponseBody
     public ResponseEntity<String> deleteEvent(@PathVariable int eventId) {
@@ -97,6 +102,7 @@ public class EventController {
         }
     }
 
+    // Create invitation
     @PostMapping("/events/{eventId}/invite")
     @ResponseBody
     public ResponseEntity<Participant> inviteUserToEvent(
@@ -113,6 +119,7 @@ public class EventController {
         }
     }
 
+    // update invitation (update participant.status)
     @PutMapping("/events/{eventId}/invite/{participantId}")
     @ResponseBody
     public ResponseEntity<Participant> respondToInvitation(

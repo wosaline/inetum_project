@@ -49,13 +49,12 @@ public class EventServiceImpl implements EventService {
         event.setCreatedBy(user);
         Event savedEvent = eventRepository.save(event);
 
-        // create participant : save the event's organiser as participant
+        // create participant : save the event's creator as participant
         Participant participant = new Participant();
         participant.setUser(user);
         participant.setEvent(savedEvent);
         participant.setStatus(ParticipantStatus.ACCEPTED);
         participant.setRespondedAt(LocalDateTime.now());
-
         participantRepository.save(participant);
 
         return savedEvent;
@@ -152,7 +151,6 @@ public class EventServiceImpl implements EventService {
         }
 
         participant.setStatus(newStatus);
-//        participant.setRespondedAt(LocalDateTime.now());
         return participantRepository.save(participant);
     }
 }
