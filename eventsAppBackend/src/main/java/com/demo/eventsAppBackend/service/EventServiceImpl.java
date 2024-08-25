@@ -107,4 +107,52 @@ public class EventServiceImpl implements EventService {
 
         return participantRepository.save(participant);
     }
+
+    @Override
+    public Participant updateParticipant(int participantId, int eventId, int userId, String response) {
+
+        Participant participant = participantRepository.findById(participantId);
+
+        if (participant == null) {
+            throw new EntityNotFoundException("Participant found");
+        }
+
+        if (participant.getUser().getId() != userId) {
+            throw new SecurityException("Only the invited user can update the invite");
+        }
+
+        if (participant.getEvent().getId() != eventId) {
+            throw new SecurityException("Mismatched event and participant");
+        }
+
+        ParticipantStatus currentStatus = participant.getStatus();
+        ParticipantStatus newStatus;
+
+        switch (currentStatus) {
+            case INVITED:
+                if (response.equalsIgnoreCase("accept")) {
+                    newStatus = ParticipantStatus.ACCEPTED;
+                } else if (response.equalsIgnoreCase("decline")) {
+                    newStatus = ParticipantStatus.DECLINED;
+                } else {
+                    throw new IllegalStateException("Invalid response. When invited, you can only accept or decline.");
+                }
+                break;
+
+            case ACCEPTED:
+                if (response.equalsIgnoreCase("cancel")) {
+                    newStatus = ParticipantStatus.CANCELED;
+                } else {
+                    throw new IllegalStateException("Invalid response. When accepted, you can only cancel.");
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Cannot change status from " + currentStatus);
+        }
+
+        participant.setStatus(newStatus);
+//        participant.setRespondedAt(LocalDateTime.now());
+        return participantRepository.save(participant);
+    }
 }
