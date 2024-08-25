@@ -63,11 +63,11 @@ export class LoginComponent implements OnInit {
 
     const { email, password } = this.loginForm.value;
 
+    // this is will be used when back is ready
     // this.authService.login(email, password).subscribe(
     //   (response) => {
     //     this.isLoading = false;
     //     console.log('response', response);
-    //     // Rediriger vers la page souhaitée après une connexion réussie
     //     this.router.navigate(['/home']);
     //   },
     //   (error) => {
