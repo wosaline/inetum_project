@@ -10,10 +10,10 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 90vh; /* Assure que le conteneur prend au moins toute la hauteur de la fenêtre */
+    height: 90vh;
     background: url("../../assets/background-register2.jpg") no-repeat center center/cover;
     padding-bottom: 20px;
-    overflow-y: auto; /* Permet le défilement vertical */
+    overflow-y: auto;
 }
 
 .event-page-card {
@@ -33,16 +33,16 @@
 }
 
 .event-list-container {
-    position: -webkit-sticky; /* Pour les anciens navigateurs WebKit */
+    position: -webkit-sticky;
     position: sticky;
-    top: 0; /* Fixe la liste en haut du conteneur */
-    max-height: 300px; /* Définir une hauteur maximale pour la liste des événements */
-    overflow-y: auto; /* Permet le défilement vertical dans la liste */
+    top: 0;
+    max-height: 300px;
+    overflow-y: auto; 
     width: 100%;
-    padding: 10px; /* Ajoute un peu d'espace autour de la liste */
-    background: rgba(255, 255, 255, 1); /* Assure que la liste a un fond blanc pour la visibilité */
-    border-radius: 8px; /* Assure une continuité visuelle avec la carte des événements */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajoute une ombre subtile */
+    padding: 10px;
+    background: rgba(255, 255, 255, 1); 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -61,7 +61,7 @@ form input[type="time"],
 form input[type="number"] {
     width: 95%;
     padding: 10px;
-    margin-bottom: 5px; /* Réduit l'espacement en dessous du champ */
+    margin-bottom: 5px; 
     border: 1px solid #3a738a;
     border-radius: 5px;
     font-size: 16px;
@@ -85,8 +85,8 @@ form textarea:valid {
 .error {
     color: red;
     font-size: 12px;
-    margin-top: 2px; /* Ajuste l'espacement au-dessus de l'erreur */
-    margin-bottom: 10px; /* Assure un bon espacement en dessous de l'erreur */
+    margin-top: 2px;
+    margin-bottom: 10px;
     text-align: left;
 }
 
@@ -125,7 +125,7 @@ ul {
 
 ul li {
     display: flex;
-    justify-content: space-between; /* Assure que le titre et les boutons sont espacés */
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
     margin: 5px 0;
@@ -154,8 +154,8 @@ ul li:nth-child(5n+5) {
 }
 
 ul li .event-title {
-    flex: 1; /* Permet au titre de s'étendre */
-    text-align: left; /* Assure que le texte est aligné à gauche */
+    flex: 1;
+    text-align: left;
 }
 
 ul li button {
@@ -167,7 +167,7 @@ ul li button {
     font-size: 14px;
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-left: 5px; /* Ajoute un petit espace entre les boutons */
+    margin-left: 5px;
 }
 
 ul li:nth-child(5n+1) button {
