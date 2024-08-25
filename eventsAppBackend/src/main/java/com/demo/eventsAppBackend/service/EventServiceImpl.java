@@ -10,6 +10,7 @@ import com.demo.eventsAppBackend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,13 +50,12 @@ public class EventServiceImpl implements EventService {
         event.setCreatedBy(user);
         Event savedEvent = eventRepository.save(event);
 
-        // create participant : save the event's organiser as participant
+        // create participant : save the event's creator as participant
         Participant participant = new Participant();
         participant.setUser(user);
         participant.setEvent(savedEvent);
         participant.setStatus(ParticipantStatus.ACCEPTED);
         participant.setRespondedAt(LocalDateTime.now());
-
         participantRepository.save(participant);
 
         return savedEvent;
@@ -106,5 +106,66 @@ public class EventServiceImpl implements EventService {
         participant.setStatus(ParticipantStatus.INVITED);
 
         return participantRepository.save(participant);
+    }
+
+    @Override
+    public Participant updateParticipant(int participantId, int eventId, int userId, String response) {
+
+        Participant participant = participantRepository.findById(participantId);
+
+        if (participant == null) {
+            throw new EntityNotFoundException("Participant found");
+        }
+
+        if (participant.getUser().getId() != userId) {
+            throw new SecurityException("Only the invited user can update the invite");
+        }
+
+        if (participant.getEvent().getId() != eventId) {
+            throw new SecurityException("Mismatched event and participant");
+        }
+
+        ParticipantStatus currentStatus = participant.getStatus();
+        ParticipantStatus newStatus;
+
+        switch (currentStatus) {
+            case INVITED:
+                if (response.equalsIgnoreCase("accept")) {
+                    newStatus = ParticipantStatus.ACCEPTED;
+                } else if (response.equalsIgnoreCase("decline")) {
+                    newStatus = ParticipantStatus.DECLINED;
+                } else {
+                    throw new IllegalStateException("Invalid response. When invited, you can only accept or decline.");
+                }
+                break;
+
+            case ACCEPTED:
+                if (response.equalsIgnoreCase("cancel")) {
+                    newStatus = ParticipantStatus.CANCELED;
+                } else {
+                    throw new IllegalStateException("Invalid response. When accepted, you can only cancel.");
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Cannot change status from " + currentStatus);
+        }
+
+        participant.setStatus(newStatus);
+        return participantRepository.save(participant);
+    }
+
+    @Override
+    public List<Event> getAllEventsByDate(LocalDate date) { // format : YYYY-MM-DD
+        return eventRepository.findAllByDate(date);
+    }
+
+    public List<Event> getAllEventsByMonth(int year, int month) {
+        return eventRepository.findAllByYearAndMonth(year, month);
+    }
+
+    @Override
+    public List<LocalDate> getDatesWithEvents(int year, int month) {
+        return eventRepository.findDatesWithEvents(year, month);
     }
 }

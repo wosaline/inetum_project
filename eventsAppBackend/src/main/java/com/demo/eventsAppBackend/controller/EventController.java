@@ -23,6 +23,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    // Get all events
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/events")
     @ResponseBody
@@ -30,6 +31,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
+    // Get event
     @GetMapping("/events/{eventId}")
     @ResponseBody
     public ResponseEntity<Event> getEventById(@PathVariable int eventId) {
@@ -40,6 +42,7 @@ public class EventController {
         }
     }
 
+    // Create an event (creator = accepted participant)
     @PostMapping("/events")
     @ResponseBody
     public ResponseEntity<Event> createNewEvent(
@@ -63,6 +66,7 @@ public class EventController {
         }
     }
 
+    // Update event
     @PutMapping("/events/{eventId}")
     @ResponseBody
     public ResponseEntity<Event> updateEvent(
@@ -86,6 +90,7 @@ public class EventController {
         }
     }
 
+    // Delete event
     @DeleteMapping("/events/{eventId}")
     @ResponseBody
     public ResponseEntity<String> deleteEvent(@PathVariable int eventId) {
@@ -97,6 +102,7 @@ public class EventController {
         }
     }
 
+    // Create invitation
     @PostMapping("/events/{eventId}/invite")
     @ResponseBody
     public ResponseEntity<Participant> inviteUserToEvent(
@@ -113,5 +119,47 @@ public class EventController {
         }
     }
 
+    // update invitation (update participant.status)
+    @PutMapping("/events/{eventId}/invite/{participantId}")
+    @ResponseBody
+    public ResponseEntity<Participant> respondToInvitation(
+            @PathVariable int eventId,
+            @PathVariable int participantId,
+            @RequestParam("userId") int userId,
+            @RequestParam("response") String response) {
 
+        try {
+            Participant updatedParticipant = eventService.updateParticipant(participantId, eventId, userId, response);
+            return ResponseEntity.ok(updatedParticipant);
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build(); // participant not found
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // user not authorized
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(null);  // Statut non modifiable
+        }
+    }
+
+    // get event by date --> ex : /events/date/2024-08-25
+    @GetMapping("/events/date/{date}")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getAllEventsByDate(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(eventService.getAllEventsByDate(date));
+    }
+
+    // get event by month
+    @GetMapping("/events/date/{year}/{month}")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getAllEventsByMonth(@PathVariable int year, @PathVariable int month) {
+        return ResponseEntity.ok(eventService.getAllEventsByMonth(year, month));
+    }
+
+    // get all dates with event
+    @GetMapping("/events/dates/{year}/{month}")
+    @ResponseBody
+    public ResponseEntity<List<LocalDate>> getDatesWithEvents(@PathVariable int year, @PathVariable int month) {
+        List<LocalDate> dates = eventService.getDatesWithEvents(year, month);
+        return ResponseEntity.ok(dates);
+    }
 }
