@@ -120,7 +120,7 @@ public class EventController {
     }
 
     // update invitation (update participant.status)
-    @PutMapping("/{eventId}/invite/{participantId}")
+    @PutMapping("events/{eventId}/invite/{participantId}")
     @ResponseBody
     public ResponseEntity<Participant> respondToInvitation(
             @PathVariable int eventId,

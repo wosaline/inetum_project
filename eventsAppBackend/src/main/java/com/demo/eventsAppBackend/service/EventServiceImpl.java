@@ -110,7 +110,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Participant updateParticipant(int participantId, int eventId, int userId, String response) {
-        System.out.println(participantId + " " + userId + " " + response);
         Participant participant = participantRepository.findById(participantId);
 
         if (participant == null) {
@@ -118,14 +117,14 @@ public class EventServiceImpl implements EventService {
         }
 
         ParticipantStatus currentStatus = participant.getStatus();
+        if (currentStatus == ParticipantStatus.CANCELED) {
+            throw new IllegalStateException("The status has already been canceled and cannot be changed.");
+        }
+
         ParticipantStatus newStatus = null;
 
         boolean isCreator = participant.getEvent().getCreatedBy().getId() == userId;
         boolean isParticipant = participant.getUser().getId() == userId;
-
-        if (currentStatus == ParticipantStatus.CANCELED) {
-            throw new IllegalStateException("The status has already been canceled and cannot be changed.");
-        }
 
         if (isParticipant) {
             if (currentStatus == ParticipantStatus.INVITED) {
@@ -151,30 +150,6 @@ public class EventServiceImpl implements EventService {
 
         participant.setStatus(newStatus);
         return participantRepository.save(participant);
-
-
-//        switch (currentStatus) {
-//            case INVITED:
-//                if (response.equalsIgnoreCase("accept")) {
-//                    newStatus = ParticipantStatus.ACCEPTED;
-//                } else if (response.equalsIgnoreCase("decline")) {
-//                    newStatus = ParticipantStatus.DECLINED;
-//                } else {
-//                    throw new IllegalStateException("Invalid response. When invited, you can only accept or decline.");
-//                }
-//                break;
-//
-//            case ACCEPTED:
-//                if (response.equalsIgnoreCase("cancel")) {
-//                    newStatus = ParticipantStatus.CANCELED;
-//                } else {
-//                    throw new IllegalStateException("Invalid response. When accepted, you can only cancel.");
-//                }
-//                break;
-//
-//            default:
-//                throw new IllegalStateException("Cannot change status from " + currentStatus);
-//        }
     }
 
     @Override
