@@ -66,8 +66,6 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.isLoading = false;
         console.log('response', response);
-        // Stocker le user dans le localStorage sous le nom 'userEventApp'
-        localStorage.setItem('userEventApp', JSON.stringify(response));
         this.router.navigate(['/home']);
       },
       (error) => {
