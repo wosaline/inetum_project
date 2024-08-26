@@ -71,8 +71,14 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-        this.errorMessage =
-          error.error.message || 'An error occurred. Please try again.';
+        if (error.status === 401) {
+          // Si le back-end renvoie une erreur 401
+          this.errorMessage =
+            'Identifiants incorrects';
+        } else {
+          console.error('Error login user', error);
+          this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
+        }
       }
     );
 
