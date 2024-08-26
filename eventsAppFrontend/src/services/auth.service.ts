@@ -23,11 +23,15 @@ export class AuthService {
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
-      .post<LoginResponse>(`${this.baseUrl}/auth/login`, { email, password })
+      .post<LoginResponse>(
+        `${this.baseUrl}/login?email=${email}&password=${password}`,
+        {}
+      )
       .pipe(
         tap((response) => {
           // Stocker le user dans le localStorage ou un autre mécanisme de stockage
-          // localStorage.setItem('eventAppUser', user);
+          localStorage.setItem('eventAppUser', JSON.stringify(response));
+
         }),
         catchError(this.handleError)
       );
@@ -36,6 +40,8 @@ export class AuthService {
   logout() {
     // Supprimer le ser du stockage
     localStorage.removeItem('eventAppUser');
+    this.isAuthenticated();
+
   }
 
   isAuthenticated(): boolean {
