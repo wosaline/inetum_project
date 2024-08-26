@@ -120,7 +120,7 @@ public class EventController {
     }
 
     // update invitation (update participant.status)
-    @PutMapping("/events/{eventId}/invite/{participantId}")
+    @PutMapping("events/{eventId}/invite/{participantId}")
     @ResponseBody
     public ResponseEntity<Participant> respondToInvitation(
             @PathVariable int eventId,
@@ -128,16 +128,17 @@ public class EventController {
             @RequestParam("userId") int userId,
             @RequestParam("response") String response) {
 
+
         try {
             Participant updatedParticipant = eventService.updateParticipant(participantId, eventId, userId, response);
             return ResponseEntity.ok(updatedParticipant);
 
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build(); // participant not found
+            return ResponseEntity.notFound().build(); // Participant not found
         } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // user not authorized
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); // User not authorized
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(null);  // Statut non modifiable
+            return ResponseEntity.badRequest().body(null); // Invalid status update
         }
     }
 
