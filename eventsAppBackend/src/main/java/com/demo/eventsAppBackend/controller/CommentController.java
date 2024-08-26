@@ -26,6 +26,7 @@ public class CommentController {
         this.eventService=eventService;
     }
 
+    // Create a comment
     @PostMapping("/comments")
     @ResponseBody
     public ResponseEntity<Object> createComment(
@@ -46,6 +47,7 @@ public class CommentController {
         }
     }
 
+    // Get comment by event ID
     @GetMapping("/comments/{eventId}")
     public List<Comment> getCommentsByEvent(@PathVariable int eventId) {
         Event event = eventService.getEventById(eventId);
