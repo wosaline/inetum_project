@@ -101,6 +101,15 @@ export class EventPageComponent implements OnInit {
     }
   }
 
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.currentEventId = undefined;
+    this.eventForm.reset({
+      time: '09:30',  // Réinitialiser l'heure par défaut
+      private: false
+    });
+  }
+
   reset(): void {
     // this.isEditing = false;
     // this.currentEventId = undefined;

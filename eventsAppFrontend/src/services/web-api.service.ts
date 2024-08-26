@@ -11,29 +11,6 @@ export class WebAPIService {
 
   constructor(private httpClient: HttpClient) {}
 
-  // requestBody(obj:any, isRequestParam:boolean): [any, any] {
-  //   let httpOptions;
-  //   if(isRequestParam){
-  //     let body = new HttpParams();
-  //     for (const key of Object.keys(obj)) {
-  //       body = body.set(key, obj[key]);
-  //     }
-  //     httpOptions = {
-  //       headers: new HttpHeaders({
-  //         'Content-Type': 'application/x-www-form-urlencoded',
-  //       }),
-  //     }
-  //     return body.toString(), httpOptions;
-  //   }else{
-  //     httpOptions = {
-  //       headers: new HttpHeaders({
-  //         'Content-Type': 'application/json',
-  //       }),
-  //     }
-  //     return obj, httpOptions;
-  //   }
-  // }
-
   get(url: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({

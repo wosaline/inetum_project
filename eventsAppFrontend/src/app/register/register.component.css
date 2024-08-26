@@ -44,7 +44,6 @@ h2 {
   input[type="email"]:valid,
   input[type="password"]:valid {
     border-color: #3a738a;
-    /* outline: none; */
     outline-color: #3a738a;
   }
 }

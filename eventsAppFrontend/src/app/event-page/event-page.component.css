@@ -225,3 +225,20 @@ ul li button:hover{
     border-color: #3a738a;
     outline-color: #3a738a;
 }
+
+
+button[type="button"] {
+    width: 100%;
+    padding: 10px;
+    background: #f4a261;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button[type="button"]:hover {
+    background: #e76f51;
+  }
