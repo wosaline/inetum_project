@@ -27,6 +27,11 @@ export class EventPageComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router, private httpProviderService: HttpProviderService) {}
 
+  formatTime(time: string): string {
+    const [hours, minutes] = time.split(':');
+    return `${hours}:${minutes}`;
+  }
+  
   ngOnInit(): void {
     this.loadEvents();
     this.eventForm = this.fb.group({
@@ -72,6 +77,7 @@ export class EventPageComponent implements OnInit {
     if (this.eventForm.valid) {
       const event: Event = this.eventForm.value;
       console.log(event)
+      // TODO ONCE LOGGING IS ON
       event.createdBy=1;
       if (this.isEditing) {
         event.id = this.currentEventId;
@@ -89,6 +95,7 @@ export class EventPageComponent implements OnInit {
   }
 
   editEvent(event: Event): void {
+    event.time = this.formatTime(event.time);
     this.isEditing = true;
     this.currentEventId = event.id;
     this.eventForm.patchValue(event);
