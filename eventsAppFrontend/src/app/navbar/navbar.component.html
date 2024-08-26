@@ -3,6 +3,7 @@
 
   <span class="spacer"></span>
   <button
+    *ngIf="!isLoggedIn"
     mat-stroked-button
     class="login-button"
     aria-label="Example icon-button with heart icon"
@@ -11,11 +12,21 @@
     Se connecter
   </button>
   <button
+    *ngIf="!isLoggedIn"
     mat-flat-button
     class="register-button"
     aria-label="Example icon-button with share icon"
     [routerLink]="['/register']"
   >
     S'enregistrer
+  </button>
+  <button
+    *ngIf="isLoggedIn"
+    mat-flat-button
+    class="register-button"
+    aria-label="Example icon-button with share icon"
+    (click)="handleClick()"
+  >
+    Logout
   </button>
 </mat-toolbar>
