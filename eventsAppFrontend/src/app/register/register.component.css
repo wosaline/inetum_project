@@ -87,7 +87,8 @@ button {
 
 .error-message {
   color: red;
-  margin-top: 10px;
+  margin-top: 5px;
   text-align: center;
   font-size: 14px;
+  margin-bottom: 5px;
 }
