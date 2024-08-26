@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     this.errorMessage = '';
+
     this.isLoading = true;
 
     const { email, password } = this.loginForm.value;
@@ -74,5 +75,6 @@ export class LoginComponent implements OnInit {
           error.error.message || 'An error occurred. Please try again.';
       }
     );
+
   }
 }
