@@ -24,3 +24,17 @@
   transform: skew(-10deg); /* Skews the text to simulate a slight curve */
   cursor: pointer;
 }
+.calendar-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #2a9d8f;
+  margin-right: 15px;
+}
+.calendar {
+  background-color: #284b63;
+}
+
+.datepicker_input {
+  display: none;
+}
