@@ -4,6 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { EventPageComponent } from './event-page/event-page.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
+import { EventViewComponent } from './event-view/event-view.component';
 
 //on va definir les routes
 
@@ -13,6 +14,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent},
   { path: 'event-page', component: EventPageComponent},
+  { path: 'event', component: EventViewComponent},
 ];
 
 export class AppRoutingModule {}
