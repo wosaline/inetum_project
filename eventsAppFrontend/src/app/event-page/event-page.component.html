@@ -11,8 +11,12 @@
             {{ event.title }} - {{ event.date }} à {{ event.time }}
           </div>
           <div>
-            <button (click)="editEvent(event)">Modifier</button>
-            <button (click)="deleteEvent(event.id)">Supprimer</button>
+            <button (click)="editEvent(event)">
+              <span class="material-icons">edit</span>
+            </button>
+            <button (click)="deleteEvent(event.id)">
+              <span class="material-icons">delete</span>
+            </button>
           </div>
         </li>
       </ul>
