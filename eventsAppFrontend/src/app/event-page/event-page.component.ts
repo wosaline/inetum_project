@@ -112,6 +112,7 @@ export class EventPageComponent implements OnInit {
     event.time = this.formatTime(event.time);
     this.isEditing = true;
     this.currentEventId = event.id;
+    this.showEventForm = true;
     this.eventForm.patchValue(event);
   }
 
@@ -138,6 +139,24 @@ export class EventPageComponent implements OnInit {
 
   toggleEventForm(): void {
     this.showEventForm = !this.showEventForm;  // Alterner l'affichage du formulaire
+  }
+
+  canEdit(event: Event): boolean {
+    // Vérifier si event.createdBy est un objet ou un ID
+    if (typeof event.createdBy === 'number') {
+      return this.userId === event.createdBy;
+    } else {
+      return this.userId === event.createdBy.id;
+    }
+  }
+
+  canDelete(event: Event): boolean {
+    // Vérifier si event.createdBy est un objet ou un ID
+    if (typeof event.createdBy === 'number') {
+      return this.userId === event.createdBy;
+    } else {
+      return this.userId === event.createdBy.id;
+    }
   }
 
 }

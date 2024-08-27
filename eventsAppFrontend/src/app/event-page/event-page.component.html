@@ -11,10 +11,10 @@
             {{ event.title }} - {{ event.date }} à {{ event.time }}
           </div>
           <div>
-            <button (click)="editEvent(event)">
+            <button *ngIf="canEdit(event)" (click)="editEvent(event)">
               <span class="material-icons">edit</span>
             </button>
-            <button (click)="deleteEvent(event.id)">
+            <button *ngIf="canDelete(event)" (click)="deleteEvent(event.id)">
               <span class="material-icons">delete</span>
             </button>
           </div>
@@ -23,6 +23,7 @@
     </div>
 
     <button class="create-event-btn" (click)="toggleEventForm()">Créer un nouvel évènement</button>
+
     <div *ngIf="showEventForm">
       <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
         <input 
