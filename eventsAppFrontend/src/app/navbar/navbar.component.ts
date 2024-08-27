@@ -44,6 +44,7 @@ export class NavbarComponent {
   handleClick(): void {
     this.authService.logout();
     this.isLoggedIn = this.authService.isAuthenticated();
+    this.router.navigate(['/home']);
   }
 
 }
