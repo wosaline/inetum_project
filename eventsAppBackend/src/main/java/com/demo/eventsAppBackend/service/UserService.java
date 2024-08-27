@@ -12,4 +12,5 @@ public interface UserService {
     User updateUser(int userId, User user);
     List<User> getAllUsers();
     List<Event> getAllEventsByUserId(int userId);
+    User getUserByEmail(String email);
 }

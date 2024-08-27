@@ -110,45 +110,42 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Participant updateParticipant(int participantId, int eventId, int userId, String response) {
-
         Participant participant = participantRepository.findById(participantId);
 
         if (participant == null) {
-            throw new EntityNotFoundException("Participant found");
-        }
-
-        if (participant.getUser().getId() != userId) {
-            throw new SecurityException("Only the invited user can update the invite");
-        }
-
-        if (participant.getEvent().getId() != eventId) {
-            throw new SecurityException("Mismatched event and participant");
+            throw new EntityNotFoundException("Participant not found");
         }
 
         ParticipantStatus currentStatus = participant.getStatus();
-        ParticipantStatus newStatus;
+        if (currentStatus == ParticipantStatus.CANCELED) {
+            throw new IllegalStateException("The status has already been canceled and cannot be changed.");
+        }
 
-        switch (currentStatus) {
-            case INVITED:
+        ParticipantStatus newStatus = null;
+
+        boolean isCreator = participant.getEvent().getCreatedBy().getId() == userId;
+        boolean isParticipant = participant.getUser().getId() == userId;
+
+        if (isParticipant) {
+            if (currentStatus == ParticipantStatus.INVITED) {
                 if (response.equalsIgnoreCase("accept")) {
                     newStatus = ParticipantStatus.ACCEPTED;
                 } else if (response.equalsIgnoreCase("decline")) {
                     newStatus = ParticipantStatus.DECLINED;
                 } else {
-                    throw new IllegalStateException("Invalid response. When invited, you can only accept or decline.");
+                    throw new IllegalStateException("Invalid response. You can only accept or decline the invitation.");
                 }
-                break;
-
-            case ACCEPTED:
-                if (response.equalsIgnoreCase("cancel")) {
-                    newStatus = ParticipantStatus.CANCELED;
-                } else {
-                    throw new IllegalStateException("Invalid response. When accepted, you can only cancel.");
-                }
-                break;
-
-            default:
-                throw new IllegalStateException("Cannot change status from " + currentStatus);
+            } else {
+                throw new IllegalStateException("You cannot update the status once it has been changed from INVITED.");
+            }
+        } else if (isCreator) {
+            if (response.equalsIgnoreCase("cancel")) {
+                newStatus = ParticipantStatus.CANCELED;
+            } else {
+                throw new IllegalStateException("The creator can only update the status to CANCELED.");
+            }
+        } else {
+            throw new SecurityException("Unauthorized action.");
         }
 
         participant.setStatus(newStatus);

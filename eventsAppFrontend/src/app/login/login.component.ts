@@ -58,23 +58,29 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     this.errorMessage = '';
-    console.log('this.loginForm', this.loginForm.value);
+
     this.isLoading = true;
 
     const { email, password } = this.loginForm.value;
 
-    // this is will be used when back is ready
-    // this.authService.login(email, password).subscribe(
-    //   (response) => {
-    //     this.isLoading = false;
-    //     console.log('response', response);
-    //     this.router.navigate(['/home']);
-    //   },
-    //   (error) => {
-    //     this.isLoading = false;
-    //     this.errorMessage =
-    //       error.error.message || 'An error occurred. Please try again.';
-    //   }
-    // );
+    this.authService.login(email, password).subscribe(
+      (response) => {
+        this.isLoading = false;
+        console.log('response', response);
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        this.isLoading = false;
+        if (error.status === 401) {
+          // Si le back-end renvoie une erreur 401
+          this.errorMessage =
+            'Identifiants incorrects';
+        } else {
+          console.error('Error login user', error);
+          this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
+        }
+      }
+    );
+
   }
 }
