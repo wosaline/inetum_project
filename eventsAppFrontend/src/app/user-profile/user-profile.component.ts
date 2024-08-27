@@ -5,46 +5,68 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css',
+  styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
   profileForm!: FormGroup;
+  user: any;
+  isAdmin: boolean = false;
+  isEditing: boolean = false;
+  private baseUrl = 'http://localhost:8080/api';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Initialisation du formulaire avec les informations de l'utilisateur
+    this.user = JSON.parse(localStorage.getItem('eventAppUser') || '{}').user;
+    this.isAdmin = this.user.role === 'admin';
+
     this.profileForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: [{ value: '', disabled: true }, Validators.required], // Mot de passe caché
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      username: [this.user.username, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
+      password: [{ value: '********', disabled: true }],
+      firstName: [this.user.firstName, Validators.required],
+      lastName: [this.user.lastName, Validators.required],
+      role: [{ value: this.user.role, disabled: true }],
     });
 
-    this.loadUserData();
+    this.toggleEditMode(false);
   }
 
-  loadUserData() {
-    const userData = this.authService.getUserData();
-    if (userData) {
-      this.profileForm.patchValue(userData);
+  toggleEditMode(enable: boolean) {
+    this.isEditing = enable;
+    if (this.isEditing && this.isAdmin) {
+      this.profileForm.get('username')?.enable();
+      this.profileForm.get('email')?.enable();
+      this.profileForm.get('firstName')?.enable();
+      this.profileForm.get('lastName')?.enable();
+    } else {
+      this.profileForm.get('username')?.disable();
+      this.profileForm.get('email')?.disable();
+      this.profileForm.get('firstName')?.disable();
+      this.profileForm.get('lastName')?.disable();
     }
   }
 
   onSave() {
-    if (this.profileForm.valid && !this.profileForm.pristine) {
-      // Logique de sauvegarde des données de l'utilisateur
-      this.authService.updateUserProfile(this.profileForm.value).subscribe(
+    if (this.profileForm.valid && this.isEditing) {
+      this.updateUserProfile(this.profileForm.value).subscribe(
         (response) => {
           alert('Profile updated successfully');
+          this.user = response;
+          localStorage.setItem(
+            'eventAppUser',
+            JSON.stringify({ user: this.user })
+          );
+          this.toggleEditMode(false);
         },
         (error) => {
           alert('Failed to update profile');
@@ -54,6 +76,20 @@ export class UserProfileComponent implements OnInit {
   }
 
   onCancel() {
-    this.profileForm.reset(this.authService.getUserData());
+    this.profileForm.reset({
+      username: this.user.username,
+      email: this.user.email,
+      password: '********',
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      role: this.user.role,
+    });
+    this.toggleEditMode(false);
+  }
+
+  // Permet d'ajouter la méthode updateUserProfile
+  private updateUserProfile(data: Partial<any>): Observable<any> {
+    const userId = this.user.id;
+    return this.http.put<any>(`${this.baseUrl}/users/${userId}`, data);
   }
 }
