@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { UserProfileComponent } from '../app/user-profile/user-profile.component';
 
-interface LoginResponse {
+interface UserProfile {
   token: string;
   user: {
     id: string;
@@ -21,35 +22,59 @@ export class AuthService {
   baseUrl = 'http://localhost:8080';
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<LoginResponse> {
+  login(email: string, password: string): Observable<UserProfile> {
     return this.http
-      .post<LoginResponse>(`${this.baseUrl}/auth/login`, { email, password })
+      .post<UserProfile>(`${this.baseUrl}/auth/login`, { email, password })
       .pipe(
         tap((response) => {
-          // Stocker le user dans le localStorage ou un autre mécanisme de stockage
-          // localStorage.setItem('eventAppUser', user);
+          // Stocker l'utilisateur dans le localStorage
+          localStorage.setItem('eventAppUser', JSON.stringify(response));
         }),
         catchError(this.handleError)
       );
   }
 
   logout() {
-    // Supprimer le ser du stockage
     localStorage.removeItem('eventAppUser');
   }
 
   isAuthenticated(): boolean {
-    // Vérifier si le token existe et est valide
     return !!localStorage.getItem('eventAppUser');
+  }
+
+  getUserData(): UserProfile | null {
+    const user = localStorage.getItem('eventAppUser');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      console.log('Parsed User Data:', parsedUser); // Ajout de console pour vérifier les données
+      return parsedUser as UserProfile;
+    }
+    return null;
+  }
+
+  updateUserProfile(data: Partial<UserProfile>): Observable<UserProfile> {
+    const userId = this.getUserData()?.id;
+
+    if (!userId) {
+      // console.error('User ID is missing or invalid.');
+      throw new Error('User ID is missing or invalid.');
+    }
+
+    return this.http
+      .put<UserProfile>(`${this.baseUrl}/users/${userId}`, data)
+      .pipe(
+        tap((updatedUser) => {
+          localStorage.setItem('eventAppUser', JSON.stringify(updatedUser));
+        }),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: any) {
     let errorMessage = 'An unknown error occurred!';
     if (error.error instanceof ErrorEvent) {
-      // Erreur côté client
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Erreur côté serveur
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(() => error);
