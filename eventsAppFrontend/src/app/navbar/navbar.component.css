@@ -24,3 +24,7 @@
   transform: skew(-10deg); /* Skews the text to simulate a slight curve */
   cursor: pointer;
 }
+
+.avatar-button{
+  margin-bottom: 17px;
+}
