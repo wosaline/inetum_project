@@ -156,11 +156,11 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEventsByMonth(year, month));
     }
 
-    // get all dates with event
-    @GetMapping("/events/dates/{year}/{month}")
+    // get all dates with event where user is creator or participant
+    @GetMapping("/events/dates/{year}/{month}/user/{userId}")
     @ResponseBody
-    public ResponseEntity<List<LocalDate>> getDatesWithEvents(@PathVariable int year, @PathVariable int month) {
-        List<LocalDate> dates = eventService.getDatesWithEvents(year, month);
+    public ResponseEntity<List<LocalDate>> getDatesWithUserEvents(@PathVariable int year, @PathVariable int month,@PathVariable int userId) {
+        List<LocalDate> dates = eventService.getDatesWithUserEvents(year, month,userId);
         return ResponseEntity.ok(dates);
     }
 }

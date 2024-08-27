@@ -16,5 +16,5 @@ public interface EventService {
     Participant updateParticipant(int participantId, int eventId, int userId, String reponse);
     List<Event> getAllEventsByDate(LocalDate date);
     List<Event> getAllEventsByMonth(int year, int month);
-    List<LocalDate> getDatesWithEvents(int year, int month);
+    List<LocalDate> getDatesWithUserEvents(int year, int month,int userId);
 }

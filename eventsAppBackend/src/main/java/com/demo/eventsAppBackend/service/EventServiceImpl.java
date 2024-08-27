@@ -162,7 +162,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<LocalDate> getDatesWithEvents(int year, int month) {
-        return eventRepository.findDatesWithEvents(year, month);
+    public List<LocalDate> getDatesWithUserEvents(int year, int month,int userId) {
+        return eventRepository.findDatesWithUserEvents(year, month,userId);
     }
 }
