@@ -23,6 +23,7 @@ export class EventPageComponent implements OnInit {
   currentEventId?: number;
   minDate: string = "";
   timeOptions: string[] = [];
+  showEventForm = false; // to handdle the display of the form
 
   errorMessage: string | null = null;
   selectedImage: File | null = null;
@@ -39,17 +40,17 @@ export class EventPageComponent implements OnInit {
   }
   
   ngOnInit(): void {
-     // get the connected user
-     const user = JSON.parse(localStorage.getItem('eventAppUser') || '{}');
-     this.userId = user.id;
- 
-     if (this.userId) {
-       this.httpProviderService.getAllEventsByUserId(this.userId).subscribe((response) => {
-         this.events = response.body || [];
-       });
-     }
+    // get the connected user
+    const user = JSON.parse(localStorage.getItem('eventAppUser') || '{}');
+    this.userId = user.id;
 
-    this.loadEvents();
+    if (this.userId) {
+      this.httpProviderService.getAllEventsByUserId(this.userId).subscribe((response) => {
+        this.events = response.body || [];
+      });
+    }
+
+    // Initialize the event form
     this.eventForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -59,6 +60,7 @@ export class EventPageComponent implements OnInit {
       capacity: ['', [Validators.required, Validators.min(1)]],
       private: [false]
     });
+    // Set the minimum date to today and generate time options for the event date picker
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
     this.generateTimeOptions();
@@ -76,34 +78,30 @@ export class EventPageComponent implements OnInit {
     this.timeOptions = times;
   }
 
-  loadEvents(): void {
-    this.httpProviderService.getAllEvents().subscribe(
+  loadUserEvents(): void {
+    this.httpProviderService.getAllEventsByUserId(this.userId!).subscribe(
       (res) => {
         this.events = res.body || [];
       },
       (error) => {
-        console.error('Error fetching events:', error);
+        console.error('Error fetching user-specific events:', error);
       }
     );
-
-    console.log(this.events);
   }
 
   onSubmit(): void {
     if (this.eventForm.valid) {
       const event: Event = this.eventForm.value;
-      console.log(event)
       // TODO ONCE LOGGING IS ON
-      event.createdBy=1;
+      event.createdBy = this.userId!;
       if (this.isEditing) {
         event.id = this.currentEventId;
         this.httpProviderService.putEvent(event).subscribe(() => {
-          // this.loadEvents();
+          this.loadUserEvents();
         });
       } else {
-        console.log(event);
         this.httpProviderService.postEvent(event).subscribe(() => {
-          // this.loadEvents();
+          this.loadUserEvents();
         });
       }
       this.reset();
@@ -115,12 +113,11 @@ export class EventPageComponent implements OnInit {
     this.isEditing = true;
     this.currentEventId = event.id;
     this.eventForm.patchValue(event);
-    console.log(event);
   }
 
   deleteEvent(eventId?: number): void {
     if (eventId) {
-      this.httpProviderService.deleteEvent(eventId).subscribe(() => this.loadEvents());
+      this.httpProviderService.deleteEvent(eventId).subscribe(() => this.loadUserEvents());
     }
   }
 
@@ -138,4 +135,9 @@ export class EventPageComponent implements OnInit {
     // this.currentEventId = undefined;
     window.location.reload();
   }
+
+  toggleEventForm(): void {
+    this.showEventForm = !this.showEventForm;  // Alterner l'affichage du formulaire
+  }
+
 }
