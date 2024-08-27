@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpProviderService } from '../../services/http-provider.service';
+import { AuthService } from '../../services/auth.service';
 import { Event } from '../../interfaces/event';
 import { Router } from '@angular/router';
 
@@ -17,6 +18,7 @@ export class EventPageComponent implements OnInit {
 
   eventForm!: FormGroup;
   events: Event[] = [];
+  userId: number | undefined;
   isEditing = false;
   currentEventId?: number;
   minDate: string = "";
@@ -25,7 +27,11 @@ export class EventPageComponent implements OnInit {
   errorMessage: string | null = null;
   selectedImage: File | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router, private httpProviderService: HttpProviderService) {}
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder, 
+    private router: Router, 
+    private httpProviderService: HttpProviderService) {}
 
   formatTime(time: string): string {
     const [hours, minutes] = time.split(':');
@@ -33,6 +39,16 @@ export class EventPageComponent implements OnInit {
   }
   
   ngOnInit(): void {
+     // get the connected user
+     const user = JSON.parse(localStorage.getItem('eventAppUser') || '{}');
+     this.userId = user.id;
+ 
+     if (this.userId) {
+       this.httpProviderService.getAllEventsByUserId(this.userId).subscribe((response) => {
+         this.events = response.body || [];
+       });
+     }
+
     this.loadEvents();
     this.eventForm = this.fb.group({
       title: ['', Validators.required],

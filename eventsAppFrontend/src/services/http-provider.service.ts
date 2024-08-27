@@ -34,4 +34,9 @@ export class HttpProviderService {
   createUser(user: User) {
     return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
   }
+
+  getAllEventsByUserId(userId: number) {
+    return this.webApiService.get(this.httpLinks.mappingUsers + `/${userId}/events`);
+  }
+
 }
