@@ -10,7 +10,10 @@
           <div class="event-title">
             {{ event.title }} - {{ event.date }} à {{ event.time }}
           </div>
-          <div>
+          <div class="event-actions">
+            <button *ngIf="canInviteUser(event)" (click)="toggleUserList(event)">
+              <span class="material-icons">mail</span>
+            </button>
             <button *ngIf="canEdit(event)" (click)="editEvent(event)">
               <span class="material-icons">edit</span>
             </button>
@@ -95,6 +98,17 @@
           Annuler
         </button>
       </form>
+    </div>
+
+    <div *ngIf="showUserList && selectedEvent">
+      <div class="user-list">
+        <ul>
+          <li *ngFor="let user of getFilteredUsers()">
+            {{ user.firstName}} {{ user.lastName }} - {{ user.email}}
+            <button *ngIf="canInviteUser(selectedEvent)" (click)="inviteUser(user.id!)" class="btn btn-success">Invite</button>
+          </li>
+        </ul>
+      </div>
     </div>
 
   </div>

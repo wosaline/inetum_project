@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpProviderService } from '../../services/http-provider.service';
 import { AuthService } from '../../services/auth.service';
 import { Event } from '../../interfaces/event';
+import { User } from '../../interfaces/user';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,12 +19,15 @@ export class EventPageComponent implements OnInit {
 
   eventForm!: FormGroup;
   events: Event[] = [];
+  users: User[] = []; // list of users to invite
   userId: number | undefined;
   isEditing = false;
   currentEventId?: number;
   minDate: string = "";
   timeOptions: string[] = [];
-  showEventForm = false; // to handdle the display of the form
+  showEventForm = false; // display of the Eventform
+  showUserList = false; // display of the UserListForm
+  selectedEvent?: Event;
 
   errorMessage: string | null = null;
   selectedImage: File | null = null;
@@ -64,6 +68,9 @@ export class EventPageComponent implements OnInit {
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
     this.generateTimeOptions();
+
+    // Load all users
+    this.loadUsers();
   }
 
   generateTimeOptions(): void {
@@ -85,6 +92,17 @@ export class EventPageComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching user-specific events:', error);
+      }
+    );
+  }
+
+  loadUsers(): void {
+    this.httpProviderService.getAllUsers().subscribe(
+      (res) => {
+        this.users = res.body || [];
+      },
+      (error) => {
+        console.error('Error fetching users:', error);
       }
     );
   }
@@ -138,7 +156,16 @@ export class EventPageComponent implements OnInit {
   }
 
   toggleEventForm(): void {
-    this.showEventForm = !this.showEventForm;  // Alterner l'affichage du formulaire
+    this.showEventForm = !this.showEventForm;  // Alternate display of EventForm
+  }
+
+  toggleUserList(event?: Event): void {
+    if (event) {
+      this.selectedEvent = event; // Définir l'événement sélectionné si défini
+      this.showUserList = !this.showUserList; // // Alternate 
+    } else {
+      this.showUserList = false; // Si aucun événement, masquer la liste des utilisateurs
+    }
   }
 
   canEdit(event: Event): boolean {
@@ -157,6 +184,34 @@ export class EventPageComponent implements OnInit {
     } else {
       return this.userId === event.createdBy.id;
     }
+  }
+
+  canInviteUser(event?: Event): boolean {
+    if (!event || !this.userId) {
+      return false;
+    }
+    return this.userId === (event.createdBy as any).id;
+  }
+
+  inviteUser(userId: number): void {
+    if (this.selectedEvent && this.selectedEvent.id && this.userId) {
+      this.httpProviderService.inviteUsersToEvent(this.selectedEvent.id, userId, this.userId).subscribe(response => {
+        console.log('User invited:', response);
+        this.toggleUserList(this.selectedEvent); // Réafficher la liste des utilisateurs après l'invitation
+      }, error => {
+        console.error('Error inviting user:', error);
+      });
+    } else {
+      console.error('Selected event or user ID is undefined.');
+    }
+  }
+
+  getFilteredUsers(): User[] {
+    if (!this.selectedEvent) {
+      return this.users;
+    }
+    const creatorId = typeof this.selectedEvent.createdBy === 'number' ? this.selectedEvent.createdBy : this.selectedEvent.createdBy.id;
+    return this.users.filter(user => user.id !== creatorId);
   }
 
 }
