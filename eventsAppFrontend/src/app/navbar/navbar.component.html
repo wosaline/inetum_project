@@ -3,7 +3,12 @@
 
   <span class="spacer"></span>
 
-  <button mat-icon-button *ngIf="isLoggedIn" (click)="picker.open()">
+  <button
+    mat-icon-button
+    *ngIf="isLoggedIn"
+    (click)="picker.open()"
+    class="calendar_button"
+  >
     <mat-icon
       fontIcon="calendar_month"
       class="calendar-icon"
@@ -16,7 +21,7 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field> -->
 
-  <mat-form-field class="calendar" style="width: 1px; visibility: hidden">
+  <mat-form-field class="calendar">
     <input
       matInput
       [matDatepicker]="picker"

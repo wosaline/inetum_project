@@ -11,6 +11,7 @@ export class HttpProviderService {
   private httpLinks = {
     mappingEvents: this.baseUrl + '/events',
     mappingUsers: this.baseUrl + '/users',
+    mappingMarkedDates: this.baseUrl + `/events/dates`,
   };
 
   constructor(private webApiService: WebAPIService) {}
@@ -18,17 +19,26 @@ export class HttpProviderService {
   getAllEvents() {
     return this.webApiService.get(this.httpLinks.mappingEvents);
   }
+  getMarkedDates(year: number, month: number, userId: number) {
+    return this.webApiService.get(
+      this.httpLinks.mappingMarkedDates + `/${year}/${month}/${userId}`
+    );
+  }
 
   postEvent(event: Event) {
     return this.webApiService.post(this.httpLinks.mappingEvents, event, true);
   }
 
-  putEvent(event: Event){
-    return this.webApiService.put(this.httpLinks.mappingEvents+`/${event.id}`, event, true);
+  putEvent(event: Event) {
+    return this.webApiService.put(
+      this.httpLinks.mappingEvents + `/${event.id}`,
+      event,
+      true
+    );
   }
 
-  deleteEvent(id: number){
-    return this.webApiService.delete(this.httpLinks.mappingEvents+`/${id}`);
+  deleteEvent(id: number) {
+    return this.webApiService.delete(this.httpLinks.mappingEvents + `/${id}`);
   }
 
   createUser(user: User) {
