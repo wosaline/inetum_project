@@ -28,3 +28,47 @@
 .avatar-button{
   margin-bottom: 17px;
 }
+
+/* mat-menu {
+  padding: 10px;
+  background: #264653;
+  display: flex;
+  justify-content: center;
+} */
+
+.menu-items-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: transparent;
+  border-radius: 5px;
+  color: #d9d9d9;
+  font-family: "Bebas Neue", sans-serif;
+  transition: background-color 0.3s;
+}
+
+mat-menu-item:hover {
+  background-color: #2a9d8f;
+  color: #f4a261;
+}
+
+.account-icon {
+  color: #e9c46a;
+}
+
+.event-icon {
+  color: #f4a261;
+}
+
+.logout-icon {
+  color: #e76f51;
+}
