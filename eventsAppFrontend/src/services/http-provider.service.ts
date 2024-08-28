@@ -45,11 +45,15 @@ export class HttpProviderService {
     return this.webApiService.get(this.httpLinks.mappingUsers);
   }
 
-  // Méthode pour inviter un utilisateur à un événement
   inviteUsersToEvent(eventId: number, userId: number, creatorId: number): Observable<any> {
     const url = `${this.httpLinks.mappingEvents}/${eventId}/invite`;
     const body = { userId, creatorId }; // Corps de la requête
     return this.webApiService.post(url, body, true); // Utilise le booléen pour indiquer que body contient des paramètres de requête
+  }
+
+  // Récupérer les invitations non lues pour un utilisateur
+  getPendingInvitations(userId: number) {
+    return this.webApiService.get(this.httpLinks.mappingEvents + `users/${userId}/invitations`);
   }
 
 }

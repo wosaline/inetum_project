@@ -6,6 +6,7 @@ import { HttpProviderService } from '../../services/http-provider.service';
 import { AuthService } from '../../services/auth.service';
 import { Event } from '../../interfaces/event';
 import { User } from '../../interfaces/user';
+import { Participant } from '../../interfaces/participant';
 import { Router } from '@angular/router';
 
 @Component({
@@ -49,8 +50,21 @@ export class EventPageComponent implements OnInit {
     this.userId = user.id;
 
     if (this.userId) {
+      console.log('User ID:', this.userId);
+      // Load all events for the connected user
       this.httpProviderService.getAllEventsByUserId(this.userId).subscribe((response) => {
         this.events = response.body || [];
+      });
+
+      this.httpProviderService.getPendingInvitations(this.userId).subscribe((invitations: Participant[]) => {
+        invitations.forEach(invitation => {
+          const creator = invitation.event.createdBy;
+          const creatorName = typeof creator !== 'number' ? creator.username : 'Unknown';
+          console.log(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
+          alert(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
+        });
+      }, error => {
+        console.error('Erreur lors de la récupération des invitations:', error);
       });
     }
 
@@ -190,7 +204,7 @@ export class EventPageComponent implements OnInit {
     if (!event || !this.userId) {
       return false;
     }
-    return this.userId === (event.createdBy as any).id;
+    return this.userId === (event.createdBy as User).id;
   }
 
   inviteUser(userId: number): void {
