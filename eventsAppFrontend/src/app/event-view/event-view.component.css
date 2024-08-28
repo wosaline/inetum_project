@@ -10,7 +10,7 @@
 }
 
 .event-container{
-    margin-left: 50px;
+    /* margin-left: 50px; */
     min-width: 70vw;
 }
 
@@ -57,6 +57,28 @@
 
 .event-container .event-rating-and-comments{
     margin-top: 20px;
-    min-height: 50vh;
-    background-color: #f4a261;
+    background-color: #e9c46a;
+    height: 50vh; 
+    padding: 20px;
+    overflow-y: scroll; 
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* border-radius: 8px; */
+}
+
+.event-container .event-rating-and-comments .event-commentslist{
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    overflow-y: auto; 
+    gap: 10px;
+}
+
+.app-comment-card {
+    /* margin-bottom: 10px;  */
+    /* width: 100%; */
+    flex: 1 1 calc(33.33% - 20px);
+    margin-bottom: 10px; 
+    max-width: calc(33.33% - 20px);
+    box-sizing: border-box;
 }

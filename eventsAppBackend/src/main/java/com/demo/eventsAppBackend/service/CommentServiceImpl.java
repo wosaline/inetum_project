@@ -63,4 +63,13 @@ public class CommentServiceImpl implements CommentService{
     public List<Comment> getCommentsByEvent(Event event) {
         return commentRepository.findAllByEvent(event);
     }
+
+    @Override
+    public Double getRatingByEventId(int eventId) {
+        Event event = eventRepository.findById(eventId);
+        if (event == null) {
+            throw new EntityNotFoundException("Evénement non trouvé");
+        }
+        return commentRepository.findAverageRatingByEvent(event);
+    }
 }

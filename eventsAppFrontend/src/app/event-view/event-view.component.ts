@@ -33,6 +33,8 @@ export class EventViewComponent implements OnInit{
   route: ActivatedRoute = inject(ActivatedRoute);
   isEventPassed: boolean = false;
   commentsList: Comment[]=[];
+  eventRating : number = 0.0;
+  
 
   constructor(private router: Router, private httpProviderService: HttpProviderService) {}
 
@@ -45,7 +47,10 @@ export class EventViewComponent implements OnInit{
       (res)=>{
         this.event = res.body || undefined;
         this.eventHappened();
-        this.loadComments();
+        if(this.isEventPassed){
+          this.loadComments();
+          this.loadRating();
+        }
         console.log(this.event);
     });
     
@@ -75,6 +80,23 @@ export class EventViewComponent implements OnInit{
         },
         (error) => {
           console.error('Error fetching events:', error);
+        }
+      );
+    }
+  }
+
+  loadRating(){
+    console.log(this.event?.id);
+    console.log(this.event);
+    if(this.event && this.event.id){
+      this.httpProviderService.getRatingByEventIt(this.event.id).subscribe(
+        (res) => {
+          let number= res.body || 0.0;
+          this.eventRating = number.toFixed(2);
+          console.log('Rating:', this.eventRating);
+        },
+        (error) => {
+          console.error('Error fetching rating:', error);
         }
       );
     }

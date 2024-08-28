@@ -43,4 +43,8 @@ export class HttpProviderService {
   getAllCommentsByEventId(id:number){
     return this.webApiService.get(this.httpLinks.mappingComments+`/${id}`);
   }
+
+  getRatingByEventIt(id:number){
+    return this.webApiService.get(this.httpLinks.mappingComments+`/rating/${id}`);
+  }
 }
