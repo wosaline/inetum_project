@@ -21,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   user: any;
   isAdmin: boolean = false;
   isEditing: boolean = false;
+  successMessage: string = ''; // Ajouter cette ligne pour le message de succès
   private baseUrl = 'http://localhost:8080/api';
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
@@ -35,25 +36,36 @@ export class UserProfileComponent implements OnInit {
     const userFromStorage = localStorage.getItem('eventAppUser');
     if (userFromStorage) {
       this.user = JSON.parse(userFromStorage).user;
-      this.isAdmin = this.user.role === 'admin';
+      if (this.user && this.user.role) {
+        // Vérification ajoutée pour éviter une erreur undefined
+        this.isAdmin = this.user.role === 'admin';
+      }
+    } else {
+      console.error('User data not found in local storage.');
+      this.user = {}; // Assurez-vous que user est toujours initialisé pour éviter les erreurs
     }
   }
 
   initializeForm(): void {
-    this.profileForm = this.fb.group({
-      username: [
-        { value: this.user.username, disabled: !this.isAdmin },
-        Validators.required,
-      ],
-      email: [
-        { value: this.user.email, disabled: !this.isAdmin },
-        [Validators.required, Validators.email],
-      ],
-      password: [{ value: '********', disabled: true }],
-      firstName: [this.user.firstName, Validators.required],
-      lastName: [this.user.lastName, Validators.required],
-      role: [{ value: this.user.role, disabled: this.user.role !== 'admin' }],
-    });
+    if (this.user) {
+      // Vérifiez si 'user' est défini avant d'initialiser le formulaire
+      this.profileForm = this.fb.group({
+        username: [
+          { value: this.user.username, disabled: !this.isAdmin },
+          Validators.required,
+        ],
+        email: [
+          { value: this.user.email, disabled: !this.isAdmin },
+          [Validators.required, Validators.email],
+        ],
+        password: [{ value: '********', disabled: true }],
+        firstName: [this.user.firstName, Validators.required],
+        lastName: [this.user.lastName, Validators.required],
+        role: [{ value: this.user.role, disabled: this.user.role !== 'admin' }],
+      });
+    } else {
+      console.error('User is not loaded, cannot initialize form.');
+    }
   }
 
   toggleEditMode(enable: boolean) {
@@ -93,6 +105,9 @@ export class UserProfileComponent implements OnInit {
             JSON.stringify({ user: this.user })
           );
           this.toggleEditMode(false);
+          setTimeout(() => {
+            this.successMessage = ''; // Effacer le message de succès après 5 secondes
+          }, 5000);
         },
         (error) => {
           alert('Failed to update profile');

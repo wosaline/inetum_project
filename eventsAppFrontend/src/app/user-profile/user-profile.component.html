@@ -2,6 +2,10 @@
 <div class="profile-container">
   <div class="form-card">
     <h2>Update Profile</h2>
+    <!-- Message de succès -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
     <form [formGroup]="profileForm" (ngSubmit)="onSave()">
       <div class="form-group">
         <input
