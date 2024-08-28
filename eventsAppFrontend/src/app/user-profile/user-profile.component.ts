@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -26,28 +25,45 @@ export class UserProfileComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('eventAppUser') || '{}').user;
-    this.isAdmin = this.user.role === 'admin';
+    // Récupérer les informations de l'utilisateur stockées dans localStorage
+    this.loadUserData();
+    this.initializeForm();
+  }
 
+  loadUserData(): void {
+    const userFromStorage = localStorage.getItem('eventAppUser');
+    if (userFromStorage) {
+      this.user = JSON.parse(userFromStorage).user;
+      this.isAdmin = this.user.role === 'admin';
+    }
+  }
+
+  initializeForm(): void {
     this.profileForm = this.fb.group({
-      username: [this.user.username, Validators.required],
-      email: [this.user.email, [Validators.required, Validators.email]],
+      username: [
+        { value: this.user.username, disabled: !this.isAdmin },
+        Validators.required,
+      ],
+      email: [
+        { value: this.user.email, disabled: !this.isAdmin },
+        [Validators.required, Validators.email],
+      ],
       password: [{ value: '********', disabled: true }],
       firstName: [this.user.firstName, Validators.required],
       lastName: [this.user.lastName, Validators.required],
       role: [{ value: this.user.role, disabled: true }],
     });
-
-    this.toggleEditMode(false);
   }
 
   toggleEditMode(enable: boolean) {
     this.isEditing = enable;
-    if (this.isEditing && this.isAdmin) {
-      this.profileForm.get('username')?.enable();
-      this.profileForm.get('email')?.enable();
+    if (this.isEditing) {
       this.profileForm.get('firstName')?.enable();
       this.profileForm.get('lastName')?.enable();
+      if (this.isAdmin) {
+        this.profileForm.get('username')?.enable();
+        this.profileForm.get('email')?.enable();
+      }
     } else {
       this.profileForm.get('username')?.disable();
       this.profileForm.get('email')?.disable();
@@ -76,20 +92,13 @@ export class UserProfileComponent implements OnInit {
   }
 
   onCancel() {
-    this.profileForm.reset({
-      username: this.user.username,
-      email: this.user.email,
-      password: '********',
-      firstName: this.user.firstName,
-      lastName: this.user.lastName,
-      role: this.user.role,
-    });
+    // Réinitialisation avec désactivation du mode édition
+    this.initializeForm();
     this.toggleEditMode(false);
   }
 
-  // Permet d'ajouter la méthode updateUserProfile
-  private updateUserProfile(data: Partial<any>): Observable<any> {
+  private updateUserProfile(data: any) {
     const userId = this.user.id;
-    return this.http.put<any>(`${this.baseUrl}/users/${userId}`, data);
+    return this.http.put<any>(`${this.baseUrl}/users/${userId}`, data); // Appel direct au backend
   }
 }
