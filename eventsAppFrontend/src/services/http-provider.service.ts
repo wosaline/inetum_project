@@ -51,9 +51,9 @@ export class HttpProviderService {
     return this.webApiService.post(url, body, true); // Utilise le booléen pour indiquer que body contient des paramètres de requête
   }
 
-  // Récupérer les invitations non lues pour un utilisateur
+  // Récupérer les invitations pour un utilisateur
   getPendingInvitations(userId: number) {
-    return this.webApiService.get(this.httpLinks.mappingEvents + `users/${userId}/invitations`);
+    return this.webApiService.get(this.httpLinks.mappingEvents + `/users/${userId}/invitations`);
   }
 
 }

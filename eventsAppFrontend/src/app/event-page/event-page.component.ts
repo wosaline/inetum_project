@@ -56,16 +56,25 @@ export class EventPageComponent implements OnInit {
         this.events = response.body || [];
       });
 
-      this.httpProviderService.getPendingInvitations(this.userId).subscribe((invitations: Participant[]) => {
-        invitations.forEach(invitation => {
-          const creator = invitation.event.createdBy;
-          const creatorName = typeof creator !== 'number' ? creator.username : 'Unknown';
-          console.log(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
-          alert(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
-        });
-      }, error => {
-        console.error('Erreur lors de la récupération des invitations:', error);
-      });
+      this.httpProviderService.getPendingInvitations(this.userId).subscribe(
+        (response) => {
+          const invitations = response.body;  // Extraire le tableau des invitations
+      
+          if (Array.isArray(invitations)) {
+            invitations.forEach(invitation => {
+              const creator = invitation.event.createdBy;
+              const creatorName = typeof creator !== 'number' ? creator.username : 'Unknown';
+              alert(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
+            });
+          } else {
+            console.error('La réponse n\'est pas un tableau:', invitations);
+          }
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des invitations:', error);
+        }
+      );
+      
     }
 
     // Initialize the event form
