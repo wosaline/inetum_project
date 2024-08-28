@@ -11,6 +11,7 @@ import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { ParticipantsListComponent } from '../participants-list/participants-list.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comment } from '../../interfaces/comment';
+import { StarRatingComponent } from "../star-rating/star-rating.component";
 
 @Component({
   selector: 'app-event-view',
@@ -19,12 +20,13 @@ import { Comment } from '../../interfaces/comment';
     CommonModule,
     NavbarComponent,
     SpinnerComponent,
-    MatFormFieldModule, 
-    MatInputModule, 
+    MatFormFieldModule,
+    MatInputModule,
     MatIconModule,
     CommentCardComponent,
     ParticipantsListComponent,
-  ],
+    StarRatingComponent,
+],
   templateUrl: './event-view.component.html',
   styleUrl: './event-view.component.css'
 })
@@ -34,7 +36,7 @@ export class EventViewComponent implements OnInit{
   isEventPassed: boolean = false;
   commentsList: Comment[]=[];
   eventRating : number = 0.0;
-  
+
 
   constructor(private router: Router, private httpProviderService: HttpProviderService) {}
 

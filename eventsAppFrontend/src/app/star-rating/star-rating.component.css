@@ -1,7 +1,19 @@
 .star {
-    font-size: 24px;
-    color: #d3d3d3; /* Couleur pour les étoiles non remplies */
+    font-size: 20px;
+    color: #d3d3d3; /* Default star color (empty) */
+  }
+  
+.filled {
+    color: #ffc107; /* Color for full stars */
 }
-.star.filled {
-    color: #ffc107; /* Couleur pour les étoiles remplies */
+
+.half-filled {
+    color: #ffc107; /* Color for half stars */
+    background: linear-gradient(to right, #ffc107 50%, #d3d3d3 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.empty {
+    color: #d3d3d3;
 }

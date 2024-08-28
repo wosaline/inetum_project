@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-star-rating',
@@ -8,7 +8,24 @@ import { Component, Input } from '@angular/core';
   templateUrl: './star-rating.component.html',
   styleUrl: './star-rating.component.css'
 })
-export class StarRatingComponent {
+export class StarRatingComponent implements OnChanges{
   @Input() rating = 0;
-  stars: boolean[] = Array(5).fill(false);
+  stars: number[] = Array(5).fill(0);
+
+  ngOnChanges(): void {
+    this.updateStars();
+  }
+
+  updateStars(): void {
+    this.stars = this.stars.map((_, i) => {
+      const starValue = i + 1;
+      if (this.rating >= starValue) {
+        return 1;
+      } else if (this.rating > i && this.rating < starValue) {
+        return 0.5;
+      } else {
+        return 0;
+      }
+    });
+  }
 }
