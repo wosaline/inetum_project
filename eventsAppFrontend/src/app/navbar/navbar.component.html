@@ -49,7 +49,7 @@
   >
     S'enregistrer
   </button>
-  <button
+  <!-- <button
     *ngIf="isLoggedIn"
     mat-flat-button
     class="register-button"
@@ -57,5 +57,29 @@
     (click)="handleClick()"
   >
     Logout
+  </button> -->
+
+  <button
+    *ngIf="isLoggedIn"
+    mat-icon-button 
+    [matMenuTriggerFor]="menu"
+    class="avatar-button">
+    <app-avatar [user]="user"></app-avatar>
   </button>
+  <mat-menu #menu="matMenu" class="user-menu">
+    <div class="menu-items-container">
+      <button mat-menu-item>
+        <mat-icon class="account-icon" fontIcon="account_circle"></mat-icon>
+        <span>Mes informations</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/event-page']">
+        <mat-icon class="event-icon" fontIcon="event_available"></mat-icon>
+        <span>Mes événements</span>
+      </button>
+      <button mat-menu-item (click)="handleClick()">
+        <mat-icon class="logout-icon" fontIcon="logout"></mat-icon>
+        <span>Se déconnecter</span>
+      </button>
+    </div>
+  </mat-menu>
 </mat-toolbar>

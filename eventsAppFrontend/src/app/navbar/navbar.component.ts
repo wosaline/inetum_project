@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule, RouterOutlet, Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,6 +18,9 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HttpProviderService } from '../../services/http-provider.service';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { AvatarComponent } from '../avatar/avatar.component';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +29,9 @@ import { HttpProviderService } from '../../services/http-provider.service';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuTrigger,
+    MatMenu,
+    AvatarComponent,
     RouterModule,
     CommonModule,
     MatTooltipModule,
@@ -55,16 +61,24 @@ export class NavbarComponent {
   markedDates = [];
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
   selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
-  user = JSON.parse(localStorage.getItem('eventAppUser') ?? '{}');
+  user!: User;
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
+    const userString = localStorage.getItem('eventAppUser');
+    if (userString) {
+      const userObject = JSON.parse(userString);
+      this.user = userObject as User;
+    }
+
+    this.isLoggedIn = this.authService.isAuthenticated();
     this.user?.id && this.loadMarkedDates();
-    console.log('selectedYear', this.selectedYear);
   }
+
   handleClick(): void {
     this.authService.logout();
     this.isLoggedIn = this.authService.isAuthenticated();
+    this.router.navigate(['/home']);
   }
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     const selectedDate = new Date(event.value ?? '');
@@ -82,7 +96,11 @@ export class NavbarComponent {
 
   loadMarkedDates() {
     this.httpProviderService
-      .getMarkedDates(this.selectedYear, this.selectedMonth, this.user?.id)
+      .getMarkedDates(
+        this.selectedYear,
+        this.selectedMonth,
+        Number(this.user?.id)
+      )
       .subscribe(
         (res) => {
           this.markedDates = res.body || [];
