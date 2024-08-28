@@ -56,6 +56,7 @@
 }
 
 .event-container .event-rating-and-comments{
+    margin-top: 20px;
     min-height: 50vh;
     background-color: #f4a261;
 }

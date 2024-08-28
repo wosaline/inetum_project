@@ -24,14 +24,17 @@
                     </div>
                 </div>
             </div>
-            <div class="event-rating-and-comments">
+            <!-- <div class="event-rating-and-comments" *ngIf="isEventPassed"> -->
+            <div class="event-rating-and-comments" *ngIf="!isEventPassed">
                 <div class="event-rating">
                     Moyenne des notes
                 </div>
                 <div class="event-add-comment">
                     <!-- mettre ngIf eventAlreadyHappened -->
                 </div>
-                <app-comment-card></app-comment-card>
+
+                <app-comment-card *ngFor="let item of commentsList"
+                [comment]="item"></app-comment-card>
             </div>
         </div>
     

@@ -11,6 +11,7 @@ export class HttpProviderService {
   private httpLinks = {
     mappingEvents: this.baseUrl + '/events',
     mappingUsers: this.baseUrl + '/users',
+    mappingComments: this.baseUrl + '/comments'
   };
 
   constructor(private webApiService: WebAPIService) {}
@@ -37,5 +38,9 @@ export class HttpProviderService {
 
   createUser(user: User) {
     return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
+  }
+
+  getAllCommentsByEventId(id:number){
+    return this.webApiService.get(this.httpLinks.mappingComments+`/${id}`);
   }
 }
