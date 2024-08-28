@@ -14,6 +14,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'event-page', component: EventPageComponent },
+  { path: 'user-profile', component: UserProfileComponent },
 ];
 
 export class AppRoutingModule {}

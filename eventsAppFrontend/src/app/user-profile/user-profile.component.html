@@ -1,70 +1,71 @@
+<app-navbar></app-navbar>
 <div class="profile-container">
   <div class="form-card">
     <h2>Update Profile</h2>
     <form [formGroup]="profileForm" (ngSubmit)="onSave()">
       <div class="form-group">
-        <label for="username">Username</label>
         <input
           id="username"
           formControlName="username"
           type="text"
+          placeholder="Nom d'utilisateur"
           class="form-control"
           [disabled]="!isEditing"
         />
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          formControlName="email"
-          type="email"
-          class="form-control"
-          [disabled]="!isEditing"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          formControlName="password"
-          type="password"
-          class="form-control"
-          [disabled]="true"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="firstName">First Name</label>
         <input
           id="firstName"
           formControlName="firstName"
           type="text"
+          placeholder="Prénom"
           class="form-control"
           [disabled]="!isEditing"
         />
       </div>
 
       <div class="form-group">
-        <label for="lastName">Last Name</label>
         <input
           id="lastName"
           formControlName="lastName"
           type="text"
+          placeholder="Nom"
           class="form-control"
           [disabled]="!isEditing"
         />
       </div>
 
       <div class="form-group">
-        <label for="role">Role</label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          class="form-control"
+          [disabled]="!isEditing"
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          placeholder="Mot de passe"
+          class="form-control"
+          [disabled]="true"
+        />
+      </div>
+
+      <div class="form-group">
         <input
           id="role"
           formControlName="role"
           type="text"
+          placeholder="Rôle"
           class="form-control"
-          [disabled]="true"
+          [disabled]="!isEditing || user.role !== 'admin'"
         />
       </div>
 
@@ -75,7 +76,7 @@
           (click)="toggleEditMode(true)"
           *ngIf="!isEditing"
         >
-          Edit Profile
+          Edit le Profile
         </button>
         <button
           type="submit"
