@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<div class="event-container" *ngIf="event">
+    <!-- <div class="image-container">
+        <img class="event-image" src="event-image.jpg" alt="event_img" />
+    </div> -->
+    <div class="event-title">
+        {{ event.title }}
+    </div>
+    <div class="event-datetime-location">
+        {{ event.location }}, le {{ event.date }} à {{ event.time }} - {{ event.private ? 'événement privé' : 'événement public' }}
+    </div>
+    <div class="event-description">
+        {{ event.description }}
+    </div>
+
+    <div class="event-rating">
+        Moyenne des notes
+    </div>
+    <div class="event-add-comment">
+        <!-- mettre ngIf eventAlreadyHappened -->
+    </div>
+    <app-comment-card></app-comment-card>
+
+    <app-participants-list></app-participants-list>
+</div>

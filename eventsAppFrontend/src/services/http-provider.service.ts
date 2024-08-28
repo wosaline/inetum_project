@@ -19,6 +19,10 @@ export class HttpProviderService {
     return this.webApiService.get(this.httpLinks.mappingEvents);
   }
 
+  getEventById(id : number){
+    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}`);
+  }
+
   postEvent(event: Event) {
     return this.webApiService.post(this.httpLinks.mappingEvents, event, true);
   }

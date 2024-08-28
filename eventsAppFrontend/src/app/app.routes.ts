@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent},
   { path: 'event-page', component: EventPageComponent},
-  { path: 'event', component: EventViewComponent},
+  { path: 'event/:eventId/user/:userId', component: EventViewComponent},
 ];
 
 export class AppRoutingModule {}

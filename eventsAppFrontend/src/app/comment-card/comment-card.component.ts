@@ -1,0 +1,19 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+
+@Component({
+  selector: 'app-comment-card',
+  standalone: true,
+  imports: [
+    MatCardModule,
+    CommonModule,
+  ],
+  templateUrl: './comment-card.component.html',
+  styleUrl: './comment-card.component.css'
+})
+export class CommentCardComponent {
+  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
+  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
+  originally bred for hunting.`;
+}
