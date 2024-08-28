@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,10 +7,14 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
+  MatCalendarCellClassFunction,
   MatDatepickerInputEvent,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HttpProviderService } from '../../services/http-provider.service';
@@ -30,10 +34,14 @@ import { HttpProviderService } from '../../services/http-provider.service';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
-  providers: [DatePipe],
+  providers: [DatePipe, provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
   constructor(
@@ -45,22 +53,23 @@ export class NavbarComponent {
   isLoggedIn = false;
   readonly startDate: Date = new Date();
   markedDates = [];
-  selectedYear = 2024;
-  selectedMonth = 8;
-
+  selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
+  selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
   user = JSON.parse(localStorage.getItem('eventAppUser') ?? '{}');
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
     this.user?.id && this.loadMarkedDates();
-    console.log('user', this.user.id);
+    console.log('selectedYear', this.selectedYear);
   }
   handleClick(): void {
     this.authService.logout();
     this.isLoggedIn = this.authService.isAuthenticated();
   }
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
-    const selectedDate = event.value;
+    const selectedDate = new Date(event.value ?? '');
+    // this.selectedMonth = selectedDate.getFullYear();
+    // this.selectedMonth = selectedDate.getMonth() + 1;
 
     if (selectedDate) {
       const formattedDate = this.datePipe.transform(selectedDate, 'yyyy-MM-dd');
