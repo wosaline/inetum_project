@@ -109,6 +109,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Participant> getPendingInvitations(int userId) {
+        return participantRepository.findAllByUserIdAndStatusIn(userId, List.of(ParticipantStatus.INVITED));
+    }
+
+    @Override
     public Participant updateParticipant(int participantId, int eventId, int userId, String response) {
         Participant participant = participantRepository.findById(participantId);
 

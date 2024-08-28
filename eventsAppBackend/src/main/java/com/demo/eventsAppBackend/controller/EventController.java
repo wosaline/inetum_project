@@ -119,6 +119,17 @@ public class EventController {
         }
     }
 
+    //Get participant (invitations) by userId and by status
+    @GetMapping("/events/users/{userId}/invitations")
+    public ResponseEntity<List<Participant>> getPendingInvitations(@PathVariable int userId) {
+        List<Participant> invitations = eventService.getPendingInvitations(userId);
+        if (invitations.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(invitations);
+        }
+    }
+
     // update invitation (update participant.status)
     @PutMapping("events/{eventId}/invite/{participantId}")
     @ResponseBody

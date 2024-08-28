@@ -1,79 +1,12 @@
 <app-navbar></app-navbar>
+<div class="alert-container">
+  <app-custom-alert *ngFor="let msg of alertMessages" [message]="msg"></app-custom-alert>
+</div>
 <div class="event-page-container">
   <div class="event-page-card">
-    <h2>{{ isEditing ? 'Modifier l\'événement' : 'Créer un nouvel événement' }}</h2>
 
-    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-      <input 
-        type="text" 
-        placeholder="Titre" 
-        formControlName="title"
-      />
-      <div *ngIf="eventForm.get('title')?.invalid && eventForm.get('title')?.touched" class="error">
-        Titre requis
-      </div>
-
-      <textarea 
-        placeholder="Description" 
-        formControlName="description"
-      ></textarea>
-      <div *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched" class="error">
-        Description requise
-      </div>
-
-      <input 
-        type="date" 
-        formControlName="date"
-        [attr.min]="minDate"
-        required
-      />
-      <div *ngIf="eventForm.get('date')?.invalid && eventForm.get('date')?.touched" class="error">
-        Date requise
-      </div>
-
-      <div class="time-container">
-        <select formControlName="time" required>
-          <option *ngFor="let time of timeOptions" [value]="time">{{ time }}</option>
-        </select>
-        <div *ngIf="eventForm.get('time')?.invalid && eventForm.get('time')?.touched" class="error">
-          Heure requise
-        </div>
-      </div>
-
-      <input 
-        type="text" 
-        placeholder="Lieu" 
-        formControlName="location"
-      />
-      <div *ngIf="eventForm.get('location')?.invalid && eventForm.get('location')?.touched" class="error">
-        Lieu requis
-      </div>
-
-      <input 
-        type="number" 
-        placeholder="Capacité" 
-        formControlName="capacity" 
-        min="1"
-      />
-      <div *ngIf="eventForm.get('capacity')?.invalid && eventForm.get('capacity')?.touched" class="error">
-        La capacité est requise et doit être au moins 1
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input type="checkbox" formControlName="private" />
-          Événement privé
-        </label>
-      </div>
-
-      <button type="submit" [disabled]="eventForm.invalid">
-        {{ isEditing ? 'Mettre à jour' : 'Créer' }}
-      </button>
-      <button type="button" (click)="cancelEdit()">
-        Annuler
-      </button>
-    </form>
-
+    <h1 class="page-title">My Events</h1>
+    
     <h3>Liste des événements</h3>
     <div class="event-list-container">
       <ul>
@@ -81,12 +14,106 @@
           <div class="event-title">
             {{ event.title }} - {{ event.date }} à {{ event.time }}
           </div>
-          <div>
-            <button (click)="editEvent(event)">Modifier</button>
-            <button (click)="deleteEvent(event.id)">Supprimer</button>
+          <div class="event-actions">
+            <button *ngIf="canInviteUser(event)" (click)="toggleUserList(event)">
+              <span class="material-icons">mail</span>
+            </button>
+            <button *ngIf="canEdit(event)" (click)="editEvent(event)">
+              <span class="material-icons">edit</span>
+            </button>
+            <button *ngIf="canDelete(event)" (click)="deleteEvent(event.id)">
+              <span class="material-icons">delete</span>
+            </button>
           </div>
         </li>
       </ul>
     </div>
+
+    <button class="create-event-btn" (click)="toggleEventForm()">Créer un nouvel évènement</button>
+
+    <div *ngIf="showEventForm">
+      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+        <input 
+          type="text" 
+          placeholder="Titre" 
+          formControlName="title"
+        />
+        <div *ngIf="eventForm.get('title')?.invalid && eventForm.get('title')?.touched" class="error">
+          Titre requis
+        </div>
+  
+        <textarea 
+          placeholder="Description" 
+          formControlName="description"
+        ></textarea>
+        <div *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched" class="error">
+          Description requise
+        </div>
+  
+        <input 
+          type="date" 
+          formControlName="date"
+          [attr.min]="minDate"
+          required
+        />
+        <div *ngIf="eventForm.get('date')?.invalid && eventForm.get('date')?.touched" class="error">
+          Date requise
+        </div>
+  
+        <div class="time-container">
+          <select formControlName="time" required>
+            <option *ngFor="let time of timeOptions" [value]="time">{{ time }}</option>
+          </select>
+          <div *ngIf="eventForm.get('time')?.invalid && eventForm.get('time')?.touched" class="error">
+            Heure requise
+          </div>
+        </div>
+  
+        <input 
+          type="text" 
+          placeholder="Lieu" 
+          formControlName="location"
+        />
+        <div *ngIf="eventForm.get('location')?.invalid && eventForm.get('location')?.touched" class="error">
+          Lieu requis
+        </div>
+  
+        <input 
+          type="number" 
+          placeholder="Capacité" 
+          formControlName="capacity" 
+          min="1"
+        />
+        <div *ngIf="eventForm.get('capacity')?.invalid && eventForm.get('capacity')?.touched" class="error">
+          La capacité est requise et doit être au moins 1
+        </div>
+  
+        <div class="form-group">
+          <label>
+            <input type="checkbox" formControlName="private" />
+            Événement privé
+          </label>
+        </div>
+  
+        <button type="submit" [disabled]="eventForm.invalid">
+          {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+        </button>
+        <button type="button" (click)="cancelEdit()">
+          Annuler
+        </button>
+      </form>
+    </div>
+
+    <div *ngIf="showUserList && selectedEvent">
+      <div class="user-list">
+        <ul>
+          <li *ngFor="let user of getFilteredUsers()">
+            {{ user.firstName}} {{ user.lastName }} - {{ user.email}}
+            <button *ngIf="canInviteUser(selectedEvent)" (click)="inviteUser(user.id!)" class="btn btn-success">Invite</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
