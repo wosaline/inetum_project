@@ -1,25 +1,40 @@
 <app-navbar></app-navbar>
-<div class="event-container" *ngIf="event">
-    <!-- <div class="image-container">
-        <img class="event-image" src="event-image.jpg" alt="event_img" />
-    </div> -->
-    <div class="event-title">
-        {{ event.title }}
+<div class="event-body">
+    <div class="event-view-container">
+        <div class="event-container" *ngIf="event">
+            <!-- <div class="image-container">
+                <img class="event-image" src="event-image.jpg" alt="event_img" />
+            </div> -->
+            <div class="event-main-info">
+                <div class="event-title">
+                    {{ event.title }}
+                </div>
+                <div class="event-details">
+                    <div class="event-datetime-location">
+                        {{ event.location }}, le {{ event.date }} à {{ formatTime(event.time) }} - {{ event.private ? 'événement privé' : 'événement public' }}
+                    </div>
+                    <div class="event-capacity">
+                        Capacité d'accueil : {{ event.capacity }}
+                    </div>
+                </div>
+                <div class="event-description">
+                    <div class="description-title">Description</div>
+                    <div class="description-content">
+                        {{ event.description }}
+                    </div>
+                </div>
+            </div>
+            <div class="event-rating-and-comments">
+                <div class="event-rating">
+                    Moyenne des notes
+                </div>
+                <div class="event-add-comment">
+                    <!-- mettre ngIf eventAlreadyHappened -->
+                </div>
+                <app-comment-card></app-comment-card>
+            </div>
+        </div>
+    
+        <app-participants-list></app-participants-list>
     </div>
-    <div class="event-datetime-location">
-        {{ event.location }}, le {{ event.date }} à {{ event.time }} - {{ event.private ? 'événement privé' : 'événement public' }}
-    </div>
-    <div class="event-description">
-        {{ event.description }}
-    </div>
-
-    <div class="event-rating">
-        Moyenne des notes
-    </div>
-    <div class="event-add-comment">
-        <!-- mettre ngIf eventAlreadyHappened -->
-    </div>
-    <app-comment-card></app-comment-card>
-
-    <app-participants-list></app-participants-list>
 </div>

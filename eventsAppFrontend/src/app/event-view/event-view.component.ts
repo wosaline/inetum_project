@@ -30,12 +30,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EventViewComponent implements OnInit{
   event: Event | undefined;
   route: ActivatedRoute = inject(ActivatedRoute);
-
-
+  isEventPassed: boolean = false;
 
   constructor(private router: Router, private httpProviderService: HttpProviderService) {}
 
   ngOnInit(): void {
+    this.eventHappened();
     console.log(this.route.snapshot);
     const eventId = parseInt(this.route.snapshot.params['eventId'], 10);
     const userId = parseInt(this.route.snapshot.params['userId'], 10);
@@ -45,5 +45,18 @@ export class EventViewComponent implements OnInit{
         console.log(this.event);
     });
 
+  }
+
+  formatTime(time: string): string {
+    const [hours, minutes] = time.split(':');
+    return `${hours}:${minutes}`;
+  }
+
+  eventHappened(): void{
+    const now = new Date();
+    if(this.event){
+      const eventDateTime = new Date(`${this.event.date}T${this.event.time}`);
+      this.isEventPassed = eventDateTime < now;
+    }
   }
 }

@@ -1,0 +1,61 @@
+.event-body{
+    background: url("../../assets/background-register2.jpg") no-repeat center
+    center/cover;;
+    color: white;
+}
+
+.event-view-container{
+    min-height: 100vh;
+    display: flex;
+}
+
+.event-container{
+    margin-left: 50px;
+    min-width: 70vw;
+}
+
+/* #264653, #2a9d8f, #e9c46a, #f4a261, #e76f51, also add #3a738a for a lighter deep blue */
+
+.event-container .event-title{
+    
+    margin-bottom: 2px;
+    
+    text-transform: uppercase;
+    
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 40px;
+    letter-spacing: 2px;
+    transform: skew(-10deg);
+}
+
+.event-container .event-main-info{
+    padding:30px;
+    background-color: #2a9d8f;
+}
+
+.event-container .event-details{
+    margin-left: 15px;
+    font-size: 15px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.event-container .event-capacity{
+    margin-top: 5px;
+}
+
+.event-container .event-description .description-title {
+    font-size: 25px;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2px;
+    margin-left: 10px;
+}
+
+.event-container .event-description .description-content{
+    margin-left: 20px;
+}
+
+.event-container .event-rating-and-comments{
+    min-height: 50vh;
+    background-color: #f4a261;
+}
