@@ -7,12 +7,13 @@ import { AuthService } from '../../services/auth.service';
 import { Event } from '../../interfaces/event';
 import { User } from '../../interfaces/user';
 import { Participant } from '../../interfaces/participant';
+import { CustomAlertComponent } from '../../app/custom-alert/custom-alert.component'
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-page',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, ReactiveFormsModule],
+  imports: [CommonModule, NavbarComponent, ReactiveFormsModule, CustomAlertComponent],
   templateUrl: './event-page.component.html',
   styleUrl: './event-page.component.css',
 })
@@ -32,6 +33,8 @@ export class EventPageComponent implements OnInit {
 
   errorMessage: string | null = null;
   selectedImage: File | null = null;
+
+  alertMessages: string[] = []; // Message to show in the alert
 
   constructor(
     private authService: AuthService,
@@ -58,14 +61,9 @@ export class EventPageComponent implements OnInit {
 
       this.httpProviderService.getPendingInvitations(this.userId).subscribe(
         (response) => {
-          const invitations = response.body;  // Extraire le tableau des invitations
-      
+          const invitations = response.body;
           if (Array.isArray(invitations)) {
-            invitations.forEach(invitation => {
-              const creator = invitation.event.createdBy;
-              const creatorName = typeof creator !== 'number' ? creator.username : 'Unknown';
-              alert(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
-            });
+            this.handleInvitations(invitations);
           } else {
             console.error('La réponse n\'est pas un tableau:', invitations);
           }
@@ -74,7 +72,6 @@ export class EventPageComponent implements OnInit {
           console.error('Erreur lors de la récupération des invitations:', error);
         }
       );
-      
     }
 
     // Initialize the event form
@@ -235,6 +232,42 @@ export class EventPageComponent implements OnInit {
     }
     const creatorId = typeof this.selectedEvent.createdBy === 'number' ? this.selectedEvent.createdBy : this.selectedEvent.createdBy.id;
     return this.users.filter(user => user.id !== creatorId);
+  }
+
+  showAlert(message: string): void {
+    this.alertMessages.push(message);
+    setTimeout(() => {
+      this.alertMessages.shift(); // Retirer le message le plus ancien après 5 secondes
+    }, 5000)
+  }
+
+  // Remplacez alert() par showAlert()
+  private handleInvitations(invitations: any[]): void {
+    invitations.forEach(invitation => {
+      const creator = invitation.event.createdBy;
+      const creatorName = typeof creator !== 'number' ? creator.username : 'Unknown';
+      this.showAlert(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
+    });
+  }
+
+  handleInvitation(): void {
+    if (this.userId) {
+      this.httpProviderService.getPendingInvitations(this.userId).subscribe(
+        (response) => {
+          const invitations = response.body;
+          if (Array.isArray(invitations)) {
+            this.handleInvitations(invitations);
+          } else {
+            console.error('La réponse n\'est pas un tableau:', invitations);
+          }
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des invitations:', error);
+        }
+      );
+    } else {
+      console.error('User ID is undefined.');
+    }
   }
 
 }

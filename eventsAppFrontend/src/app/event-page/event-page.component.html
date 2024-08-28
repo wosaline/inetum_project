@@ -1,6 +1,10 @@
 <app-navbar></app-navbar>
+<div class="alert-container">
+  <app-custom-alert *ngFor="let msg of alertMessages" [message]="msg"></app-custom-alert>
+</div>
 <div class="event-page-container">
   <div class="event-page-card">
+
     <h1 class="page-title">My Events</h1>
     
     <h3>Liste des événements</h3>
