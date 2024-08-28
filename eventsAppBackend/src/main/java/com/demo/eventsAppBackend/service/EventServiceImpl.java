@@ -153,8 +153,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllEventsByDate(LocalDate date) { // format : YYYY-MM-DD
-        return eventRepository.findAllByDate(date);
+    public List<Event> getAllUserEventsByDate(LocalDate date,int userId) { // format : YYYY-MM-DD
+        return eventRepository.findAllByDateAndByUserId(date,userId);
     }
 
     public List<Event> getAllEventsByMonth(int year, int month) {

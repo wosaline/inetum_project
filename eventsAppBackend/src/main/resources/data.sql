@@ -9,7 +9,7 @@ VALUES
 INSERT INTO `event` (description, `date`, `time`, logo, capacity, is_private, created_by, title, location)
 VALUES
 ('Annual Company Meeting', '2024-09-15', '10:00:00', 'logo1.png', 100, FALSE, 2, 'Company Meeting 2024', 'Main Conference Room'),
-('Tech Conference', '2024-10-20', '09:00:00', 'logo2.png', 200, TRUE, 2, 'Tech Innovators Conference', 'Tech Park Auditorium'),
+('Tech Conference', '2024-09-15', '09:00:00', 'logo2.png', 200, TRUE, 2, 'Tech Innovators Conference', 'Tech Park Auditorium'),
 ('Project Kickoff', '2024-08-25', '14:00:00', NULL, 50, TRUE, 1, 'New Project Kickoff', 'Meeting Room 1'),
 ('Networking Event', '2024-11-05', '18:00:00', 'logo3.png', 150, FALSE, 3, 'Tech Networking Night', 'Downtown Cafe'),
 ('Workshop on AI', '2024-12-10', '10:30:00', 'logo4.png', 80, TRUE, 4, 'AI in Modern Business', 'Innovation Lab');

@@ -13,7 +13,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     List<Event> findAll();
 
-    List<Event> findAllByDate(LocalDate Date);
+    @Query("SELECT e FROM Event e " +
+            "LEFT JOIN Participant p ON e.id = p.event.id " +
+            "WHERE e.date = :date " +
+            "AND (e.createdBy.id = :userId OR (p.user.id = :userId AND p.status IN ('ACCEPTED', 'INVITED'))) ")
+    List<Event> findAllByDateAndByUserId(@Param("date")LocalDate date,@Param("userId")int userId);
 
     @Query("SELECT e FROM Event e WHERE YEAR(e.date) = :year AND MONTH(e.date) = :month")
     List<Event> findAllByYearAndMonth(@Param("year") int year, @Param("month") int month);
