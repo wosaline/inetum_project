@@ -50,8 +50,8 @@ public class EventController {
             @RequestParam("date") LocalDate date,
             @RequestParam("time") LocalTime time,
             @RequestParam("capacity") int capacity,
-            @RequestParam("is_private") boolean isPrivate,
-            @RequestParam("created_by") int createdBy,
+            @RequestParam("private") boolean isPrivate,
+            @RequestParam("createdBy") int createdBy,
             @RequestParam("title") String title,
             @RequestParam("location") String location,
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo
@@ -75,8 +75,8 @@ public class EventController {
             @RequestParam("date") LocalDate date,
             @RequestParam("time") LocalTime time,
             @RequestParam("capacity") int capacity,
-            @RequestParam("is_private") boolean isPrivate,
-            @RequestParam("created_by") int createdBy,
+            @RequestParam("private") boolean isPrivate,
+            @RequestParam("createdBy") int createdBy,
             @RequestParam("title") String title,
             @RequestParam("location") String location,
             @RequestParam(value = "logo", required = false, defaultValue = "") String logo) {
@@ -93,10 +93,10 @@ public class EventController {
     // Delete event
     @DeleteMapping("/events/{eventId}")
     @ResponseBody
-    public ResponseEntity<String> deleteEvent(@PathVariable int eventId) {
+    public ResponseEntity deleteEvent(@PathVariable int eventId) {
         try {
             eventService.deleteEvent(eventId);
-            return ResponseEntity.ok("Event successfully deleted");
+            return ResponseEntity.ok().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
@@ -120,7 +120,7 @@ public class EventController {
     }
 
     // update invitation (update participant.status)
-    @PutMapping("/events/{eventId}/invite/{participantId}")
+    @PutMapping("events/{eventId}/invite/{participantId}")
     @ResponseBody
     public ResponseEntity<Participant> respondToInvitation(
             @PathVariable int eventId,
@@ -128,16 +128,17 @@ public class EventController {
             @RequestParam("userId") int userId,
             @RequestParam("response") String response) {
 
+
         try {
             Participant updatedParticipant = eventService.updateParticipant(participantId, eventId, userId, response);
             return ResponseEntity.ok(updatedParticipant);
 
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build(); // participant not found
+            return ResponseEntity.notFound().build(); // Participant not found
         } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // user not authorized
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); // User not authorized
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(null);  // Statut non modifiable
+            return ResponseEntity.badRequest().body(null); // Invalid status update
         }
     }
 

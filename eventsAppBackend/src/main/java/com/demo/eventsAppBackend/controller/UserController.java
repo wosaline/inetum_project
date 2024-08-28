@@ -5,6 +5,7 @@ import com.demo.eventsAppBackend.model.User;
 import com.demo.eventsAppBackend.service.UserService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,5 +70,16 @@ public class UserController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+// authenticate user
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestParam String email, @RequestParam String password) {
+        User user = userService.getUserByEmail(email);
+
+        if (user == null || !user.getPasswordHash().equals(password)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad credentials");
+        }
+
+        return ResponseEntity.ok(user);
     }
 }

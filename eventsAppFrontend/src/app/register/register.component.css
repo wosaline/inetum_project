@@ -44,7 +44,6 @@ h2 {
   input[type="email"]:valid,
   input[type="password"]:valid {
     border-color: #3a738a;
-    /* outline: none; */
     outline-color: #3a738a;
   }
 }
@@ -88,7 +87,8 @@ button {
 
 .error-message {
   color: red;
-  margin-top: 10px;
+  margin-top: 5px;
   text-align: center;
   font-size: 14px;
+  margin-bottom: 5px;
 }

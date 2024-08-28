@@ -3,6 +3,7 @@
 
   <span class="spacer"></span>
   <button
+    *ngIf="!isLoggedIn"
     mat-stroked-button
     class="login-button"
     aria-label="Example icon-button with heart icon"
@@ -11,6 +12,7 @@
     Se connecter
   </button>
   <button
+    *ngIf="!isLoggedIn"
     mat-flat-button
     class="register-button"
     aria-label="Example icon-button with share icon"
@@ -18,4 +20,37 @@
   >
     S'enregistrer
   </button>
+  <!-- <button
+    *ngIf="isLoggedIn"
+    mat-flat-button
+    class="register-button"
+    aria-label="Example icon-button with share icon"
+    (click)="handleClick()"
+  >
+    Logout
+  </button> -->
+
+  <button
+    *ngIf="isLoggedIn"
+    mat-icon-button 
+    [matMenuTriggerFor]="menu"
+    class="avatar-button">
+    <app-avatar [user]="user"></app-avatar>
+  </button>
+  <mat-menu #menu="matMenu" class="user-menu">
+    <div class="menu-items-container">
+      <button mat-menu-item>
+        <mat-icon class="account-icon" fontIcon="account_circle"></mat-icon>
+        <span>Mes informations</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/event-page']">
+        <mat-icon class="event-icon" fontIcon="event_available"></mat-icon>
+        <span>Mes événements</span>
+      </button>
+      <button mat-menu-item (click)="handleClick()">
+        <mat-icon class="logout-icon" fontIcon="logout"></mat-icon>
+        <span>Se déconnecter</span>
+      </button>
+    </div>
+  </mat-menu>
 </mat-toolbar>
