@@ -20,6 +20,7 @@ interface LoginResponse {
 export class AuthService {
   baseUrl = 'http://localhost:8080';
   constructor(private http: HttpClient) {}
+  user = JSON.parse(localStorage.getItem('eventAppUser') ?? '');
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
@@ -31,22 +32,26 @@ export class AuthService {
         tap((response) => {
           // Stocker le user dans le localStorage ou un autre mécanisme de stockage
           localStorage.setItem('eventAppUser', JSON.stringify(response));
-
         }),
         catchError(this.handleError)
       );
   }
 
   logout() {
-    // Supprimer le ser du stockage
     localStorage.removeItem('eventAppUser');
     this.isAuthenticated();
-
   }
 
   isAuthenticated(): boolean {
-    // Vérifier si le token existe et est valide
     return !!localStorage.getItem('eventAppUser');
+  }
+
+  getUserRole(): string {
+    return this.user.role;
+  }
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'ADMIN';
   }
 
   private handleError(error: any) {
