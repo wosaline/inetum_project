@@ -55,6 +55,14 @@
     margin-left: 20px;
 }
 
+.event-container .event-public{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: skew(-10deg);
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
 .event-container .event-rating-and-comments{
     margin-top: 20px;
     background-color: #e9c46a;
@@ -82,3 +90,29 @@
     max-width: calc(33.33% - 20px);
     box-sizing: border-box;
 }
+
+.event-add-comment button {
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #e76f51; 
+    color: white; 
+    border: none;
+    /* border-radius: 15px; */
+    padding: 10px 20px; 
+    font-size: 16px; 
+    letter-spacing: 2px;
+    /* font-weight: bold;  */
+    cursor: pointer;  
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.event-add-comment button:hover {
+    background-color: rgb(180, 81, 57);
+}
+
+.event-add-comment {
+    display: flex;
+    justify-content: flex-end;  /* positionne le bouton à droite */
+    margin-bottom: 20px;  /* ajoute un peu d'espace en bas */
+}
+

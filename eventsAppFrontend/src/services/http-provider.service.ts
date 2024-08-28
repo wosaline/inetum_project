@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WebAPIService } from './web-api.service';
 import { User } from '../interfaces/user';
 import { Event } from '../interfaces/event';
+import { Comment } from '../interfaces/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,9 @@ export class HttpProviderService {
 
   getRatingByEventIt(id:number){
     return this.webApiService.get(this.httpLinks.mappingComments+`/rating/${id}`);
+  }
+
+  createComment(comment:Comment){
+    return this.webApiService.post(this.httpLinks.mappingComments, comment, true)
   }
 }

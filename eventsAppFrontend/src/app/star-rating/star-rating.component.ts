@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 @Component({
   selector: 'app-star-rating',
@@ -10,6 +10,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 })
 export class StarRatingComponent implements OnChanges{
   @Input() rating = 0;
+  @Output() ratingChange = new EventEmitter<number>();
   stars: number[] = Array(5).fill(0);
 
   ngOnChanges(): void {
@@ -27,5 +28,10 @@ export class StarRatingComponent implements OnChanges{
         return 0;
       }
     });
+  }
+
+  setRating(index: number): void {
+    this.rating = index + 1;
+    this.ratingChange.emit(this.rating);
   }
 }

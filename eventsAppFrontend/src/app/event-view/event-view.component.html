@@ -12,7 +12,10 @@
                 </div>
                 <div class="event-details">
                     <div class="event-datetime-location">
-                        {{ event.location }}, le {{ event.date }} à {{ formatTime(event.time) }} - {{ event.private ? 'événement privé' : 'événement public' }}
+                        <div class="event-public">
+                            {{ event.private ? 'événement privé' : 'événement public' }}
+                        </div>
+                        {{ event.location }}, le {{ event.date }} à {{ formatTime(event.time) }}
                     </div>
                     <div class="event-capacity">
                         Capacité d'accueil : {{ event.capacity }}
@@ -28,7 +31,7 @@
             <!-- <div class="event-rating-and-comments" *ngIf="isEventPassed"> -->
             <div class="event-rating-and-comments" *ngIf="isEventPassed">
                 <div class="event-add-comment">
-                    <!-- mettre ngIf eventAlreadyHappened -->
+                    <button (click)="addComment()">Ajouter une note</button>
                 </div>
                 <div class="event-commentslist">
                     <app-comment-card *ngFor="let item of commentsList"

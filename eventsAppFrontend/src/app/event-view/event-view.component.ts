@@ -9,9 +9,12 @@ import { HttpProviderService } from '../../services/http-provider.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { ParticipantsListComponent } from '../participants-list/participants-list.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Comment } from '../../interfaces/comment';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
+import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-event-view',
@@ -26,6 +29,7 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
     CommentCardComponent,
     ParticipantsListComponent,
     StarRatingComponent,
+    CommentFormComponent,
 ],
   templateUrl: './event-view.component.html',
   styleUrl: './event-view.component.css'
@@ -36,15 +40,19 @@ export class EventViewComponent implements OnInit{
   isEventPassed: boolean = false;
   commentsList: Comment[]=[];
   eventRating : number = 0.0;
+  userId: number=0;
+
+  readonly commentDialog = inject(MatDialog);
 
 
-  constructor(private router: Router, private httpProviderService: HttpProviderService) {}
+  constructor(private httpProviderService: HttpProviderService) {}
 
   ngOnInit(): void {
+
     
     console.log(this.route.snapshot);
     const eventId = parseInt(this.route.snapshot.params['eventId'], 10);
-    const userId = parseInt(this.route.snapshot.params['userId'], 10);
+    this.userId = parseInt(this.route.snapshot.params['userId'], 10);
     this.httpProviderService.getEventById(eventId).subscribe(
       (res)=>{
         this.event = res.body || undefined;
@@ -72,8 +80,6 @@ export class EventViewComponent implements OnInit{
   }
 
   loadComments(){
-    console.log(this.event?.id);
-    console.log(this.event);
     if(this.event && this.event.id){
       this.httpProviderService.getAllCommentsByEventId(this.event.id).subscribe(
         (res) => {
@@ -102,5 +108,19 @@ export class EventViewComponent implements OnInit{
         }
       );
     }
+  }
+
+  addComment(): void {
+    const dialogRef = this.commentDialog.open(CommentFormComponent, {
+      data: {eventName: this.event?.title, eventId: this.event?.id, userId: this.userId},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if (result !== undefined) {
+        this.loadComments();
+      }
+    });
   }
 }
