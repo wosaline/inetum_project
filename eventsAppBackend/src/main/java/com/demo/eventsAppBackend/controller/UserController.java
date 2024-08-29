@@ -71,7 +71,8 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-// authenticate user
+
+    // authenticate user
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestParam String email, @RequestParam String password) {
         User user = userService.getUserByEmail(email);
@@ -82,4 +83,18 @@ public class UserController {
 
         return ResponseEntity.ok(user);
     }
+
+    @PutMapping("/users/{userId}/role")
+    public ResponseEntity<User> updateUserRole(@PathVariable int userId,
+                                               @RequestParam("role") String roleLabel) {
+        try {
+            return ResponseEntity.ok(userService.updateUserRole(userId, roleLabel));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (EntityExistsException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }

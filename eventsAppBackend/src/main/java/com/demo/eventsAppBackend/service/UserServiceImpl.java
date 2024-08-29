@@ -1,9 +1,6 @@
 package com.demo.eventsAppBackend.service;
 
-import com.demo.eventsAppBackend.model.Event;
-import com.demo.eventsAppBackend.model.Participant;
-import com.demo.eventsAppBackend.model.ParticipantStatus;
-import com.demo.eventsAppBackend.model.User;
+import com.demo.eventsAppBackend.model.*;
 import com.demo.eventsAppBackend.repository.EventRepository;
 import com.demo.eventsAppBackend.repository.ParticipantRepository;
 import com.demo.eventsAppBackend.repository.UserRepository;
@@ -92,7 +89,23 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
 
+    }
 
-}
-
+    @Override
+    public User updateUserRole(int userId, String roleLabel) {
+        User user = userRepository.findById(userId);
+        if (user != null) {
+            UserRole role;
+            try {
+                role = UserRole.valueOf(roleLabel.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid role label: " + roleLabel);
+            }
+            user.setRole(role);
+            userRepository.save(user);
+            return user;
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé avec l'ID : " + userId);
+        }
+    }
 }
