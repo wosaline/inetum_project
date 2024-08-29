@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUserRole(int userId, String roleLabel) {
         User user = userRepository.findById(userId);
-        if (user != null) {
+        if (user == null) {
             UserRole role;
             try {
                 role = UserRole.valueOf(roleLabel.toUpperCase());
@@ -107,5 +107,14 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new EntityNotFoundException("Utilisateur non trouvé avec l'ID : " + userId);
         }
+    }
+
+    @Override
+    public void deleteUser(int userId) {
+        User user = userRepository.findById(userId);
+        if (user == null) {
+            throw new EntityNotFoundException("Utilisateur à supprimer non trouvé");
+        }
+        userRepository.delete(user);
     }
 }

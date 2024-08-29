@@ -84,6 +84,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    // Update User Role
     @PutMapping("/users/{userId}/role")
     public ResponseEntity<User> updateUserRole(@PathVariable int userId,
                                                @RequestParam("role") String roleLabel) {
@@ -96,5 +97,15 @@ public class UserController {
         }
     }
 
-
+    // Delete User
+    @DeleteMapping("/users/{userId}")
+    @ResponseBody
+    public ResponseEntity deleteUser(@PathVariable int userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
