@@ -1,10 +1,55 @@
-.participants-list-container{
-    width: 300px;
+.participants-list-container {
+    width: 19vw;
     background-color: #f4a261;
-    height: 100vh;
+    height: 90vh;
     color: white;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-mat-list-item style{
-    color:white;
+.participants-list-container::-webkit-scrollbar {
+    display: none;
 }
+
+.participant-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-top: 10px;
+}
+
+.participant-name {
+    flex: 1;
+    text-transform: uppercase;
+}
+
+.participant-status {
+    text-align: right;
+}
+
+.invitation-status {
+    font-weight: bold;
+}
+
+.status-declined {
+    color: white;
+    /* color: #e9c46a; */
+}
+
+.status-accepted {
+    color: white;
+    /* color: #2a9d8f; */
+}
+
+.status-invited {
+    color: white;
+    /* color: #e9c46a; */
+}
+
+.status-canceled {
+    color: white;
+    /* color: #e9c46a; */
+}
+  

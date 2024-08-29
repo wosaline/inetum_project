@@ -30,8 +30,8 @@ export class AvatarComponent implements OnInit {
   }
 
   private createInititals(): void {
-    this.initials+=this.user.lastName.charAt(0).toUpperCase();
     this.initials+=this.user.firstName.charAt(0).toUpperCase();
+    this.initials+=this.user.lastName.charAt(0).toUpperCase();
     console.log(this.initials);
   }
 }

@@ -8,7 +8,7 @@
             <div class="event-main-info">
                 <div class="event-title">
                     {{ event.title }}
-                    <app-star-rating [rating]="eventRating" *ngIf="eventHappened"></app-star-rating>
+                    <app-star-rating [rating]="eventRating" *ngIf="isEventPassed"></app-star-rating>
                 </div>
                 <div class="event-details">
                     <div class="event-datetime-location">

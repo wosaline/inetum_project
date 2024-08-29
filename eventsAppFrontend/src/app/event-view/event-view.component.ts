@@ -14,7 +14,6 @@ import { Comment } from '../../interfaces/comment';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from '../../interfaces/user';
 import { Participant } from '../../interfaces/participant';
 
 @Component({
@@ -92,8 +91,6 @@ export class EventViewComponent implements OnInit{
   }
 
   loadRating(){
-    console.log(this.event?.id);
-    console.log(this.event);
     if(this.event && this.event.id){
       this.httpProviderService.getRatingByEventIt(this.event.id).subscribe(
         (res) => {
@@ -118,6 +115,7 @@ export class EventViewComponent implements OnInit{
       console.log(result);
       if (result !== undefined) {
         this.loadComments();
+        this.loadRating();
       }
     });
   }

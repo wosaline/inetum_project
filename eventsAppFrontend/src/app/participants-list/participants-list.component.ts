@@ -20,9 +20,9 @@ export class ParticipantsListComponent implements OnInit {
   route: ActivatedRoute = inject(ActivatedRoute);
   userId: number=0;
   participantsList: Participant[]=[];
+  isUserEventCreator: boolean=false;
 
   constructor(private httpProviderService: HttpProviderService) {}
-  // typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
   ngOnInit(): void {
     console.log(this.route.snapshot);
@@ -37,6 +37,11 @@ export class ParticipantsListComponent implements OnInit {
         console.log(res.body);
         this.participantsList = res.body || [];
         console.log('Participants:', this.participantsList);
+        if(this.participantsList[0]){
+          if(this.participantsList[0].user?.id==this.userId){
+            this.isUserEventCreator=true;
+          }
+        }
       },
       (error) => {
         console.log(error.status);

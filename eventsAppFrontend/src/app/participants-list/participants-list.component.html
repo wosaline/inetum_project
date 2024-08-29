@@ -1,16 +1,41 @@
 <div class="participants-list-container">
+  <mat-selection-list>
+    @for (participant of participantsList; track participant) {
+      <mat-list-option *ngIf="isUserEventCreator">
+        <div class="participant-info">
+          <div class="participant-name">
+            {{ participant.user?.firstName }} {{ participant.user?.lastName }}
+          </div>
+          <div class="participant-status">
+            <span class="invitation-status" [ngClass]="{
+              'status-declined': participant.status === 'DECLINED',
+              'status-accepted': participant.status === 'ACCEPTED',
+              'status-invited': participant.status === 'INVITED',
+              'status-canceled': participant.status === 'CANCELED'
+            }">
+              {{ participant.status }}
+            </span>
+          </div>
+        </div>
+      </mat-list-option>
 
-  <mat-selection-list style="color: red;">
-      <!-- @for (shoe of typesOfShoes; track shoe) {
-        <mat-list-option>{{shoe}}</mat-list-option>
-      } -->
-      @for (participant of participantsList; track participant){
-        <mat-list-item>{{participant.user?.username}}</mat-list-item>
-      }
+      <mat-list-item *ngIf="!isUserEventCreator">
+        <div class="participant-info">
+          <div class="participant-name">
+            {{ participant.user?.firstName }} {{ participant.user?.lastName }}
+          </div>
+          <div class="participant-status">
+            <span class="invitation-status" [ngClass]="{
+              'status-declined': participant.status === 'DECLINED',
+              'status-accepted': participant.status === 'ACCEPTED',
+              'status-invited': participant.status === 'INVITED',
+              'status-canceled': participant.status === 'CANCELED'
+            }">
+              {{ participant.status }}
+            </span>
+          </div>
+        </div>
+      </mat-list-item>
+    }
   </mat-selection-list>
-    
-  <!-- <p>
-      Options selected: {{shoes.selectedOptions.selected.length}}
-  </p> -->
-
 </div>
