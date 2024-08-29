@@ -6,6 +6,7 @@ import { EventsListComponent } from '../events-list/events-list.component';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-calendar-page',
@@ -19,6 +20,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   selectedDate: string = '';
   private routeSub: Subscription = new Subscription();
+  user!: User;
 
   constructor(
     private httpProviderService: HttpProviderService,
@@ -26,6 +28,11 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const userString = localStorage.getItem('eventAppUser');
+      if (userString) {
+        const userObject = JSON.parse(userString);
+        this.user = userObject as User;
+      }
     // Subscribe to route parameter changes
     this.routeSub = this.activatedRoute.params.subscribe((params) => {
       const date = params['date'];
@@ -42,14 +49,14 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   }
 
   private loadUserEvents(): void {
-    if (this.selectedDate) {
+    if (this.selectedDate && this.user.id) {
       this.loading = true;
       this.httpProviderService
-        .getEventsByDateAndUserId(this.selectedDate, 6)
+        .getEventsByDateAndUserId(this.selectedDate, this.user.id)
         .subscribe({
           next: (res) => {
             this.userEventsList = res.body || [];
-            console.log('Events:', this.userEventsList);
+            console.log('Events***:', this.userEventsList);
             this.loading = false;
           },
           error: (error) => {
