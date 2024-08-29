@@ -31,17 +31,15 @@ export class AuthService {
         tap((response) => {
           // Stocker le user dans le localStorage ou un autre mécanisme de stockage
           localStorage.setItem('eventAppUser', JSON.stringify(response));
-
         }),
         catchError(this.handleError)
       );
   }
 
   logout() {
-    // Supprimer le ser du stockage
+    // Supprimer le user du stockage
     localStorage.removeItem('eventAppUser');
     this.isAuthenticated();
-
   }
 
   isAuthenticated(): boolean {

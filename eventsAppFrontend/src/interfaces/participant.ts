@@ -1,5 +1,6 @@
 import { Event } from "./event";
 import { User } from "./user";
+import { ParticipantStatus } from "./participantStatus";
 
 export interface Participant {
     id?:number;
@@ -9,5 +10,5 @@ export interface Participant {
     eventId?:number;
     invitedAt?:Date;
     respondedAt?:Date;
-    status:string;
+    status:ParticipantStatus|string;
 }
