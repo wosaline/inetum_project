@@ -1,3 +1,10 @@
 .participants-list-container{
     width: 300px;
+    background-color: #f4a261;
+    height: 100vh;
+    color: white;
+}
+
+mat-list-item style{
+    color:white;
 }

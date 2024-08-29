@@ -12,7 +12,7 @@ export class HttpProviderService {
   private httpLinks = {
     mappingEvents: this.baseUrl + '/events',
     mappingUsers: this.baseUrl + '/users',
-    mappingComments: this.baseUrl + '/comments'
+    mappingComments: this.baseUrl + '/comments',
   };
 
   constructor(private webApiService: WebAPIService) {}
@@ -51,5 +51,14 @@ export class HttpProviderService {
 
   createComment(comment:Comment){
     return this.webApiService.post(this.httpLinks.mappingComments, comment, true)
+  }
+
+  getParticipantsByEventId(id: number){
+    console.log("get participants for event "+id);
+    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants`);
+  }
+
+  getParticipantsByEventIdAndStatusInvitedAndAccepted(id: number){
+    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants/supposedly`);
   }
 }

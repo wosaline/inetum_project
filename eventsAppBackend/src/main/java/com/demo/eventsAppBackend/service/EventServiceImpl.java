@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -164,5 +165,26 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<LocalDate> getDatesWithEvents(int year, int month) {
         return eventRepository.findDatesWithEvents(year, month);
+    }
+
+    @Override
+    public List<Participant> getAllParticipantsByEventId(int eventId) {
+        Event event = eventRepository.findById(eventId);
+        if(event==null){
+            throw new EntityNotFoundException("Evénement non trouvé");
+        }
+        return participantRepository.findAllByEventId(eventId);
+    }
+
+    @Override
+    public List<Participant> getAllParticipantsByEventIdAndStatusInvitedAndAccepted(int eventId) {
+        Event event = eventRepository.findById(eventId);
+        if(event==null){
+            throw new EntityNotFoundException("Evénement non trouvé");
+        }
+        List<ParticipantStatus> statusList = new ArrayList<>();
+        statusList.add(ParticipantStatus.INVITED);
+        statusList.add(ParticipantStatus.ACCEPTED);
+        return participantRepository.findAllByEventIdAndStatusIn(eventId, statusList);
     }
 }

@@ -15,6 +15,7 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../interfaces/user';
+import { Participant } from '../../interfaces/participant';
 
 @Component({
   selector: 'app-event-view',
@@ -41,15 +42,13 @@ export class EventViewComponent implements OnInit{
   commentsList: Comment[]=[];
   eventRating : number = 0.0;
   userId: number=0;
+  participantsList: Participant[]=[];
 
   readonly commentDialog = inject(MatDialog);
-
 
   constructor(private httpProviderService: HttpProviderService) {}
 
   ngOnInit(): void {
-
-    
     console.log(this.route.snapshot);
     const eventId = parseInt(this.route.snapshot.params['eventId'], 10);
     this.userId = parseInt(this.route.snapshot.params['userId'], 10);
@@ -63,7 +62,6 @@ export class EventViewComponent implements OnInit{
         }
         console.log(this.event);
     });
-    
   }
 
   formatTime(time: string): string {
@@ -123,4 +121,6 @@ export class EventViewComponent implements OnInit{
       }
     });
   }
+
+  
 }

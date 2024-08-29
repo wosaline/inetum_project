@@ -30,8 +30,8 @@ public class CommentController {
     @PostMapping("/comments")
     @ResponseBody
     public ResponseEntity<Object> createComment(
-            @RequestParam("event_id") int eventId,
-            @RequestParam("user_id") int userId,
+            @RequestParam("eventId") int eventId,
+            @RequestParam("userId") int userId,
             @RequestParam("content") String content,
             @RequestParam("rating") int rating
     ) {

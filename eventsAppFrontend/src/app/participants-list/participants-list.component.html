@@ -1,13 +1,16 @@
 <div class="participants-list-container">
 
-  <mat-selection-list #shoes>
-      @for (shoe of typesOfShoes; track shoe) {
+  <mat-selection-list style="color: red;">
+      <!-- @for (shoe of typesOfShoes; track shoe) {
         <mat-list-option>{{shoe}}</mat-list-option>
+      } -->
+      @for (participant of participantsList; track participant){
+        <mat-list-item>{{participant.user?.username}}</mat-list-item>
       }
   </mat-selection-list>
     
-  <p>
+  <!-- <p>
       Options selected: {{shoes.selectedOptions.selected.length}}
-  </p>
+  </p> -->
 
 </div>
