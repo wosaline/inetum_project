@@ -8,8 +8,15 @@
   overflow-y: auto;
   box-sizing: border-box;
   height: 90vh;
+  background: url("../../assets/background-register2.jpg") no-repeat center
+    center/cover;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
-
+.events-list-container ::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
 
 .spinner-container {
   position: absolute;
@@ -18,4 +25,9 @@
   top: 50%;
   height: 80px;
   width: 80px;
+}
+.no-event-message {
+  margin: auto;
+  color: white;
+  font-size: larger;
 }
