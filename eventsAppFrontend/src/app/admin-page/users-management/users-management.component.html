@@ -1,0 +1,13 @@
+<div class="userManagement_container">
+  <div *ngFor="let user of usersList" class="user-div">
+    <app-avatar [user]="user"> </app-avatar>
+    <div class="user-info">
+      <h5>{{ user.firstName }}</h5>
+      <h5>{{ user.lastName }}</h5>
+    </div>
+    <h5>{{ user.email }}</h5>
+    <button mat-fab class="delete-button" (click)="deleteUser(user.id)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

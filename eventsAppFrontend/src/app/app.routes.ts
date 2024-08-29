@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 
 import { AdminGuard } from './admin.guard';
 import { AdminPageComponent } from './admin-page/admin-page.component';
-import { UsersManagementComponent } from './users-management/users-management.component';
+import { UsersManagementComponent } from './admin-page/users-management/users-management.component';
 
 //on va definir les routes
 
@@ -17,11 +17,14 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'event-page', component: EventPageComponent },
-  { path: 'admin', component: AdminPageComponent, canActivate: [AdminGuard] },
   {
-    path: 'admin/users',
-    component: UsersManagementComponent,
+    path: 'admin',
+    component: AdminPageComponent,
     canActivate: [AdminGuard],
+    children: [
+      // Sub-routes under admin
+      { path: 'users', component: UsersManagementComponent },
+    ],
   },
 ];
 

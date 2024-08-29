@@ -1,0 +1,27 @@
+.userManagement_container {
+}
+
+.user-div {
+  width: 80%;
+  margin: 15px auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  position: relative;
+  border: 1px solid #81c3d7;
+  border-radius: 12px;
+}
+.user-info {
+  display: flex;
+  gap: 5px;
+}
+.delete-button {
+  width: 35px;
+  height: 35px;
+  color: white;
+  background-color: #e76f51;
+  position: absolute;
+  right: 30px;
+}

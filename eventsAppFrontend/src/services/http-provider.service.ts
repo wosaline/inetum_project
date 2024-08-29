@@ -18,20 +18,29 @@ export class HttpProviderService {
   getAllEvents() {
     return this.webApiService.get(this.httpLinks.mappingEvents);
   }
-
+  getAllUsers() {
+    return this.webApiService.get(this.httpLinks.mappingUsers);
+  }
   postEvent(event: Event) {
     return this.webApiService.post(this.httpLinks.mappingEvents, event, true);
   }
 
-  putEvent(event: Event){
-    return this.webApiService.put(this.httpLinks.mappingEvents+`/${event.id}`, event, true);
+  putEvent(event: Event) {
+    return this.webApiService.put(
+      this.httpLinks.mappingEvents + `/${event.id}`,
+      event,
+      true
+    );
   }
 
-  deleteEvent(id: number){
-    return this.webApiService.delete(this.httpLinks.mappingEvents+`/${id}`);
+  deleteEvent(id: number) {
+    return this.webApiService.delete(this.httpLinks.mappingEvents + `/${id}`);
   }
 
   createUser(user: User) {
     return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
+  }
+  deleteUser(id: number) {
+    return this.webApiService.delete(this.httpLinks.mappingUsers + `/${id}`);
   }
 }

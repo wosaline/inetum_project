@@ -4,6 +4,7 @@ import { EventsListComponent } from '../events-list/events-list.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { UsersManagementComponent } from './users-management/users-management.component';
 
 @Component({
   selector: 'app-admin-page',
@@ -15,6 +16,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatListModule,
     RouterOutlet,
     RouterLink,
+    UsersManagementComponent,
   ],
   templateUrl: './admin-page.component.html',
   styleUrl: './admin-page.component.css',

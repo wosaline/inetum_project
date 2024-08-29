@@ -20,7 +20,7 @@ interface LoginResponse {
 export class AuthService {
   baseUrl = 'http://localhost:8080';
   constructor(private http: HttpClient) {}
-  user = JSON.parse(localStorage.getItem('eventAppUser') ?? '');
+  user = JSON.parse(localStorage.getItem('eventAppUser') ?? '{}');
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
