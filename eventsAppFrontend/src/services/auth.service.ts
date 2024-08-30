@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { User } from '../interfaces/user';
 
 interface LoginResponse {
-  token: string;
-  user: {
-    id: string;
-    email: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-  };
+  id: number;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  passwordHash: string;
+  role: string;
 }
 
 @Injectable({
@@ -19,8 +19,14 @@ interface LoginResponse {
 })
 export class AuthService {
   baseUrl = 'http://localhost:8080';
-  constructor(private http: HttpClient) {}
-  user = JSON.parse(localStorage.getItem('eventAppUser') ?? '{}');
+  user!: User;
+  constructor(private http: HttpClient) {
+    const userString: string | null = localStorage.getItem('eventAppUser'); // Add type string | null
+    if (userString) {
+      const userObject = JSON.parse(userString);
+      this.user = userObject as User; // Explicit cast to User
+    }
+  }
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
@@ -32,6 +38,7 @@ export class AuthService {
         tap((response) => {
           // Stocker le user dans le localStorage ou un autre mécanisme de stockage
           localStorage.setItem('eventAppUser', JSON.stringify(response));
+          this.user = response;
         }),
         catchError(this.handleError)
       );

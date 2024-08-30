@@ -61,13 +61,25 @@
 
   <button
     *ngIf="isLoggedIn"
-    mat-icon-button 
+    mat-icon-button
     [matMenuTriggerFor]="menu"
-    class="avatar-button">
+    class="avatar-button"
+  >
     <app-avatar [user]="user"></app-avatar>
   </button>
   <mat-menu #menu="matMenu" class="user-menu">
     <div class="menu-items-container">
+      <button
+        mat-menu-item
+        (click)="handleDashboardClick()"
+        *ngIf="displayDashboard"
+      >
+        <mat-icon
+          class="logout-icon"
+          fontIcon="admin_panel_settings"
+        ></mat-icon>
+        <span>Admin Dashboard</span>
+      </button>
       <button mat-menu-item>
         <mat-icon class="account-icon" fontIcon="account_circle"></mat-icon>
         <span>Mes informations</span>

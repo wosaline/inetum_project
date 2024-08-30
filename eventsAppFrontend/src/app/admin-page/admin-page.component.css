@@ -15,7 +15,7 @@
 .sidenav {
   width: 250px;
   background-color: #989fce;
-  background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
+  background-image: #2a9d8f;
 }
 .mdc-list {
   padding: 0;

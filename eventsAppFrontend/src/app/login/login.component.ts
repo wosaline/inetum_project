@@ -72,7 +72,6 @@ export class LoginComponent implements OnInit {
         } else {
           this.router.navigate(['/home']); // Redirige les autres utilisateurs vers une autre page
         }
-        // this.router.navigate(['/home']);
       },
       (error) => {
         this.isLoading = false;

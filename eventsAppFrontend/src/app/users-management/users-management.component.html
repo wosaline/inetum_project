@@ -2,13 +2,13 @@
   <div *ngFor="let user of usersList" class="user-div">
     <app-avatar [user]="user"> </app-avatar>
     <div class="user-info">
-      <h6>{{ user.firstName }}</h6>
-      <h6>{{ user.lastName }}</h6>
+      <h5>{{ user.firstName }}</h5>
+      <h5>{{ user.lastName }}</h5>
     </div>
-    <h6>{{ user.email }}</h6>
-    <h6 class="role" *ngIf="selectedUser?.id !== user?.id">
+    <h5>{{ user.email }}</h5>
+    <h5 class="role" *ngIf="selectedUser?.id !== user?.id">
       {{ user.role }}
-    </h6>
+    </h5>
 
     <select
       name="roles"

@@ -62,6 +62,7 @@ export class NavbarComponent {
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
   selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
   user!: User;
+  displayDashboard: boolean = false;
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
@@ -73,8 +74,11 @@ export class NavbarComponent {
 
     this.isLoggedIn = this.authService.isAuthenticated();
     this.user?.id && this.loadMarkedDates();
+    this.displayDashboard = this.authService.isAdmin() ? true : false;
   }
-
+  handleDashboardClick(): void {
+    this.router.navigate(['/admin/users']);
+  }
   handleClick(): void {
     this.authService.logout();
     this.isLoggedIn = this.authService.isAuthenticated();
