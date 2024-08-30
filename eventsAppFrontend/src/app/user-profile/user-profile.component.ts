@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,20 +8,22 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { CustomAlertComponent } from '../custom-alert/custom-alert.component';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, RouterModule, CustomAlertComponent],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
+  @ViewChild(CustomAlertComponent) customAlert!: CustomAlertComponent;
+
   profileForm!: FormGroup;
   editMode: boolean = false;
-  successMessage: string = '';
 
   errorMessage: string | null = null;
 
@@ -65,6 +67,12 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    if (this.customAlert) {
+      console.log('CustomAlertComponent is initialized.');
+    }
+  }
+
   onSaveChanges(): void {
     if (this.profileForm.valid && this.editMode) {
       const updatedUser = { ...this.user, ...this.profileForm.value };
@@ -77,6 +85,13 @@ export class UserProfileComponent implements OnInit {
           console.log('User updated successfully', response);
           // Mettez à jour le localStorage avec les nouvelles informations utilisateur
           localStorage.setItem('eventAppUser', JSON.stringify(updatedUser));
+          
+          // Afficher le message d'alerte
+          if (this.customAlert) {
+            this.customAlert.message = "Profil mis à jour avec succès !";
+          } else {
+            console.warn("CustomAlertComponent is not initialized yet.");
+          }
         },
         error: (error) => {
           console.error('Error updating user', error);
