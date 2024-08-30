@@ -97,3 +97,9 @@ mat-menu-item:hover {
 .logout-icon {
   color: #e76f51;
 }
+
+.example-custom-date-class .mat-calendar-body-cell-content {
+  background-color: #ffcc00; /* Couleur de fond pour les jours marqués */
+  border-radius: 50%; /* Pour rendre l'effet circulaire */
+  color: white; /* Couleur du texte */
+}

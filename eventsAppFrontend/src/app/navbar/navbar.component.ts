@@ -58,7 +58,7 @@ export class NavbarComponent {
   ) {}
   isLoggedIn = false;
   readonly startDate: Date = new Date();
-  markedDates = [];
+  markedDates: string[] = [];
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
   selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
   user!: User;
@@ -94,21 +94,30 @@ export class NavbarComponent {
     }
   }
 
-  loadMarkedDates() {
-    this.httpProviderService
-      .getMarkedDates(
-        this.selectedYear,
-        this.selectedMonth,
-        Number(this.user?.id)
-      )
-      .subscribe(
+  loadMarkedDates(): void {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+
+    const userId = this.user?.id;
+    if (userId) {
+      this.httpProviderService.getMarkedDates(currentYear, currentMonth, userId).subscribe(
         (res) => {
           this.markedDates = res.body || [];
-          console.log('markedDates:', this.markedDates);
         },
         (error) => {
-          console.error('Error fetching events:', error);
+          console.error('Error fetching marked dates:', error);
         }
       );
+    }
   }
+
+  // Fonction de classe pour le calendrier
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    if (view === 'month') {
+      const dateString = cellDate.toISOString().split('T')[0];
+      return this.markedDates.includes(dateString) ? 'example-custom-date-class' : '';
+    }
+    return '';
+  };
+
 }
