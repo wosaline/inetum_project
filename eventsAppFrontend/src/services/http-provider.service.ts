@@ -17,7 +17,18 @@ export class HttpProviderService {
     mappingUserEventsByDate: this.baseUrl + `/events/date`,
   };
 
-  constructor(private webApiService: WebAPIService) {}
+  constructor(private webApiService: WebAPIService, private http: HttpClient) {}
+
+  // Méthode pour créer un événement avec une image
+  postEventWithImage(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/events`, formData);
+  }
+
+  // Méthode pour mettre à jour un événement avec une image
+  putEventWithImage(formData: FormData): Observable<any> {
+    const eventId = formData.get('id');
+    return this.http.put(`${this.baseUrl}/events/${eventId}`, formData);
+  }
 
   getAllEvents() {
     return this.webApiService.get(this.httpLinks.mappingEvents);
@@ -56,14 +67,20 @@ export class HttpProviderService {
   }
 
   getAllEventsByUserId(userId: number) {
-    return this.webApiService.get(this.httpLinks.mappingUsers + `/${userId}/events`);
+    return this.webApiService.get(
+      this.httpLinks.mappingUsers + `/${userId}/events`
+    );
   }
 
   getAllUsers() {
     return this.webApiService.get(this.httpLinks.mappingUsers);
   }
 
-  inviteUsersToEvent(eventId: number, userId: number, creatorId: number): Observable<any> {
+  inviteUsersToEvent(
+    eventId: number,
+    userId: number,
+    creatorId: number
+  ): Observable<any> {
     const url = `${this.httpLinks.mappingEvents}/${eventId}/invite`;
     const body = { userId, creatorId }; // Corps de la requête
     return this.webApiService.post(url, body, true); // Utilise le booléen pour indiquer que body contient des paramètres de requête
@@ -71,7 +88,8 @@ export class HttpProviderService {
 
   // Récupérer les invitations pour un utilisateur
   getPendingInvitations(userId: number) {
-    return this.webApiService.get(this.httpLinks.mappingEvents + `/users/${userId}/invitations`);
+    return this.webApiService.get(
+      this.httpLinks.mappingEvents + `/users/${userId}/invitations`
+    );
   }
-
 }
