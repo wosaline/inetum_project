@@ -43,4 +43,11 @@ export class HttpProviderService {
   deleteUser(id: number) {
     return this.webApiService.delete(this.httpLinks.mappingUsers + `/${id}`);
   }
+  putUser(user: User) {
+    return this.webApiService.put(
+      this.httpLinks.mappingUsers + `/${user.id}`,
+      user,
+      true
+    );
+  }
 }

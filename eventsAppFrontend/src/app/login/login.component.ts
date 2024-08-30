@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
         console.log('response', response);
         if (this.authService.isAdmin()) {
-          this.router.navigate(['/admin']); // Redirige l'admin vers /admin
+          this.router.navigate(['/admin/users']);
         } else {
           this.router.navigate(['/home']); // Redirige les autres utilisateurs vers une autre page
         }

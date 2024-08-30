@@ -6,6 +6,11 @@ import { AvatarComponent } from '../../avatar/avatar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { User } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-users-management',
@@ -17,15 +22,25 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   templateUrl: './users-management.component.html',
   styleUrl: './users-management.component.css',
 })
 export class UsersManagementComponent implements OnInit {
-  usersList: any[] = [];
+  usersList: User[] = [];
   loading: boolean = true;
+  roles: Array<String> = ['USER', 'ADMIN'];
+  editMode: boolean = false;
+  selectedRole: string = '';
+  selectedUser: any;
   constructor(private httpProviderService: HttpProviderService) {}
   ngOnInit(): void {
+    const userString = localStorage.getItem('eventAppUser');
+
     this.loadUsers();
   }
 
@@ -51,4 +66,24 @@ export class UsersManagementComponent implements OnInit {
         .subscribe(() => this.loadUsers());
     }
   }
+
+  onEdit = (user: User) => {
+    this.editMode = true;
+    this.selectedUser = user;
+    console.log('selectedUser', this.selectedUser);
+  };
+  onCancel = () => {
+    this.editMode = false;
+    this.selectedUser = null;
+  };
+  onConfirm = (userId?: number) => {};
+
+  // updateUserRole(userId?: number, role: String): void {
+  //   console.log('userId to modify', userId);
+  //   if (userId) {
+  //     this.httpProviderService
+  //       .putUser(userId)
+  //       .subscribe(() => this.loadUsers());
+  //   }
+  // }
 }
