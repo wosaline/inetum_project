@@ -34,6 +34,12 @@
 .content {
   padding: 20px;
   height: 90%;
-  /* background: url("../../assets/background-register2.jpg") no-repeat center
-    center/cover; */
+  overflow-y: auto;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
+.content ::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+/* background: url("../../assets/background-register2.jpg") no-repeat center
+    center/cover; */

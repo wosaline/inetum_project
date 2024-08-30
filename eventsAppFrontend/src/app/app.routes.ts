@@ -10,6 +10,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AdminGuard } from './admin.guard';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { UsersManagementComponent } from './admin-page/users-management/users-management.component';
+import { CommentsManagementComponent } from './admin-page/comments-management/comments-management.component';
 
 //on va definir les routes
 
@@ -26,6 +27,7 @@ export const routes: Routes = [
     children: [
       // Sub-routes under admin
       { path: 'users', component: UsersManagementComponent },
+      { path: 'comments', component: CommentsManagementComponent },
     ],
   },
   { path: 'calendar/:date', component: CalendarPageComponent },

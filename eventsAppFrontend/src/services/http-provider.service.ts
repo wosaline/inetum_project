@@ -13,6 +13,7 @@ export class HttpProviderService {
   private httpLinks = {
     mappingEvents: this.baseUrl + '/events',
     mappingUsers: this.baseUrl + '/users',
+    mappingComments: this.baseUrl + '/comments',
     mappingMarkedDates: this.baseUrl + `/events/dates`,
     mappingUserEventsByDate: this.baseUrl + `/events/date`,
   };
@@ -24,6 +25,9 @@ export class HttpProviderService {
   }
   getAllUsers() {
     return this.webApiService.get(this.httpLinks.mappingUsers);
+  }
+  getAllComments() {
+    return this.webApiService.get(this.httpLinks.mappingComments);
   }
   getMarkedDates(year: number, month: number, userId: number) {
     let formattedMonth = month < 10 ? `0${month}` : month;
