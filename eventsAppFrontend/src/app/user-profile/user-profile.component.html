@@ -1,33 +1,45 @@
 <app-navbar></app-navbar>
-<form [formGroup]="profileForm" (ngSubmit)="onSaveChanges()">
-    <div>
-      <label for="username">Username:</label>
-      <input id="username" formControlName="username" type="text" />
-    </div>
-  
-    <div>
-      <label for="email">Email:</label>
-      <input id="email" formControlName="email" type="email" />
-    </div>
-  
-    <div>
-      <label for="firstName">First Name:</label>
-      <input id="firstName" formControlName="firstName" type="text" />
-    </div>
-  
-    <div>
-      <label for="lastName">Last Name:</label>
-      <input id="lastName" formControlName="lastName" type="text" />
-    </div>
-  
-    <div>
-      <label for="role">Role:</label>
-      <input id="role" formControlName="role" type="text" [disabled]="true" />
-    </div>
-  
-    <div>
-      <button type="submit" [disabled]="!profileForm.dirty || profileForm.invalid">
-        Edit
-      </button>
-    </div>
-</form>
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>Modifier le profil</h2>
+    <form [formGroup]="profileForm" (ngSubmit)="onSaveChanges()">
+      <div class="form-group">
+        <input type="text" placeholder="Nom d'utilisateur" formControlName="username" />
+        <div *ngIf="profileForm.get('username')?.invalid && profileForm.get('username')?.touched" class="error">
+          Nom d'utilisateur requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="Nom" formControlName="firstName" />
+        <div *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error">
+          Nom requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="Prénom" formControlName="lastName" />
+        <div *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error">
+          Prénom requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="email" placeholder="Email" formControlName="email" />
+        <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error">
+          Veuillez entrer une adresse email valide
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="Rôle" formControlName="role" />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="!editMode">Enregistrer les modifications</button>
+    </form>
+  </div>
+</div>
