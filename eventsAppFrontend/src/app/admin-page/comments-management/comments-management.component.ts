@@ -51,7 +51,7 @@ export class CommentsManagementComponent implements OnInit {
   selectedUser: any;
   dialogTitle: string = 'Confirmez vous la suppression ?';
   dialogSubtitle: string =
-    'Si vous confirmer, ce comentaire sera supprimé definitivement';
+    'Si vous confirmer, ce commentaire sera supprimé definitivement';
 
   constructor(private httpProviderService: HttpProviderService) {}
   ngOnInit(): void {
