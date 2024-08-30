@@ -1,104 +1,33 @@
 <app-navbar></app-navbar>
-<div class="profile-container">
-  <div class="form-card">
-    <h2>Update Profile</h2>
-    <!-- Message de succès -->
-    <div *ngIf="successMessage" class="alert alert-success">
-      {{ successMessage }}
+<form [formGroup]="profileForm" (ngSubmit)="onSaveChanges()">
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" formControlName="username" type="text" />
     </div>
-    <form [formGroup]="profileForm" (ngSubmit)="onSave()">
-      <div class="form-group">
-        <input
-          id="username"
-          formControlName="username"
-          type="text"
-          placeholder="Nom d'utilisateur"
-          class="form-control"
-          [disabled]="!isEditing"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="firstName"
-          formControlName="firstName"
-          type="text"
-          placeholder="Prénom"
-          class="form-control"
-          [disabled]="!isEditing"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="lastName"
-          formControlName="lastName"
-          type="text"
-          placeholder="Nom"
-          class="form-control"
-          [disabled]="!isEditing"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="email"
-          formControlName="email"
-          type="email"
-          placeholder="Email"
-          class="form-control"
-          [disabled]="!isEditing"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="password"
-          formControlName="password"
-          type="password"
-          placeholder="Mot de passe"
-          class="form-control"
-          [disabled]="true"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="role"
-          formControlName="role"
-          type="text"
-          placeholder="Rôle"
-          class="form-control"
-          [disabled]="!isEditing || user.role !== 'admin'"
-        />
-      </div>
-
-      <div class="button-group">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="toggleEditMode(true)"
-          *ngIf="!isEditing"
-        >
-          Edit le Profile
-        </button>
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="profileForm.pristine || profileForm.invalid"
-          *ngIf="isEditing"
-        >
-          Save Profile
-        </button>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          (click)="onCancel()"
-          *ngIf="isEditing"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+  
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" />
+    </div>
+  
+    <div>
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName" type="text" />
+    </div>
+  
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName" type="text" />
+    </div>
+  
+    <div>
+      <label for="role">Role:</label>
+      <input id="role" formControlName="role" type="text" [disabled]="true" />
+    </div>
+  
+    <div>
+      <button type="submit" [disabled]="!profileForm.dirty || profileForm.invalid">
+        Edit
+      </button>
+    </div>
+</form>

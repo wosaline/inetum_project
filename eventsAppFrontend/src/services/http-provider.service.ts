@@ -55,6 +55,10 @@ export class HttpProviderService {
     return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
   }
 
+  putUser(user: User) {
+    return this.webApiService.put(this.httpLinks.mappingUsers + `/${user.id}`, user, false);
+  }
+
   getAllEventsByUserId(userId: number) {
     return this.webApiService.get(this.httpLinks.mappingUsers + `/${userId}/events`);
   }
