@@ -1,7 +1,8 @@
 <app-navbar></app-navbar>
 <div class="profile-container">
   <div class="profile-card">
-    <h2>Modifier le profil</h2>
+    <h2>Mes informations</h2>
+    <p class="subtitle">Cliquez sur un champ pour le mettre à jour</p>
     <form [formGroup]="profileForm" (ngSubmit)="onSaveChanges()">
       <div class="form-group">
         <input type="text" placeholder="Nom d'utilisateur" formControlName="username" />
