@@ -5,6 +5,7 @@ import { EventPageComponent } from './event-page/event-page.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 //on va definir les routes
 
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'event-page', component: EventPageComponent },
   { path: 'calendar/:date', component: CalendarPageComponent },
+  { path: 'user-profile', component: UserProfileComponent },
 ];
 
 export class AppRoutingModule {}
