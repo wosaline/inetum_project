@@ -1,0 +1,39 @@
+.home-container {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  overflow-y: hidden;
+  /* background-image: url("../../../public/bg-events.jpeg"); */
+  background-size: cover;
+}
+.sidenav-container {
+  height: 100vh;
+  width: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  background-color: #989fce;
+  background-image: #2a9d8f;
+}
+.mdc-list {
+  padding: 0;
+}
+.sidebar-button {
+  color: white;
+  font-weight: 500;
+  min-height: 50px;
+  border-radius: 0px !important;
+}
+
+.sidebar-button:hover {
+  background-color: #347fc4;
+}
+
+.content {
+  padding: 20px;
+  height: 90%;
+  /* background: url("../../assets/background-register2.jpg") no-repeat center
+    center/cover; */
+}

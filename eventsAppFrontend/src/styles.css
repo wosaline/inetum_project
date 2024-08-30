@@ -11,3 +11,6 @@ body {
   padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.mat-sidenav {
+  border-radius: 0 !important; /* Enlève le border-radius */
+}

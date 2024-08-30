@@ -22,6 +22,9 @@ export class HttpProviderService {
   getAllEvents() {
     return this.webApiService.get(this.httpLinks.mappingEvents);
   }
+  getAllUsers() {
+    return this.webApiService.get(this.httpLinks.mappingUsers);
+  }
   getMarkedDates(year: number, month: number, userId: number) {
     let formattedMonth = month < 10 ? `0${month}` : month;
     return this.webApiService.get(
@@ -54,20 +57,29 @@ export class HttpProviderService {
   createUser(user: User) {
     return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
   }
+  deleteUser(id: number) {
+    return this.webApiService.delete(this.httpLinks.mappingUsers + `/${id}`);
+  }
 
   putUser(user: User) {
-    return this.webApiService.put(this.httpLinks.mappingUsers + `/${user.id}`, user, false);
+    return this.webApiService.put(
+      this.httpLinks.mappingUsers + `/${user.id}`,
+      user,
+      false
+    );
   }
 
   getAllEventsByUserId(userId: number) {
-    return this.webApiService.get(this.httpLinks.mappingUsers + `/${userId}/events`);
+    return this.webApiService.get(
+      this.httpLinks.mappingUsers + `/${userId}/events`
+    );
   }
 
-  getAllUsers() {
-    return this.webApiService.get(this.httpLinks.mappingUsers);
-  }
-
-  inviteUsersToEvent(eventId: number, userId: number, creatorId: number): Observable<any> {
+  inviteUsersToEvent(
+    eventId: number,
+    userId: number,
+    creatorId: number
+  ): Observable<any> {
     const url = `${this.httpLinks.mappingEvents}/${eventId}/invite`;
     const body = { userId, creatorId }; // Corps de la requête
     return this.webApiService.post(url, body, true); // Utilise le booléen pour indiquer que body contient des paramètres de requête
@@ -75,7 +87,8 @@ export class HttpProviderService {
 
   // Récupérer les invitations pour un utilisateur
   getPendingInvitations(userId: number) {
-    return this.webApiService.get(this.httpLinks.mappingEvents + `/users/${userId}/invitations`);
+    return this.webApiService.get(
+      this.httpLinks.mappingEvents + `/users/${userId}/invitations`
+    );
   }
-
 }
