@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -54,13 +54,14 @@ export class NavbarComponent {
     private router: Router,
     private authService: AuthService,
     private datePipe: DatePipe,
-    private httpProviderService: HttpProviderService
+    private httpProviderService: HttpProviderService,
+    private cdr: ChangeDetectorRef
   ) {}
   isLoggedIn = false;
   readonly startDate: Date = new Date();
   markedDates: string[] = [];
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
-  selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
+  selectedMonth = 9; //initialiser par le mois courant
   user!: User;
 
   ngOnInit(): void {
@@ -73,6 +74,11 @@ export class NavbarComponent {
 
     this.isLoggedIn = this.authService.isAuthenticated();
     this.user?.id && this.loadMarkedDates();
+    this.markedDates = ['2024-09-15'];
+    if (this.user?.id) {
+      this.loadMarkedDates();
+    }
+
   }
 
   handleClick(): void {
@@ -95,29 +101,41 @@ export class NavbarComponent {
   }
 
   loadMarkedDates(): void {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-
-    const userId = this.user?.id;
-    if (userId) {
-      this.httpProviderService.getMarkedDates(currentYear, currentMonth, userId).subscribe(
+    this.httpProviderService
+      .getMarkedDates(
+        this.selectedYear,
+        this.selectedMonth,
+        Number(this.user?.id)
+      )
+      .subscribe(
         (res) => {
-          this.markedDates = res.body || [];
+          console.log('res : ', res);
+          const events = res.body || [];
+          this.markedDates = events.map((event: string ) => 
+            this.datePipe.transform(event, 'yyyy-MM-dd')
+        ).filter((date: string | null): date is string => date !== null);
+        console.log('events : ', events);
+        console.log('Marked Dates : ', this.markedDates);
+        this.cdr.markForCheck(); // Pour forcer un changement de détecte pour réafficher le calendrier
         },
         (error) => {
-          console.error('Error fetching marked dates:', error);
+          console.error('Error fetching events:', error);
         }
       );
-    }
   }
 
   // Fonction de classe pour le calendrier
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    this.markedDates = ['2024-09-15'];
     if (view === 'month') {
-      const dateString = cellDate.toISOString().split('T')[0];
-      return this.markedDates.includes(dateString) ? 'example-custom-date-class' : '';
+      const dateString = this.datePipe.transform(cellDate, 'yyyy-MM-dd');
+      const isMarked = this.markedDates.includes(dateString!);
+      console.log('Checking date:', dateString, 'isMarked:', isMarked); // Log pour vérifier
+      return isMarked ? 'special-date' : '';
     }
-    return '';
+    return '';
   };
+
+
 
 }

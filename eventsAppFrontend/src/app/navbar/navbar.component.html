@@ -15,9 +15,7 @@
       matTooltip="Info about the action"
     ></mat-icon>
   </button>
-
-  <mat-calendar [dateClass]="dateClass"></mat-calendar>
-
+ 
   <!-- <mat-form-field style="width: 1px; visibility: hidden" class="datepicker">
     <input matInput [matDatepicker]="picker" />
     <mat-datepicker #picker></mat-datepicker>
@@ -30,7 +28,12 @@
       [min]="startDate"
       (dateChange)="onDateChange($event)"
     />
-    <mat-datepicker touchUi #picker [startAt]="startDate"></mat-datepicker>
+    <mat-datepicker
+      touchUi
+      #picker
+      [startAt]="startDate"
+      [dateClass]="dateClass"
+    ></mat-datepicker>
   </mat-form-field>
 
   <button

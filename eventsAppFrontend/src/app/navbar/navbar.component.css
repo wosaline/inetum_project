@@ -44,12 +44,14 @@
   margin-right: 10px;
 }
 
-.special-date .mat-calendar-body-cell-content {
+.mat-calendar-body-cell.special-date  {
   background-color: #ffa726 !important; /* Orange color for the special dates */
-  color: white !important;
+  color: pink !important;
   border-radius: 50%;
+  border: 2px solid red !important;
 }
 
+.mat-calendar-body-cell-content
 .avatar-button {
   margin-bottom: 17px;
 }
