@@ -7,3 +7,8 @@
   /* background-image: url("../../../public/bg-events.jpeg"); */
   background-size: cover;
 }
+
+.filter-container {
+  padding: 10px;
+  text-align: center;
+}

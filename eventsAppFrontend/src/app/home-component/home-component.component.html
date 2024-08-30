@@ -1,5 +1,17 @@
 <div class="home-container">
   <app-navbar></app-navbar>
+
+  <div *ngIf="isLoggedIn" class="filter-container">
+    <label>
+      <input
+        type="checkbox"
+        [(ngModel)]="showPrivateEvents"
+        (change)="togglePrivateEvents()"
+      />
+      Show Private Events
+    </label>
+  </div>
+
   <app-events-list
     [eventsList]="eventsList"
     [loading]="loading"
