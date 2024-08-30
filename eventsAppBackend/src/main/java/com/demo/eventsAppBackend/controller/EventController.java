@@ -153,11 +153,11 @@ public class EventController {
         }
     }
 
-    // get event by date --> ex : /events/date/2024-08-25
-    @GetMapping("/events/date/{date}")
+    // get event by date --> ex : /events/date/2024-08-25/user/1
+    @GetMapping("events/date/{date}/user/{userId}")
     @ResponseBody
-    public ResponseEntity<List<Event>> getAllEventsByDate(@PathVariable LocalDate date) {
-        return ResponseEntity.ok(eventService.getAllEventsByDate(date));
+    public ResponseEntity<List<Event>> getAllUserEventsByDate(@PathVariable LocalDate date  ,@PathVariable int userId) {
+        return ResponseEntity.ok(eventService.getAllUserEventsByDate(date,userId));
     }
 
     // get event by month
@@ -167,11 +167,11 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEventsByMonth(year, month));
     }
 
-    // get all dates with event
-    @GetMapping("/events/dates/{year}/{month}")
+    // get all dates with event where user is creator or participant
+    @GetMapping("events/dates/{year}/{month}/user/{userId}")
     @ResponseBody
-    public ResponseEntity<List<LocalDate>> getDatesWithEvents(@PathVariable int year, @PathVariable int month) {
-        List<LocalDate> dates = eventService.getDatesWithEvents(year, month);
+    public ResponseEntity<List<LocalDate>> getDatesWithUserEvents(@PathVariable int year, @PathVariable int month,@PathVariable int userId) {
+        List<LocalDate> dates = eventService.getDatesWithUserEvents(year, month,userId);
         return ResponseEntity.ok(dates);
     }
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { getRandomImage } from '../utils';
 
 @Component({
   selector: 'app-event-card',
@@ -9,7 +10,11 @@ import { Component, Input } from '@angular/core';
 })
 export class EventCardComponent {
   @Input() event: any;
+  randomImage: string = '';
 
+  constructor() {
+    this.randomImage = getRandomImage();
+  }
   // Méthode pour formater l'heure en HH:MM
   formatTime(time: string): string {
     const [hours, minutes] = time.split(':');

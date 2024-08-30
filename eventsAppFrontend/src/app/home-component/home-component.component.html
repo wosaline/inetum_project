@@ -1,5 +1,8 @@
 <div class="home-container">
   <!-- global home component -->
   <app-navbar></app-navbar>
-  <app-events-list></app-events-list>
+  <app-events-list
+    [eventsList]="eventsList"
+    [loading]="loading"
+  ></app-events-list>
 </div>
