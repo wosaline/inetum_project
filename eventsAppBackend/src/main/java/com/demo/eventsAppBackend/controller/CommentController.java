@@ -67,6 +67,7 @@ public class CommentController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
 
     // Get all Comments
     @GetMapping("/comments")
