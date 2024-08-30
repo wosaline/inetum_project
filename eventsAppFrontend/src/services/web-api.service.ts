@@ -23,10 +23,10 @@ export class WebAPIService {
     return this.httpClient.get(url, httpOptions);
   }
 
-  post(url: string, obj: any, isRequestParam: boolean): Observable<any>{
+  post(url: string, obj: any, isRequestParam: boolean): Observable<any> {
     let httpOptions;
     console.log(obj);
-    if(isRequestParam){
+    if (isRequestParam) {
       let body = new HttpParams();
       for (const key of Object.keys(obj)) {
         body = body.set(key, obj[key]);
@@ -35,22 +35,22 @@ export class WebAPIService {
         headers: new HttpHeaders({
           'Content-Type': 'application/x-www-form-urlencoded',
         }),
-      }
+      };
       return this.httpClient.post<any>(url, body.toString(), httpOptions);
-    }else{
+    } else {
       httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-      }
+      };
       return this.httpClient.post<any>(url, obj, httpOptions);
     }
   }
 
-  put(url: string, obj: any, isRequestParam: boolean): Observable<any>{
+  put(url: string, obj: any, isRequestParam: boolean): Observable<any> {
     let httpOptions;
     console.log(obj);
-    if(isRequestParam){
+    if (isRequestParam) {
       let body = new HttpParams();
       for (const key of Object.keys(obj)) {
         body = body.set(key, obj[key]);
@@ -59,19 +59,19 @@ export class WebAPIService {
         headers: new HttpHeaders({
           'Content-Type': 'application/x-www-form-urlencoded',
         }),
-      }
+      };
       return this.httpClient.put<any>(url, body.toString(), httpOptions);
-    }else{
+    } else {
       httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-      }
+      };
       return this.httpClient.put<any>(url, obj, httpOptions);
     }
   }
 
-  delete(url: string){
+  delete(url: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

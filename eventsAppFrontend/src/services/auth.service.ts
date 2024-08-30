@@ -38,6 +38,7 @@ export class AuthService {
   }
 
   logout() {
+    // Supprimer le user du stockage
     localStorage.removeItem('eventAppUser');
     this.isAuthenticated();
   }

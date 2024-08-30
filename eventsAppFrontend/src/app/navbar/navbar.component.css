@@ -24,8 +24,33 @@
   transform: skew(-10deg); /* Skews the text to simulate a slight curve */
   cursor: pointer;
 }
+.calendar-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #e76f51;
+}
+.calendar {
+  background-color: #284b63;
+  width: 1px;
+  visibility: hidden;
+}
 
-.avatar-button{
+.datepicker_input {
+  display: none;
+}
+
+.calendar_button {
+  margin-right: 10px;
+}
+
+.special-date .mat-calendar-body-cell-content {
+  background-color: #ffa726 !important; /* Orange color for the special dates */
+  color: white !important;
+  border-radius: 50%;
+}
+
+.avatar-button {
   margin-bottom: 17px;
 }
 

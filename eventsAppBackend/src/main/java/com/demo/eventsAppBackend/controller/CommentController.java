@@ -56,4 +56,16 @@ public class CommentController {
         }
         return commentService.getCommentsByEvent(event);
     }
+
+    // Delete Comment
+    @DeleteMapping("/comment/{commentId}")
+    @ResponseBody
+    public ResponseEntity deleteComment(@PathVariable int commentId) {
+        try {
+            commentService.deleteComment(commentId);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
