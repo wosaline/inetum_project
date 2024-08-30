@@ -63,4 +63,13 @@ public class CommentServiceImpl implements CommentService{
     public List<Comment> getCommentsByEvent(Event event) {
         return commentRepository.findAllByEvent(event);
     }
+
+    @Override
+    public void deleteComment(int commentId){
+        Comment comment = commentRepository.findById(commentId);
+        if (comment == null) {
+            throw new EntityNotFoundException("Commentaire à supprimer non trouvé");
+        }
+        commentRepository.delete(comment);
+    }
 }

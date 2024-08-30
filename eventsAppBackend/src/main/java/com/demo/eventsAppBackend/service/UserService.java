@@ -14,4 +14,6 @@ public interface UserService {
     List<User> getAllUsers();
     List<Event> getAllEventsByUserId(int userId);
     User getUserByEmail(String email);
+    User updateUserRole(int userId, String role);
+    void deleteUser(int userId);
 }

@@ -31,7 +31,7 @@ CREATE TABLE event (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     title VARCHAR(100),
     location VARCHAR(255),
-    FOREIGN KEY (created_by) REFERENCES user(id)
+    FOREIGN KEY (created_by) REFERENCES user(id) ON DELETE CASCADE
 );
 
 -- Create the participants table
@@ -42,7 +42,7 @@ CREATE TABLE participant (
     invited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     responded_at TIMESTAMP DEFAULT NULL,  -- peut être NULL si non répondu
     status ENUM('INVITED', 'ACCEPTED', 'DECLINED', 'CANCELED') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE notification (
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     type ENUM('INVITATION', 'REMINDER', 'UPDATE') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE comment (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     rating INT CHECK (rating BETWEEN 1 AND 5),  -- Note entre 1 et 5
-    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
 );
 
