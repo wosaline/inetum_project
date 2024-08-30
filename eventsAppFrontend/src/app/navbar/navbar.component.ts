@@ -58,7 +58,7 @@ export class NavbarComponent {
   ) {}
   isLoggedIn = false;
   readonly startDate: Date = new Date();
-  markedDates = [];
+  markedDates: string[] = [];
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
   selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
   user!: User;
@@ -72,7 +72,10 @@ export class NavbarComponent {
     }
 
     this.isLoggedIn = this.authService.isAuthenticated();
-    this.user?.id && this.loadMarkedDates();
+    // this.user?.id && this.loadMarkedDates();
+    if (this.user?.id) {
+      this.loadMarkedDates();
+    }
   }
 
   handleClick(): void {
@@ -111,4 +114,16 @@ export class NavbarComponent {
         }
       );
   }
+
+  // Fonction de classe pour le calendrier
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    if (view === 'month') {
+      const dateString = this.datePipe.transform(cellDate, 'yyyy-MM-dd');
+      return dateString && this.markedDates.includes(dateString as string)
+        ? 'special-date'
+        : '';
+    }
+    return '';
+  };
+
 }

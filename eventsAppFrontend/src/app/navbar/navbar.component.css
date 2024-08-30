@@ -46,7 +46,7 @@
 }
 
 .special-date .mat-calendar-body-cell-content {
-  background-color: #ffa726 !important; /* Orange color for the special dates */
+  background-color: #ffa726 !important; /* Couleur pour les dates spéciales */
   color: white !important;
   border-radius: 50%;
 }
