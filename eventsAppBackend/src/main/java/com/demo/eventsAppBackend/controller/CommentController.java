@@ -57,10 +57,10 @@ public class CommentController {
         return commentService.getCommentsByEvent(event);
     }
 
-    // D
+    // Delete Comment
     @DeleteMapping("/comment/{commentId}")
     @ResponseBody
-    public ResponseEntity commentUser(@PathVariable int commentId) {
+    public ResponseEntity deleteComment(@PathVariable int commentId) {
         try {
             commentService.deleteComment(commentId);
             return ResponseEntity.ok().build();
