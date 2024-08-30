@@ -72,4 +72,9 @@ public class CommentServiceImpl implements CommentService{
         }
         commentRepository.delete(comment);
     }
+
+    @Override
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
+    }
 }

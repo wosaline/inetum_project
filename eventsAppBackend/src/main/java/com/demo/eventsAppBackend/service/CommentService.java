@@ -9,4 +9,5 @@ public interface CommentService {
     Comment addComment(Comment comment);
     List<Comment> getCommentsByEvent(Event event);
     void deleteComment(int commentId);
+    List<Comment> getAllComments();
 }
