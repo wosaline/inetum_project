@@ -56,7 +56,7 @@ public class CommentController {
         }
         return commentService.getCommentsByEvent(event);
     }
-
+    
     // Delete Comment
     @DeleteMapping("/comment/{commentId}")
     @ResponseBody
@@ -67,5 +67,11 @@ public class CommentController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+
+    // Get all Comments
+    @GetMapping("/comments")
+    @ResponseBody
+    public ResponseEntity<List<Comment>> getAllComments() {
+        return ResponseEntity.ok(commentService.getAllComments());
     }
 }
