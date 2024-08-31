@@ -4,8 +4,9 @@ import { User } from '../interfaces/user';
 import { Event } from '../interfaces/event';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Comment } from '../interfaces/comment';
 import { InviteResponse } from '../interfaces/participant';
+import { CommentToClient } from '../interfaces/comment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -118,7 +119,7 @@ export class HttpProviderService {
     return this.webApiService.get(this.httpLinks.mappingComments+`/rating/${id}`);
   }
 
-  createComment(comment:Comment){
+  createComment(comment:CommentToClient){
     return this.webApiService.post(this.httpLinks.mappingComments, comment, true)
   }
 

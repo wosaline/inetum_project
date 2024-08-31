@@ -8,14 +8,13 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle,
+
 } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { Event } from '../../interfaces/event';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpProviderService } from '../../services/http-provider.service';
-import { Comment } from '../../interfaces/comment';
+import { CommentToClient } from '../../interfaces/comment';
 import { Router } from '@angular/router';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
@@ -62,7 +61,7 @@ export class CommentFormComponent {
 
   onSubmit():boolean{
     if(this.rating>0.0 && this.eventId && this.userId){
-      const comment: Comment = {
+      const comment: CommentToClient = {
         eventId:this.eventId,
         userId:this.userId,
         content:this.content,

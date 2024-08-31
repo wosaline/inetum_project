@@ -10,7 +10,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { ParticipantsListComponent } from '../participants-list/participants-list.component';
 import { ActivatedRoute } from '@angular/router';
-import { Comment } from '../../interfaces/comment';
+import { CommentToClient } from '../../interfaces/comment';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -38,7 +38,7 @@ export class EventViewComponent implements OnInit{
   event: Event | undefined;
   route: ActivatedRoute = inject(ActivatedRoute);
   isEventPassed: boolean = false;
-  commentsList: Comment[]=[];
+  commentsList: CommentToClient[]=[];
   eventRating : number = 0.0;
   userId: number=0;
   participantsList: Participant[]=[];
