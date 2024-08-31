@@ -174,4 +174,12 @@ public class EventController {
         List<LocalDate> dates = eventService.getDatesWithUserEvents(year, month,userId);
         return ResponseEntity.ok(dates);
     }
+
+    @GetMapping("events/dates/user/{userId}")
+    @ResponseBody
+    public ResponseEntity<List<LocalDate>> getAllDatesWithUserEvents(@PathVariable int userId) {
+        List<LocalDate> dates = eventService.getAllDatesWithUserEvents(userId);
+        return ResponseEntity.ok(dates);
+    }
+
 }

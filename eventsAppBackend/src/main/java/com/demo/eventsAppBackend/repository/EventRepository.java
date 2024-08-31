@@ -30,4 +30,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             "WHERE (e.createdBy.id = :userId OR (p.user.id = :userId AND p.status IN ('ACCEPTED', 'INVITED'))) " +
             "AND YEAR(e.date) = :year AND MONTH(e.date) = :month")
     List<LocalDate> findDatesWithUserEvents(@Param("year") int year, @Param("month") int month, @Param("userId") int userId);
+
+
+    @Query("SELECT DISTINCT e.date FROM Event e " +
+            "LEFT JOIN Participant p ON e.id = p.event.id " +
+            "WHERE (e.createdBy.id = :userId OR (p.user.id = :userId AND p.status IN ('ACCEPTED', 'INVITED'))) "
+           )
+    List<LocalDate> findAllDatesWithUserEvents(@Param("userId") int userId);
 }

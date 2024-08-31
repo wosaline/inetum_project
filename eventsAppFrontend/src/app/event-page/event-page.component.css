@@ -7,8 +7,9 @@
 }
 
 .alert-container {
-  position: absolute;
+  position: fixed;
   right: 20px;
+  z-index: 9999;
   
   
 }
