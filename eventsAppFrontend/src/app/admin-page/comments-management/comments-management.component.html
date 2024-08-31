@@ -1,0 +1,12 @@
+<div class="commentManagement_container">
+  <div *ngFor="let comment of commentsList" class="comment-div">
+    <app-avatar [user]="comment.user"> </app-avatar>
+    <div class="comment-info">
+      <h6>{{ comment.content }}</h6>
+    </div>
+
+    <button mat-fab class="delete-button" (click)="openDialog()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

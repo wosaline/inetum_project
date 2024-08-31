@@ -21,7 +21,7 @@ export class AuthService {
   baseUrl = 'http://localhost:8080';
   user!: User;
   constructor(private http: HttpClient) {
-    const userString: string | null = localStorage.getItem('eventAppUser'); // Add type string | null
+    const userString: string | null = localStorage.getItem('eventAppUser');
     if (userString) {
       const userObject = JSON.parse(userString);
       this.user = userObject as User; // Explicit cast to User

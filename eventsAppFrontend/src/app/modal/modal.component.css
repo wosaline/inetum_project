@@ -1,0 +1,30 @@
+button {
+  width: 90px;
+  height: 36px;
+  font-weight: 100;
+  border-radius: 12px;
+}
+.buttons {
+  grid-template-columns: auto auto;
+  display: grid;
+  font-size: 14px;
+  color: #fff;
+  justify-content: center;
+  margin: 10px;
+  width: 100%;
+  gap: 20px;
+}
+.save {
+  background-color: #d85d3e;
+  color: #fff;
+  margin-left: 2px;
+  border: none;
+}
+.cancel {
+  background-color: #ebe1e1;
+  margin-right: 2px;
+  border: none;
+}
+h2 {
+  text-align: center;
+}
