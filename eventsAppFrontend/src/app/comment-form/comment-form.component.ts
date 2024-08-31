@@ -17,6 +17,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { Comment } from '../../interfaces/comment';
 import { Router } from '@angular/router';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 export interface DialogData {
   animal: string;
@@ -48,6 +49,8 @@ export class CommentFormComponent {
   readonly data = inject(MAT_DIALOG_DATA);
   readonly dialogRef = inject(MatDialogRef<CommentFormComponent>);
 
+  readonly errorDialog = inject(MatDialog);
+
   eventName: string = this.data.eventName || '';
   eventId: number = this.data.eventId || undefined;
   userId: number = this.data.userId || undefined;
@@ -58,7 +61,6 @@ export class CommentFormComponent {
   }
 
   onSubmit():boolean{
-    console.log(this.rating + " " + this.eventId + " " + this.userId)
     if(this.rating>0.0 && this.eventId && this.userId){
       const comment: Comment = {
         eventId:this.eventId,
@@ -73,6 +75,11 @@ export class CommentFormComponent {
         },
         (error) => {
           console.error("Error creating comment " + error.status)
+          if(error.status==401){
+              this.errorDialog.open(ErrorDialogComponent,{
+                data: {errorMessage:"Vous n'avez pas accepté l'invitation, vous ne pouvez pas commenter cet événement."}
+              });
+          }
           return false;
         }
       )
