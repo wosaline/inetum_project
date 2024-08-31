@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCalendar } from '@angular/material/datepicker';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -8,6 +9,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   MatCalendarCellClassFunction,
+  MatCalendarView,
+  MatDatepicker,
   MatDatepickerInputEvent,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
@@ -54,14 +57,18 @@ export class NavbarComponent {
     private router: Router,
     private authService: AuthService,
     private datePipe: DatePipe,
-    private httpProviderService: HttpProviderService
+    private httpProviderService: HttpProviderService,
+    private cdr: ChangeDetectorRef
   ) {}
   isLoggedIn = false;
   readonly startDate: Date = new Date();
   markedDates: string[] = [];
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
   selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
+  //selectedMonth = 10; //initialiser par le mois courant
   user!: User;
+  displayDashboard: boolean = false;
+
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
@@ -72,12 +79,16 @@ export class NavbarComponent {
     }
 
     this.isLoggedIn = this.authService.isAuthenticated();
-    // this.user?.id && this.loadMarkedDates();
+    this.user?.id && this.loadMarkedDates();
+    this.user?.id && this.loadMarkedDates();
+    this.displayDashboard = this.authService.isAdmin() ? true : false;
     if (this.user?.id) {
       this.loadMarkedDates();
     }
   }
-
+  handleDashboardClick(): void {
+    this.router.navigate(['/admin/users']);
+  }
   handleClick(): void {
     this.authService.logout();
     this.isLoggedIn = this.authService.isAuthenticated();
@@ -85,29 +96,30 @@ export class NavbarComponent {
   }
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     const selectedDate = new Date(event.value ?? '');
-    // this.selectedMonth = selectedDate.getFullYear();
-    // this.selectedMonth = selectedDate.getMonth() + 1;
-
     if (selectedDate) {
       const formattedDate = this.datePipe.transform(selectedDate, 'yyyy-MM-dd');
-
       if (formattedDate) {
         this.router.navigate([`/calendar/${formattedDate}`]);
       }
     }
   }
 
-  loadMarkedDates() {
+
+  loadMarkedDates(): void {
     this.httpProviderService
-      .getMarkedDates(
-        this.selectedYear,
-        this.selectedMonth,
+      .getAllMarkedDates(
         Number(this.user?.id)
       )
       .subscribe(
         (res) => {
-          this.markedDates = res.body || [];
-          console.log('markedDates:', this.markedDates);
+          console.log('res : ', res);
+          const events = res.body || [];
+          this.markedDates = events.map((event: string ) =>
+            this.datePipe.transform(event, 'yyyy-MM-dd')
+        ).filter((date: string | null): date is string => date !== null);
+        console.log('events : ', events);
+        console.log('Marked Dates : ', this.markedDates);
+        this.cdr.markForCheck(); // Pour forcer un changement de détecte pour réafficher le calendrier
         },
         (error) => {
           console.error('Error fetching events:', error);
@@ -119,11 +131,13 @@ export class NavbarComponent {
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     if (view === 'month') {
       const dateString = this.datePipe.transform(cellDate, 'yyyy-MM-dd');
-      return dateString && this.markedDates.includes(dateString as string)
-        ? 'special-date'
-        : '';
+      const isMarked = this.markedDates.includes(dateString!);
+      //console.log('Checking date:', dateString, 'isMarked:', isMarked); // Log pour vérifier
+      return isMarked ? 'special-date' : '';
     }
-    return '';
+    return '';
   };
+
+
 
 }

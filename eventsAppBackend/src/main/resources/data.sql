@@ -11,15 +11,15 @@ VALUES
 -- Insert events
 INSERT INTO event (description, date, time, logo, capacity, is_private, created_by, title, location)
 VALUES
-('Company annual meeting', '2024-09-15', '09:00:00', NULL, 100, FALSE, 3, 'Annual Meeting', 'Company HQ'),
+('Company annual meeting', '2024-09-15', '09:00:00', 'https://example.com/dance_logo.png', 100, FALSE, 3, 'Annual Meeting', 'Company HQ'),
 ('Birthday party', '2024-10-22', '19:00:00', 'https://example.com/birthday_logo.png', 50, TRUE, 1, 'John\'s Birthday', 'John\'s House'),
 ('Tech Conference', '2024-11-05', '10:00:00', 'https://example.com/tech_logo.png', 500, FALSE, 2, 'Tech Conference 2024', 'Convention Center'),
 ('Music Festival', '2024-09-25', '14:00:00', 'https://example.com/music_logo.png', 3000, FALSE, 1, 'Summer Music Festival', 'City Park'),
-('Art Exhibition', '2024-10-01', '10:00:00', NULL, 200, FALSE, 3, 'Modern Art Exhibition', 'Art Gallery'),
+('Art Exhibition', '2024-10-01', '10:00:00', 'https://example.com/country_logo.png', 200, FALSE, 3, 'Modern Art Exhibition', 'Art Gallery'),
 ('Workshop on AI', '2024-10-15', '09:30:00', 'https://example.com/ai_workshop_logo.png', 100, FALSE, 2, 'AI Workshop', 'Tech Hub'),
-('Startup Pitch', '2024-09-20', '11:00:00', NULL, 150, TRUE, 1, 'Startup Pitch Event', 'Innovation Center'),
+('Startup Pitch', '2024-09-20', '11:00:00', 'https://example.com/logo.png', 150, TRUE, 1, 'Startup Pitch Event', 'Innovation Center'),
 ('Book Launch', '2024-11-10', '18:00:00', 'https://example.com/book_launch_logo.png', 80, TRUE, 3, 'New Book Launch', 'Library Hall'),
-('Charity Run', '2024-11-15', '07:00:00', NULL, 500, FALSE, 2, 'Annual Charity Run', 'City Square'),
+('Charity Run', '2024-11-15', '07:00:00', 'https://example.com/vacation_logo.png', 500, FALSE, 2, 'Annual Charity Run', 'City Square'),
 ('Gastronomy Fair', '2024-10-28', '12:00:00', 'https://example.com/gastronomy_logo.png', 1000, FALSE, 1, 'International Gastronomy Fair', 'Expo Center');
 
 -- Insert participants (creators are automatically accepted)

@@ -175,6 +175,14 @@ public class EventController {
         return ResponseEntity.ok(dates);
     }
 
+    @GetMapping("events/dates/user/{userId}")
+    @ResponseBody
+    public ResponseEntity<List<LocalDate>> getAllDatesWithUserEvents(@PathVariable int userId) {
+        List<LocalDate> dates = eventService.getAllDatesWithUserEvents(userId);
+        return ResponseEntity.ok(dates);
+    }
+
+
     @GetMapping("/events/{eventId}/participants")
     @ResponseBody
     public ResponseEntity<List<Participant>> getAllParticipantsByEventId(@PathVariable int eventId) {

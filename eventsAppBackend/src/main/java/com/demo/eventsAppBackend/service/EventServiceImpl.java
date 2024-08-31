@@ -178,6 +178,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<LocalDate> getAllDatesWithUserEvents(int userId) {
+        return eventRepository.findAllDatesWithUserEvents(userId);
+
+    }
+
+    @Override
     public List<Participant> getAllParticipantsByEventId(int eventId) {
         Event event = eventRepository.findById(eventId);
         if (event == null) {

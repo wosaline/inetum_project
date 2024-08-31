@@ -8,5 +8,7 @@ import java.util.List;
 public interface CommentService {
     Comment addComment(Comment comment);
     List<Comment> getCommentsByEvent(Event event);
+    void deleteComment(int commentId);
+    List<Comment> getAllComments();
     Double getRatingByEventId(int eventId);
 }

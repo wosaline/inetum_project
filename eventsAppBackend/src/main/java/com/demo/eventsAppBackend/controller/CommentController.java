@@ -67,4 +67,23 @@ public class CommentController {
             return ResponseEntity.badRequest().build();
         }
     }
+    
+    // Delete Comment
+    @DeleteMapping("/comment/{commentId}")
+    @ResponseBody
+    public ResponseEntity deleteComment(@PathVariable int commentId) {
+        try {
+            commentService.deleteComment(commentId);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Get all Comments
+    @GetMapping("/comments")
+    @ResponseBody
+    public ResponseEntity<List<Comment>> getAllComments() {
+        return ResponseEntity.ok(commentService.getAllComments());
+    }
 }

@@ -45,12 +45,14 @@
   margin-bottom: 10px;
 }
 
-.special-date .mat-calendar-body-cell-content {
-  background-color: #ffa726 !important; /* Couleur pour les dates spéciales */
-  color: white !important;
+.mat-calendar-body-cell.special-date  {
+  background-color: #ffa726 !important; /* Orange color for the special dates */
+  color: pink !important;
   border-radius: 50%;
+  border: 2px solid red !important;
 }
 
+.mat-calendar-body-cell-content
 .avatar-button {
   margin-bottom: 17px;
 }
@@ -97,4 +99,17 @@ mat-menu-item:hover {
 
 .logout-icon {
   color: #e76f51;
+}
+
+.example-custom-date-class .mat-calendar-body-cell-content {
+  background-color: #ffcc00; /* Couleur de fond pour les jours marqués */
+  border-radius: 50%; /* Pour rendre l'effet circulaire */
+  color: white; /* Couleur du texte */
+}
+
+::ng-deep .mat-calendar-body-cell.special-date  {
+  background-color: #e76f51 !important; /* Orange color for the special dates */
+  color: pink !important;
+  border-radius: 50%;
+  border: 2px solid red !important;
 }

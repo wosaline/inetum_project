@@ -236,9 +236,6 @@ export class EventPageComponent implements OnInit {
 
   showAlert(message: string): void {
     this.alertMessages.push(message);
-    setTimeout(() => {
-      this.alertMessages.shift(); // Retirer le message le plus ancien après 5 secondes
-    }, 5000)
   }
 
   // Remplacez alert() par showAlert()
