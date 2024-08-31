@@ -142,7 +142,7 @@ export class EventPageComponent implements OnInit {
           this.loadUserEvents();
         });
       }
-      this.reset();
+      // this.reset();
     }
   }
 

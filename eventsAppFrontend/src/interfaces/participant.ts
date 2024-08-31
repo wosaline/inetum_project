@@ -12,3 +12,8 @@ export interface Participant {
     respondedAt?:Date;
     status:ParticipantStatus|string;
 }
+
+export interface InviteResponse{
+    userId:number;
+    response:string;
+}

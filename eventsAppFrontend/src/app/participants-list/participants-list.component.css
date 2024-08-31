@@ -31,6 +31,7 @@
 
 .invitation-status {
     font-weight: bold;
+    font-size: 14px;
 }
 
 .status-declined {
@@ -52,4 +53,34 @@
     color: white;
     /* color: #e9c46a; */
 }
-  
+
+.participant-response button {
+    background-color: transparent;
+    border: none;
+}
+
+.accept-icon{
+    background-color: green;
+    color: white;
+}
+
+.refuse-icon{
+    background-color: red;
+    color: white;
+}
+
+.accept-icon:hover{
+    background-color: #0f640f;
+}
+
+.refuse-icon:hover{
+    background-color: rgb(218, 13, 13);
+}
+
+.cancel-icon{
+    color: yellow;
+}
+
+.cancel-icon:hover{
+    color: rgb(245, 222, 12);
+}

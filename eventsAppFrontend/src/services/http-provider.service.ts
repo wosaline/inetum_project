@@ -5,6 +5,7 @@ import { Event } from '../interfaces/event';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Comment } from '../interfaces/comment';
+import { InviteResponse } from '../interfaces/participant';
 
 @Injectable({
   providedIn: 'root',
@@ -100,5 +101,18 @@ export class HttpProviderService {
 
   getParticipantsByEventIdAndStatusInvitedAndAccepted(id: number){
     return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants/supposedly`);
+  }
+
+  // PathVariable int eventId,
+  //           @PathVariable int participantId,
+  //           @RequestParam("userId") int userId,
+  //           @RequestParam("response") String response)
+  // ("events/{eventId}/invite/{participantId}")
+  updateInvite(eventId: number, participantId: number, obj: InviteResponse){
+    return this.webApiService.put(
+      this.httpLinks.mappingEvents + `/${eventId}/invite/${participantId}`,
+      obj,
+      true
+    );
   }
 }
