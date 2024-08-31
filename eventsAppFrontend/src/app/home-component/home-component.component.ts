@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class HomeComponentComponent implements OnInit {
   eventsList: any[] = [];
+  filteredEvents: any[] = [];
   loading: boolean = true;
   isLoggedIn: boolean = false;
   showPrivateEvents: boolean = true; // Par défaut, afficher les événements privés si l'utilisateur est connecté
@@ -34,18 +35,13 @@ export class HomeComponentComponent implements OnInit {
       (res) => {
         this.eventsList = res.body || [];
         // Filtrer les événements privés si l'utilisateur n'est pas connecté
-        if (!this.isLoggedIn) {
-          this.eventsList = this.eventsList.filter((event) => !event.private);
-        }
-
-        // Si l'utilisateur est connecté, appliquer le filtre basé sur la case à cocher
-        if (this.isLoggedIn && !this.showPrivateEvents) {
-          this.eventsList = this.eventsList.filter((event) => !event.private);
-        }
+        this.applyFilter(); // Appliquer le filtre initialement
+        this.loading = false;
+        // if (!this.isLoggedIn) {
+        // this.eventsList = this.eventsList.filter((event) => !event.private);
 
         console.log('Events:', this.eventsList);
         this.eventsList = this.eventsList;
-        this.loading = false;
       },
       (error) => {
         console.error('Error fetching events:', error);
@@ -55,6 +51,15 @@ export class HomeComponentComponent implements OnInit {
   }
   togglePrivateEvents(): void {
     this.showPrivateEvents = !this.showPrivateEvents;
-    this.loadEvents(); // Recharger les événements avec le nouveau filtre
+    this.applyFilter(); // Appliquer le filtre à chaque changement
+    // this.loadEvents(); // Recharger les événements avec le nouveau filtre
+  }
+  applyFilter(): void {
+    // Si l'utilisateur est connecté, appliquer le filtre basé sur la case à cocher
+    if (this.isLoggedIn && !this.showPrivateEvents) {
+      this.eventsList = this.eventsList.filter((event) => !event.private);
+    } else {
+      this.filteredEvents = this.eventsList;
+    }
   }
 }
