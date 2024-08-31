@@ -44,6 +44,8 @@ public class CommentController {
             return ResponseEntity.ok(commentService.addComment(comment));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body("Error while creating category: " + e.getMessage());
+        } catch (SecurityException e){
+            return ResponseEntity.status(401).build();
         }
     }
 
