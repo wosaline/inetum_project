@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCalendar } from '@angular/material/datepicker';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -8,6 +9,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   MatCalendarCellClassFunction,
+  MatCalendarView,
+  MatDatepicker,
   MatDatepickerInputEvent,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
@@ -61,9 +64,11 @@ export class NavbarComponent {
   readonly startDate: Date = new Date();
   markedDates: string[] = [];
   selectedYear = new Date().getFullYear(); //initialiser par l'année en cours
-  selectedMonth = 9; //initialiser par le mois courant
+  selectedMonth = new Date().getMonth() + 1; //initialiser par le mois courant
+  //selectedMonth = 10; //initialiser par le mois courant
   user!: User;
 
+  
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
     const userString = localStorage.getItem('eventAppUser');
@@ -74,11 +79,9 @@ export class NavbarComponent {
 
     this.isLoggedIn = this.authService.isAuthenticated();
     this.user?.id && this.loadMarkedDates();
-    this.markedDates = ['2024-09-15'];
     if (this.user?.id) {
       this.loadMarkedDates();
     }
-
   }
 
   handleClick(): void {
@@ -88,23 +91,18 @@ export class NavbarComponent {
   }
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     const selectedDate = new Date(event.value ?? '');
-    // this.selectedMonth = selectedDate.getFullYear();
-    // this.selectedMonth = selectedDate.getMonth() + 1;
-
     if (selectedDate) {
       const formattedDate = this.datePipe.transform(selectedDate, 'yyyy-MM-dd');
-
       if (formattedDate) {
         this.router.navigate([`/calendar/${formattedDate}`]);
       }
     }
   }
 
+
   loadMarkedDates(): void {
     this.httpProviderService
-      .getMarkedDates(
-        this.selectedYear,
-        this.selectedMonth,
+      .getAllMarkedDates(
         Number(this.user?.id)
       )
       .subscribe(
@@ -126,11 +124,10 @@ export class NavbarComponent {
 
   // Fonction de classe pour le calendrier
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
-    this.markedDates = ['2024-09-15'];
     if (view === 'month') {
       const dateString = this.datePipe.transform(cellDate, 'yyyy-MM-dd');
       const isMarked = this.markedDates.includes(dateString!);
-      console.log('Checking date:', dateString, 'isMarked:', isMarked); // Log pour vérifier
+      //console.log('Checking date:', dateString, 'isMarked:', isMarked); // Log pour vérifier
       return isMarked ? 'special-date' : '';
     }
     return '';

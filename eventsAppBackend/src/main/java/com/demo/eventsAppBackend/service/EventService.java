@@ -2,6 +2,7 @@ package com.demo.eventsAppBackend.service;
 
 import com.demo.eventsAppBackend.model.Event;
 import com.demo.eventsAppBackend.model.Participant;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,4 +20,5 @@ public interface EventService {
     List<LocalDate> getDatesWithUserEvents(int year, int month,int userId);
     List<LocalDate> getDatesWithEvents(int year, int month);
     List<Participant> getPendingInvitations(int userId);
+    List<LocalDate> getAllDatesWithUserEvents(int userId);
 }

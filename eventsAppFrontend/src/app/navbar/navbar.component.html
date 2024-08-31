@@ -30,10 +30,13 @@
     />
     <mat-datepicker
       touchUi
-      #picker
+      #picker="matDatepicker"
       [startAt]="startDate"
       [dateClass]="dateClass"
-    ></mat-datepicker>
+    >
+      <mat-calendar #calendar ></mat-calendar>
+    </mat-datepicker>
+    
   </mat-form-field>
 
   <button

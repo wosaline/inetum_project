@@ -29,6 +29,13 @@ export class HttpProviderService {
         `/${year}/${formattedMonth}/user/${userId}`
     );
   }
+
+  getAllMarkedDates(userId: number) {
+    return this.webApiService.get(
+      this.httpLinks.mappingMarkedDates + `/user/${userId}`
+    );
+  }
+
   getEventsByDateAndUserId(date: string, userId: number) {
     return this.webApiService.get(
       this.httpLinks.mappingUserEventsByDate + `/${date}/user/${userId}`

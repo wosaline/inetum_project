@@ -105,3 +105,10 @@ mat-menu-item:hover {
   border-radius: 50%; /* Pour rendre l'effet circulaire */
   color: white; /* Couleur du texte */
 }
+
+::ng-deep .mat-calendar-body-cell.special-date  {
+  background-color: #e76f51 !important; /* Orange color for the special dates */
+  color: pink !important;
+  border-radius: 50%;
+  border: 2px solid red !important;
+}
