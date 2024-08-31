@@ -7,6 +7,10 @@ import { NgModule } from '@angular/core';
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
+import { AdminGuard } from './admin.guard';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { UsersManagementComponent } from './admin-page/users-management/users-management.component';
+
 //on va definir les routes
 
 export const routes: Routes = [
@@ -15,6 +19,15 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'event-page', component: EventPageComponent },
+  {
+    path: 'admin',
+    component: AdminPageComponent,
+    canActivate: [AdminGuard],
+    children: [
+      // Sub-routes under admin
+      { path: 'users', component: UsersManagementComponent },
+    ],
+  },
   { path: 'calendar/:date', component: CalendarPageComponent },
   { path: 'user-profile', component: UserProfileComponent },
 ];

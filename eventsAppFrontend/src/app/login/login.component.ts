@@ -67,20 +67,22 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.isLoading = false;
         console.log('response', response);
-        this.router.navigate(['/home']);
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin/users']);
+        } else {
+          this.router.navigate(['/home']); // Redirige les autres utilisateurs vers une autre page
+        }
       },
       (error) => {
         this.isLoading = false;
         if (error.status === 401) {
           // Si le back-end renvoie une erreur 401
-          this.errorMessage =
-            'Identifiants incorrects';
+          this.errorMessage = 'Identifiants incorrects';
         } else {
           console.error('Error login user', error);
           this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
         }
       }
     );
-
   }
 }
