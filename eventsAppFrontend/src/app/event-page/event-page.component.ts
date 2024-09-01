@@ -145,7 +145,6 @@ export class EventPageComponent implements OnInit {
   onSubmit(): void {
     if (this.eventForm.valid) {
       const event: Event = this.eventForm.value;
-      // TODO ONCE LOGGING IS ON
       event.createdBy = this.userId!;
       if (this.isEditing) {
         event.id = this.currentEventId;
@@ -187,10 +186,10 @@ export class EventPageComponent implements OnInit {
   }
 
   reset(): void {
-    // this.isEditing = false;
-    // this.currentEventId = undefined;
-    window.location.reload();
-    // this.eventForm.reset();
+    this.isEditing = false;
+    this.currentEventId = undefined;
+    // window.location.reload();
+    this.eventForm.reset();
   }
 
   toggleEventForm(): void {

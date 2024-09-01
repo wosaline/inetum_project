@@ -37,4 +37,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             "WHERE (e.createdBy.id = :userId OR (p.user.id = :userId AND p.status IN ('ACCEPTED', 'INVITED'))) "
            )
     List<LocalDate> findAllDatesWithUserEvents(@Param("userId") int userId);
+
+    @Query("SELECT e FROM Event e WHERE e.isPrivate = false")
+    List<Event> findAllPublicEvents();
 }

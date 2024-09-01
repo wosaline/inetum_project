@@ -93,6 +93,7 @@ export class NavbarComponent {
     this.authService.logout();
     this.isLoggedIn = this.authService.isAuthenticated();
     this.router.navigate(['/home']);
+    window.location.reload();
   }
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     const selectedDate = new Date(event.value ?? '');
