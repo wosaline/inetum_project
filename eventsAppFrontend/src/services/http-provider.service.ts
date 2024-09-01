@@ -53,10 +53,21 @@ export class HttpProviderService {
     return this.webApiService.post(this.httpLinks.mappingEvents, event, true);
   }
 
-  putEvent(event: Event) {
+  putEvent(event: any) {
+    let { createdBy, title, description, date, time, capacity, location } =
+      event;
     return this.webApiService.put(
       this.httpLinks.mappingEvents + `/${event.id}`,
-      event,
+      {
+        createdBy: createdBy.id,
+        title,
+        description,
+        date,
+        time,
+        capacity,
+        private: event.private,
+        location,
+      },
       true
     );
   }
