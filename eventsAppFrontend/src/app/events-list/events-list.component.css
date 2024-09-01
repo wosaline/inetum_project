@@ -7,9 +7,9 @@
   margin: 0 auto;
   overflow-y: auto;
   box-sizing: border-box;
-  height: 90vh;
-  background: url("../../assets/background-register2.jpg") no-repeat center
-    center/cover;
+  height: 85vh;
+  /* background: url("../../assets/background-register2.jpg") no-repeat center
+    center/cover; */
   overflow-y: auto;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
