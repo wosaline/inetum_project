@@ -26,4 +26,5 @@ export class ErrorDialogComponent {
   readonly data = inject(MAT_DIALOG_DATA);
   readonly dialogError = inject(MatDialogRef<ErrorDialogComponent>);
   errorMessage: string = this.data.errorMessage || "";
+  errorTitle : string = this.data.errorTitle || "Il y a eu un petit souci !";
 }

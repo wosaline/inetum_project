@@ -22,7 +22,7 @@ VALUES
 ('Charity Run', '2024-11-15', '07:00:00', 'https://example.com/vacation_logo.png', 500, FALSE, 2, 'Annual Charity Run', 'City Square'),
 ('Gastronomy Fair', '2024-10-28', '12:00:00', 'https://example.com/gastronomy_logo.png', 1000, FALSE, 1, 'International Gastronomy Fair', 'Expo Center'),
 ('Gastronomy cooking session with Remy', '2024-08-20', '11:30:00', 'https://example.com/gastronomy_logo.png', 12, FALSE, 2, 'Come and cook with Remy', 'Chez Remy'),
-('Summer festival with many artists from all over the world', '2024-07-29', '17:45:00', 'https://example.com/music_logo.png', 5000, FALSE, 1, 'Summer Festival', 'Arena');
+('Summer festival with many artists from all over the world', '2024-07-29', '17:45:00', 'https://example.com/music_logo.png', 5000, FALSE, 1, 'Mid Summer Festival', 'Arena');
 
 -- Insert participants (creators are automatically accepted)
 INSERT INTO participant (user_id, event_id, invited_at, responded_at, status)
@@ -84,4 +84,4 @@ VALUES
 (1, 8, 'Looking forward to the book launch.', 5),
 (2, 9, 'Great cause, happy to participate!', 5),
 (3, 10, 'Delicious food awaits!', 4),
-(1, 11, 'Very nice session', 4);
+(2, 11, 'Very nice session', 4);
