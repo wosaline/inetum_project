@@ -78,6 +78,10 @@ export class CommentFormComponent {
               this.errorDialog.open(ErrorDialogComponent,{
                 data: {errorMessage:"Vous n'avez pas accepté l'invitation, vous ne pouvez pas commenter cet événement."}
               });
+          }else if(error.status==400){
+            this.errorDialog.open(ErrorDialogComponent, {
+              data: {errorMessage: "Vous n'avez pas été invité à cet événement."}
+            })
           }
           return false;
         }
