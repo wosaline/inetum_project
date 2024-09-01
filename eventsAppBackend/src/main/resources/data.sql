@@ -20,7 +20,8 @@ VALUES
 ('Startup Pitch', '2024-09-20', '11:00:00', 'https://example.com/logo.png', 150, TRUE, 1, 'Startup Pitch Event', 'Innovation Center'),
 ('Book Launch', '2024-11-10', '18:00:00', 'https://example.com/book_launch_logo.png', 80, TRUE, 3, 'New Book Launch', 'Library Hall'),
 ('Charity Run', '2024-11-15', '07:00:00', 'https://example.com/vacation_logo.png', 500, FALSE, 2, 'Annual Charity Run', 'City Square'),
-('Gastronomy Fair', '2024-10-28', '12:00:00', 'https://example.com/gastronomy_logo.png', 1000, FALSE, 1, 'International Gastronomy Fair', 'Expo Center');
+('Gastronomy Fair', '2024-10-28', '12:00:00', 'https://example.com/gastronomy_logo.png', 1000, FALSE, 1, 'International Gastronomy Fair', 'Expo Center'),
+('Gastronomy cooking session with Remy', '2024-08-20', '11:30:00', 'https://example.com/gastronomy_logo.png', 12, FALSE, 2, 'Come and cook with Remy', 'Chez Remy');
 
 -- Insert participants (creators are automatically accepted)
 INSERT INTO participant (user_id, event_id, invited_at, responded_at, status)
@@ -34,7 +35,8 @@ VALUES
 (1, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACCEPTED'), -- John Doe created the Startup Pitch
 (3, 8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACCEPTED'), -- Admin user created the Book Launch
 (2, 9, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACCEPTED'), -- Jane Doe created the Charity Run
-(1, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACCEPTED'); -- John Doe created the Gastronomy Fair
+(1, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACCEPTED'), -- John Doe created the Gastronomy Fair
+(2, 11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACCEPTED'); -- Jane Doe created the Gastronomy cooking session with Remy
 
 -- Insert other participants
 INSERT INTO participant (user_id, event_id, status)
@@ -47,7 +49,8 @@ VALUES
 (3, 7, 'INVITED'), -- Admin user invited to Startup Pitch
 (2, 8, 'INVITED'), -- Jane Doe invited to Book Launch
 (1, 9, 'INVITED'), -- John Doe invited to Charity Run
-(3, 10, 'INVITED'); -- Admin user invited to Gastronomy Fair
+(3, 10, 'INVITED'), -- Admin user invited to Gastronomy Fair
+(1, 11, 'INVITED'); -- John Doe invited to Remy cooking session
 
 -- Insert notifications
 INSERT INTO notification (user_id, event_id, message, type)
@@ -61,7 +64,8 @@ VALUES
 (3, 7, 'You are invited to the Startup Pitch Event', 'INVITATION'),
 (2, 8, 'You are invited to the New Book Launch', 'INVITATION'),
 (1, 9, 'You are invited to the Annual Charity Run', 'INVITATION'),
-(3, 10, 'You are invited to the International Gastronomy Fair', 'INVITATION');
+(3, 10, 'You are invited to the International Gastronomy Fair', 'INVITATION'),
+(1, 11, 'You are invited to the Gastronomy cooking session with Remy', 'INVITATION');
 
 -- Insert comments
 INSERT INTO comment (user_id, event_id, content, rating)
@@ -75,4 +79,5 @@ VALUES
 (3, 7, 'Excited to see the pitches!', 4),
 (1, 8, 'Looking forward to the book launch.', 5),
 (2, 9, 'Great cause, happy to participate!', 5),
-(3, 10, 'Delicious food awaits!', 4);
+(3, 10, 'Delicious food awaits!', 4),
+(1, 11, 'Very nice session', 4);
