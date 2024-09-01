@@ -67,19 +67,24 @@ export class EventsManagementComponent implements OnInit {
     );
   }
 
-  openDeleteDialog(): void {
+  openDeleteDialog(event: Event): void {
     this.dialog.open(ModalComponent, {
       width: 'auto',
       data: {
         dialogTitle: this.dialogTitle,
         dialogSubtitle: this.dialogSubtitle,
-        onConfirm: this.onConfirm,
+        onConfirm: () => this.onConfirmDelete(event.id),
       },
     });
   }
 
-  onConfirm(): void {
-    console.log('hi');
+  onConfirmDelete(eventId?: number): void {
+    console.log('userId to delete', eventId);
+    if (eventId) {
+      this.httpProviderService
+        .deleteUser(eventId)
+        .subscribe(() => this.loadEvents());
+    }
   }
 
   openEditEventDialog(event: object): void {
