@@ -32,7 +32,7 @@ public class EventController {
 
     @GetMapping("/events/public")
     @ResponseBody
-    public ResponseEntity<List<Event>> getAllPublicEvents(){
+    public ResponseEntity<List<Event>> getAllPublicEvents() {
         return ResponseEntity.ok(eventService.getAllPublicEvents());
     }
 
@@ -161,8 +161,8 @@ public class EventController {
     // get event by date --> ex : /events/date/2024-08-25/user/1
     @GetMapping("events/date/{date}/user/{userId}")
     @ResponseBody
-    public ResponseEntity<List<Event>> getAllUserEventsByDate(@PathVariable LocalDate date  ,@PathVariable int userId) {
-        return ResponseEntity.ok(eventService.getAllUserEventsByDate(date,userId));
+    public ResponseEntity<List<Event>> getAllUserEventsByDate(@PathVariable LocalDate date, @PathVariable int userId) {
+        return ResponseEntity.ok(eventService.getAllUserEventsByDate(date, userId));
     }
 
     // get event by month
@@ -175,8 +175,8 @@ public class EventController {
     // get all dates with event where user is creator or participant
     @GetMapping("events/dates/{year}/{month}/user/{userId}")
     @ResponseBody
-    public ResponseEntity<List<LocalDate>> getDatesWithUserEvents(@PathVariable int year, @PathVariable int month,@PathVariable int userId) {
-        List<LocalDate> dates = eventService.getDatesWithUserEvents(year, month,userId);
+    public ResponseEntity<List<LocalDate>> getDatesWithUserEvents(@PathVariable int year, @PathVariable int month, @PathVariable int userId) {
+        List<LocalDate> dates = eventService.getDatesWithUserEvents(year, month, userId);
         return ResponseEntity.ok(dates);
     }
 
@@ -203,6 +203,16 @@ public class EventController {
     public ResponseEntity<List<Participant>> getAllParticipantsByEventIdAndStatusInvitedAndAccepted(@PathVariable int eventId) {
         try {
             return ResponseEntity.ok(eventService.getAllParticipantsByEventIdAndStatusInvitedAndAccepted(eventId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/events/{eventId}/participant/{userId}")
+    @ResponseBody
+    public ResponseEntity<Participant> getParticipantByUserId(@PathVariable int eventId, @PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(eventService.getParticipantByUserId(userId, eventId));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

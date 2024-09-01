@@ -11,7 +11,7 @@ import { HttpProviderService } from '../../services/http-provider.service';
 import { AuthService } from '../../services/auth.service';
 import { Event } from '../../interfaces/event';
 import { User } from '../../interfaces/user';
-import { Participant } from '../../interfaces/participant';
+import { InviteResponse, Participant } from '../../interfaces/participant';
 import { CustomAlertComponent } from '../../app/custom-alert/custom-alert.component';
 import { Router } from '@angular/router';
 
@@ -50,7 +50,7 @@ export class EventPageComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private httpProviderService: HttpProviderService
-  ) {}
+  ) { }
 
   formatTime(time: string): string {
     const [hours, minutes] = time.split(':');
@@ -197,7 +197,7 @@ export class EventPageComponent implements OnInit {
   }
 
   toggleUserList(event?: Event): void {
-    if(this.showEventForm) this.showEventForm=false;
+    if (this.showEventForm) this.showEventForm = false;
     if (event) {
       this.selectedEvent = event; // Définir l'événement sélectionné si défini
       this.showUserList = !this.showUserList; // // Alternate
@@ -294,6 +294,67 @@ export class EventPageComponent implements OnInit {
           );
         }
       );
+    } else {
+      console.error('User ID is undefined.');
+    }
+  }
+
+  canRespondToInvite(event?: Event): boolean {
+    if (!event || !this.userId) {
+      return false;
+    } 
+    if (event.id && this.userId) {
+      let eventId = event.id;
+      let userId = this.userId;
+      this.httpProviderService.getParticipantByUserId(eventId, userId).subscribe(
+        (response) => {
+          let participant: Participant = response.body;
+          if(participant.status==="INVITE")
+            return true;
+          else return false;
+        },
+        (error) => {
+          console.error("Erreur lors de la réponse à l'invitation");
+          return false;
+        }
+      );
+    }
+    return false;
+
+  }
+
+  respondToInvite(event: Event, response: string): void {
+
+    if (this.userId && event.id) {
+      let userId = this.userId;
+      let eventId = event.id;
+      const inviteResponse: InviteResponse = {
+        userId: userId,
+        response: response
+      }
+      let participant: Participant;
+      this.httpProviderService.getParticipantByUserId(eventId, userId).subscribe(
+        (response) => {
+          participant = response.body;
+          console.log(participant);
+
+          if (participant.id) {
+            this.httpProviderService.updateInvite(eventId, participant.id, inviteResponse).subscribe(
+              (res) => {
+                console.log(res);
+                this.loadUserEvents();
+              },
+              (error) => {
+                console.error('Error updating invite:', error);
+              }
+            );
+          }
+        },
+        (error) => {
+          console.error("Erreur lors de la réponse à l'invitation");
+        }
+      );
+
     } else {
       console.error('User ID is undefined.');
     }

@@ -24,6 +24,12 @@
             <button *ngIf="canDelete(event)" (click)="deleteEvent(event.id)">
               <span class="material-icons">delete</span>
             </button>
+            <button *ngIf="canRespondToInvite(event)" (click)="respondToInvite(event, 'accept')">
+              <span class="material-icons">check</span>
+            </button>
+            <button *ngIf="canRespondToInvite(event)" (click)="respondToInvite(event, 'decline')">
+              <span class="material-icons">close</span>
+            </button>
           </div>
         </li>
       </ul>

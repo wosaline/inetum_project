@@ -189,6 +189,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Participant getParticipantByUserId(int userId, int eventId) {
+        Event event = eventRepository.findById(eventId);
+        User user = userRepository.findById(userId);
+        if(user==null || event == null){
+            throw new EntityNotFoundException("Utilisateur ou événement non trouvé");
+        }
+        Participant participant = participantRepository.findFirstByUserIdAndEventId(userId, eventId);
+        if(participant==null){
+            throw new EntityNotFoundException("Participant non trouvé");
+        }
+        return participant;
+    }
+
+    @Override
     public List<Participant> getAllParticipantsByEventId(int eventId) {
         Event event = eventRepository.findById(eventId);
         if (event == null) {

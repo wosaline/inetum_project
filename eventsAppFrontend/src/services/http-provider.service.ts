@@ -169,4 +169,9 @@ export class HttpProviderService {
       true
     );
   }
+  getParticipantByUserId(eventId:number,userId:number){
+    return this.webApiService.get(
+      this.httpLinks.mappingEvents + `/${eventId}/participant/${userId}`
+    );
+  }
 }
