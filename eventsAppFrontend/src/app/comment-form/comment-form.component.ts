@@ -14,7 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpProviderService } from '../../services/http-provider.service';
-import { CommentToClient } from '../../interfaces/comment';
+import { CommentFromClient, CommentToClient } from '../../interfaces/comment';
 import { Router } from '@angular/router';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 

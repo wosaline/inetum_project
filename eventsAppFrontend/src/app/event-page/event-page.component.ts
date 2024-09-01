@@ -170,10 +170,10 @@ export class EventPageComponent implements OnInit {
   }
 
   reset(): void {
-    this.isEditing = false;
-    this.currentEventId = undefined;
-    // window.location.reload();
-    this.eventForm.reset();
+    // this.isEditing = false;
+    // this.currentEventId = undefined;
+    window.location.reload();
+    // this.eventForm.reset();
   }
 
   toggleEventForm(): void {
