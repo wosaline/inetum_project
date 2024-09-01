@@ -1,6 +1,6 @@
 import { Component, inject, Input, model } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -10,8 +10,8 @@ import {
   MatDialogRef,
 
 } from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { CommentFromClient, CommentToClient } from '../../interfaces/comment';
@@ -27,9 +27,9 @@ export interface DialogData {
   selector: 'app-comment-form',
   standalone: true,
   imports: [
-    MatFormFieldModule, 
-    MatInputModule, 
-    FormsModule, 
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
     MatButtonModule,
     MatDialogContent,
     MatDialogActions,
@@ -41,7 +41,7 @@ export interface DialogData {
 })
 
 export class CommentFormComponent {
-  constructor(private httpProviderService: HttpProviderService, private router: Router) {}
+  constructor(private httpProviderService: HttpProviderService, private router: Router) { }
 
   rating: number = 0.0;
 
@@ -53,45 +53,43 @@ export class CommentFormComponent {
   eventName: string = this.data.eventName || '';
   eventId: number = this.data.eventId || undefined;
   userId: number = this.data.userId || undefined;
-  content: string ="";
+  content: string = "";
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSubmit():boolean{
-    if(this.rating>0.0 && this.eventId && this.userId){
+  onSubmit(): void {
+    if (this.rating > 0.0 && this.eventId && this.userId) {
       const comment: CommentToClient = {
-        eventId:this.eventId,
-        userId:this.userId,
-        content:this.content,
-        rating:this.rating,
-      }
+        eventId: this.eventId,
+        userId: this.userId,
+        content: this.content,
+        rating: this.rating,
+      };
+
       this.httpProviderService.createComment(comment).subscribe(
         (response) => {
           console.log('Comment added', response);
-          return true;
+          // Close the dialog only after the comment has been created successfully
+          this.dialogRef.close(this.rating);
         },
         (error) => {
           console.error("Error creating comment " + error.status)
-          if(error.status==401){
-              this.errorDialog.open(ErrorDialogComponent,{
-                data: {errorMessage:"Vous n'avez pas accepté l'invitation, vous ne pouvez pas commenter cet événement."}
-              });
-          }else if(error.status==400){
+          if (error.status == 401) {
             this.errorDialog.open(ErrorDialogComponent, {
-              data: {errorMessage: "Vous n'avez pas été invité à cet événement."}
-            })
+              data: { errorMessage: "Vous n'avez pas accepté l'invitation, vous ne pouvez pas commenter cet événement." }
+            });
+          } else if (error.status == 400) {
+            this.errorDialog.open(ErrorDialogComponent, {
+              data: { errorMessage: "Vous n'avez pas été invité à cet événement." }
+            });
           }
-          return false;
         }
-      )
+      );
     }
-    this.dialogRef.close(this.rating);
-    return false;
-    
+  }
 
-}
 
   onRatingChange(newRating: number): void {
     this.rating = newRating;

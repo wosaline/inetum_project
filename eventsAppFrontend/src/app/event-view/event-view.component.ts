@@ -107,18 +107,20 @@ export class EventViewComponent implements OnInit{
 
   addComment(): void {
     const dialogRef = this.commentDialog.open(CommentFormComponent, {
-      data: {eventName: this.event?.title, eventId: this.event?.id, userId: this.userId},
+      data: { eventName: this.event?.title, eventId: this.event?.id, userId: this.userId },
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result);
       if (result !== undefined) {
+        // Call loadComments only after the dialog is closed and the comment is created
         this.loadComments();
         this.loadRating();
       }
     });
   }
+  
 
   
 }
