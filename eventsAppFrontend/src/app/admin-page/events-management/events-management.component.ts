@@ -82,7 +82,7 @@ export class EventsManagementComponent implements OnInit {
     console.log('userId to delete', eventId);
     if (eventId) {
       this.httpProviderService
-        .deleteUser(eventId)
+        .deleteEvent(eventId)
         .subscribe(() => this.loadEvents());
     }
   }

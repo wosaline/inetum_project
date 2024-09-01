@@ -72,17 +72,23 @@ export class CommentsManagementComponent implements OnInit {
       }
     );
   }
-  openDialog(): void {
+  openDialog(comment: Comment): void {
     this.dialog.open(ModalComponent, {
       width: 'auto',
       data: {
         dialogTitle: this.dialogTitle,
         dialogSubtitle: this.dialogSubtitle,
-        onConfirm: this.onConfirm,
+        onConfirm: () => this.onConfirmDelete(comment.id),
       },
     });
   }
-  onConfirm(): void {
-    console.log('hi');
+
+  onConfirmDelete(commentId?: number): void {
+    console.log('commentId to delete', commentId);
+    if (commentId) {
+      this.httpProviderService
+        .deleteComment(commentId)
+        .subscribe(() => this.loadComments());
+    }
   }
 }

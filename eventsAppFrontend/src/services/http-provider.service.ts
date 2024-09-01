@@ -75,6 +75,9 @@ export class HttpProviderService {
   deleteEvent(id: number) {
     return this.webApiService.delete(this.httpLinks.mappingEvents + `/${id}`);
   }
+  deleteComment(id: number) {
+    return this.webApiService.delete(this.baseUrl + `/comment/${id}`);
+  }
 
   createUser(user: User) {
     return this.webApiService.post(this.httpLinks.mappingUsers, user, false);
