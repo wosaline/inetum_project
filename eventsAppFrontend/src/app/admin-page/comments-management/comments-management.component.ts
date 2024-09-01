@@ -26,7 +26,7 @@ import {
 } from '@angular/material/dialog';
 
 import { ModalComponent } from '../../modal/modal.component';
-import { CommentFromClient } from '../../../interfaces/comment';
+import { CommentFromClient, CommentToClient } from '../../../interfaces/comment';
 
 @Component({
   selector: 'app-comments-management',
@@ -72,7 +72,7 @@ export class CommentsManagementComponent implements OnInit {
       }
     );
   }
-  openDialog(comment: Comment): void {
+  openDialog(comment: CommentToClient): void {
     this.dialog.open(ModalComponent, {
       width: 'auto',
       data: {
