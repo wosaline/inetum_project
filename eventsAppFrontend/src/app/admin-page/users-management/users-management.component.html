@@ -28,18 +28,19 @@
     <div>
       <button
         mat-button
-        class="confirm-button"
-        *ngIf="editMode && selectedUser?.id === user?.id"
-      >
-        Confirmer
-      </button>
-      <button
-        mat-button
         class="cancel-button"
         *ngIf="editMode && selectedUser?.id === user?.id"
         (click)="onCancel()"
       >
         Annuler
+      </button>
+      <button
+        mat-button
+        class="confirm-button"
+        *ngIf="editMode && selectedUser?.id === user?.id"
+        (click)="onConfirmEdit(user)"
+      >
+        Confirmer
       </button>
     </div>
   </div>
