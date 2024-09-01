@@ -184,6 +184,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getAllPublicEvents() {
+        return eventRepository.findAllPublicEvents();
+    }
+
+    @Override
     public List<Participant> getAllParticipantsByEventId(int eventId) {
         Event event = eventRepository.findById(eventId);
         if (event == null) {

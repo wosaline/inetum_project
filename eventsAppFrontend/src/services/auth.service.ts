@@ -55,7 +55,10 @@ export class AuthService {
   }
 
   getUserRole(): string {
-    return this.user.role;
+    if(this.user){
+      return this.user.role;
+    }
+    return ""
   }
 
   isAdmin(): boolean {

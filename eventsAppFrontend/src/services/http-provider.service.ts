@@ -26,6 +26,9 @@ export class HttpProviderService {
   getAllEvents() {
     return this.webApiService.get(this.httpLinks.mappingEvents);
   }
+  getAllPublicEvents(){
+    return this.webApiService.get(this.httpLinks.mappingEvents+'/public');
+  }
   getAllUsers() {
     return this.webApiService.get(this.httpLinks.mappingUsers);
   }
