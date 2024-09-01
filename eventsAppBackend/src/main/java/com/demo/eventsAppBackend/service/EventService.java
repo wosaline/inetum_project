@@ -23,4 +23,5 @@ public interface EventService {
     List<Participant> getAllParticipantsByEventIdAndStatusInvitedAndAccepted(int eventId);
     List<Participant> getPendingInvitations(int userId);
     List<LocalDate> getAllDatesWithUserEvents(int userId);
+    List<Event> getAllPublicEvents();
 }

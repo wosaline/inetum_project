@@ -24,11 +24,16 @@ public class EventController {
     }
 
     // Get all events
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/events")
     @ResponseBody
     public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
+    }
+
+    @GetMapping("/events/public")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getAllPublicEvents(){
+        return ResponseEntity.ok(eventService.getAllPublicEvents());
     }
 
     // Get event
