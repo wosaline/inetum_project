@@ -197,6 +197,7 @@ export class EventPageComponent implements OnInit {
   }
 
   toggleUserList(event?: Event): void {
+    if(this.showEventForm) this.showEventForm=false;
     if (event) {
       this.selectedEvent = event; // Définir l'événement sélectionné si défini
       this.showUserList = !this.showUserList; // // Alternate
