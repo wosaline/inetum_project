@@ -1,12 +1,19 @@
 import { Event } from "./event";
 import { User } from "./user";
-import { ParticipantStatus } from "./ParticipantStatus";
+import { ParticipantStatus } from "./participantStatus";
 
 export interface Participant {
-    id: number;
-    user: User;
-    event: Event;
-    invitedAt?: Date;
-    respondedAt?: Date;
-    status: ParticipantStatus;
+    id?:number;
+    user?:User;
+    userId?:number;
+    event?:Event;
+    eventId?:number;
+    invitedAt?:Date;
+    respondedAt?:Date;
+    status:ParticipantStatus|string;
+}
+
+export interface InviteResponse{
+    userId:number;
+    response:string;
 }

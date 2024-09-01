@@ -11,16 +11,16 @@
       </div>
 
       <div class="form-group">
-        <input type="text" placeholder="Nom" formControlName="firstName" />
+        <input type="text" placeholder="Prénom" formControlName="firstName" />
         <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error">
-          Nom requis
+          Prénom requis
         </div>
       </div>
-      
+
       <div class="form-group">
-        <input type="text" placeholder="Prénom" formControlName="lastName" />
+        <input type="text" placeholder="Nom" formControlName="lastName" />
         <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error">
-          Prénom requis
+          Nom requis
         </div>
       </div>
       

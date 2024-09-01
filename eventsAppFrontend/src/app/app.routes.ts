@@ -3,6 +3,9 @@ import { HomeComponentComponent } from './home-component/home-component.componen
 import { RegisterComponent } from './register/register.component';
 import { EventPageComponent } from './event-page/event-page.component';
 import { LoginComponent } from './login/login.component';
+import { NgModule } from '@angular/core';
+import { EventViewComponent } from './event-view/event-view.component';
+
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
@@ -33,6 +36,7 @@ export const routes: Routes = [
   },
   { path: 'calendar/:date', component: CalendarPageComponent },
   { path: 'user-profile', component: UserProfileComponent },
+  { path: 'event/:eventId/user/:userId', component: EventViewComponent},
 ];
 
 export class AppRoutingModule {}

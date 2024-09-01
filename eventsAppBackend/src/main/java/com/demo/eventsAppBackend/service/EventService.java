@@ -19,6 +19,8 @@ public interface EventService {
     List<Event> getAllEventsByMonth(int year, int month);
     List<LocalDate> getDatesWithUserEvents(int year, int month,int userId);
     List<LocalDate> getDatesWithEvents(int year, int month);
+    List<Participant> getAllParticipantsByEventId(int eventId);
+    List<Participant> getAllParticipantsByEventIdAndStatusInvitedAndAccepted(int eventId);
     List<Participant> getPendingInvitations(int userId);
     List<LocalDate> getAllDatesWithUserEvents(int userId);
 }

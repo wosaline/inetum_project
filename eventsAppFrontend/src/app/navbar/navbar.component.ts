@@ -69,7 +69,7 @@ export class NavbarComponent {
   user!: User;
   displayDashboard: boolean = false;
 
-  
+
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
     const userString = localStorage.getItem('eventAppUser');
@@ -114,7 +114,7 @@ export class NavbarComponent {
         (res) => {
           console.log('res : ', res);
           const events = res.body || [];
-          this.markedDates = events.map((event: string ) => 
+          this.markedDates = events.map((event: string ) =>
             this.datePipe.transform(event, 'yyyy-MM-dd')
         ).filter((date: string | null): date is string => date !== null);
         console.log('events : ', events);

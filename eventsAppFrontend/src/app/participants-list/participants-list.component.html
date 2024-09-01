@@ -1,0 +1,58 @@
+<div class="participants-list-container">
+  <mat-selection-list>
+    @for (participant of participantsList; track participant) {
+    <mat-list-item *ngIf="isUserEventCreator">
+      <div class="participant-info">
+        <div class="participant-name">
+          {{ participant.user?.firstName }} {{ participant.user?.lastName }}
+        </div>
+        <div class="participant-invitation">
+          <div class="participant-status">
+            <span class="invitation-status" [ngClass]="{
+                'status-declined': participant.status === 'DECLINED',
+                'status-accepted': participant.status === 'ACCEPTED',
+                'status-invited': participant.status === 'INVITED',
+                'status-canceled': participant.status === 'CANCELED'
+              }">
+              {{ participant.status }}
+            </span>
+          </div>
+          <div class="participant-response" *ngIf="participant.status === 'INVITED'">
+            <button mat-icon-button (click)="respondToInvite(participant, 'cancel')">
+              <mat-icon fontIcon="cancel" class="cancel-icon" matTooltip="Annuler l'invitation"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="!isUserEventCreator">
+      <div class="participant-info">
+        <div class="participant-name">
+          {{ participant.user?.firstName }} {{ participant.user?.lastName }}
+        </div>
+        <div class="participant-invitation">
+          <div class="participant-status">
+            <span class="invitation-status" [ngClass]="{
+                'status-declined': participant.status === 'DECLINED',
+                'status-accepted': participant.status === 'ACCEPTED',
+                'status-invited': participant.status === 'INVITED',
+                'status-canceled': participant.status === 'CANCELED'
+              }">
+              {{ participant.status }}
+            </span>
+          </div>
+          <div class="participant-response" *ngIf="participant.status === 'INVITED' && participant.user?.id==userId">
+            <button mat-icon-button (click)="respondToInvite(participant,'accept')" class="accept_button">
+              <mat-icon fontIcon="check" class="accept-icon" matTooltip="Accepter l'invitation"></mat-icon>
+            </button>
+            <button mat-icon-button (click)="respondToInvite(participant,'decline')" class="accept_button">
+              <mat-icon fontIcon="close" class="refuse-icon" matTooltip="Refuser l'invitation"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-list-item>
+    }
+  </mat-selection-list>
+</div>

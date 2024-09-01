@@ -1,0 +1,21 @@
+.comment-card {
+    min-width: 250px;
+    max-width: 350px;
+    margin-bottom: 8px;
+    color: black;
+    margin-right: 15px;
+}
+
+mat-card-title{
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+mat-card-subtitle{
+  font-size: 13px;
+}
+
+mat-card-content{
+  padding-left: 20px;
+}

@@ -12,24 +12,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final ParticipantService participantService;
 
-    public CommentServiceImpl(EventRepository eventRepository, UserRepository userRepository, CommentRepository commentRepository,ParticipantService participantService) {
+    public CommentServiceImpl(EventRepository eventRepository, UserRepository userRepository, CommentRepository commentRepository, ParticipantService participantService) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
-        this.participantService=participantService;
+        this.participantService = participantService;
 
     }
 
     @Override
     public Comment addComment(Comment comment) {
         User user = userRepository.findById(comment.getUser().getId());
-        Event event=eventRepository.findById(comment.getEvent().getId());
+        Event event = eventRepository.findById(comment.getEvent().getId());
         if (user == null) {
             throw new EntityNotFoundException("User not found");
         }
@@ -43,10 +43,11 @@ public class CommentServiceImpl implements CommentService{
         }
 
         //   Vérifiez si l'utilisateur est un participant à l'événement avec le statut ACCEPTED
-         Participant participant = participantService.findParticipantByUserIdAndEventId( user.getId(),event.getId());
+        Participant participant = participantService.findParticipantByUserIdAndEventId(user.getId(), event.getId());
         if (participant == null || participant.getStatus() != ParticipantStatus.ACCEPTED) {
+            System.out.println("participant null ou status pas accepté");
             throw new SecurityException("User is not allowed to comment on this event");
-            }
+        }
 
         comment.setUser(user);
         comment.setEvent(event);
@@ -65,7 +66,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public void deleteComment(int commentId){
+    public void deleteComment(int commentId) {
         Comment comment = commentRepository.findById(commentId);
         if (comment == null) {
             throw new EntityNotFoundException("Commentaire à supprimer non trouvé");
@@ -76,5 +77,14 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
+    }
+
+    @Override
+    public Double getRatingByEventId(int eventId) {
+        Event event = eventRepository.findById(eventId);
+        if (event == null) {
+            throw new EntityNotFoundException("Evénement non trouvé");
+        }
+        return commentRepository.findAverageRatingByEvent(event);
     }
 }

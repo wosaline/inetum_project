@@ -10,4 +10,5 @@ public interface CommentService {
     List<Comment> getCommentsByEvent(Event event);
     void deleteComment(int commentId);
     List<Comment> getAllComments();
+    Double getRatingByEventId(int eventId);
 }

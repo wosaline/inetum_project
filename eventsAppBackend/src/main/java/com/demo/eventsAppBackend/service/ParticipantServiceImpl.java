@@ -19,7 +19,7 @@ public class ParticipantServiceImpl implements ParticipantService{
 
     @Override
     public Participant findParticipantByUserIdAndEventId(int userId, int eventId) {
-        Participant participant = participantRepository.findByUserIdAndEventId(userId, eventId);
+        Participant participant = participantRepository.findFirstByUserIdAndEventId(userId, eventId);
 
         if (participant == null) {
             throw new EntityNotFoundException("Participant not found");

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -116,7 +117,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public Participant updateParticipant(int participantId, int eventId, int userId, String response) {
         Participant participant = participantRepository.findById(participantId);
-
         if (participant == null) {
             throw new EntityNotFoundException("Participant not found");
         }
@@ -129,9 +129,14 @@ public class EventServiceImpl implements EventService {
         ParticipantStatus newStatus = null;
 
         boolean isCreator = participant.getEvent().getCreatedBy().getId() == userId;
-        boolean isParticipant = participant.getUser().getId() == userId;
-
-        if (isParticipant) {
+//        boolean isParticipant = participant.getUser().getId() == userId;
+        if (isCreator) {
+            if (response.equalsIgnoreCase("cancel")) {
+                newStatus = ParticipantStatus.CANCELED;
+            } else {
+                throw new IllegalStateException("The creator can only update the status to CANCELED.");
+            }
+        } else {
             if (currentStatus == ParticipantStatus.INVITED) {
                 if (response.equalsIgnoreCase("accept")) {
                     newStatus = ParticipantStatus.ACCEPTED;
@@ -143,23 +148,18 @@ public class EventServiceImpl implements EventService {
             } else {
                 throw new IllegalStateException("You cannot update the status once it has been changed from INVITED.");
             }
-        } else if (isCreator) {
-            if (response.equalsIgnoreCase("cancel")) {
-                newStatus = ParticipantStatus.CANCELED;
-            } else {
-                throw new IllegalStateException("The creator can only update the status to CANCELED.");
-            }
-        } else {
-            throw new SecurityException("Unauthorized action.");
         }
+//        } else {
+//            throw new SecurityException("Unauthorized action.");
+//        }
 
         participant.setStatus(newStatus);
         return participantRepository.save(participant);
     }
 
     @Override
-    public List<Event> getAllUserEventsByDate(LocalDate date,int userId) { // format : YYYY-MM-DD
-        return eventRepository.findAllByDateAndByUserId(date,userId);
+    public List<Event> getAllUserEventsByDate(LocalDate date, int userId) { // format : YYYY-MM-DD
+        return eventRepository.findAllByDateAndByUserId(date, userId);
     }
 
     @Override
@@ -168,8 +168,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<LocalDate> getDatesWithUserEvents(int year, int month,int userId) {
-        return eventRepository.findDatesWithUserEvents(year, month,userId);
+    public List<LocalDate> getDatesWithUserEvents(int year, int month, int userId) {
+        return eventRepository.findDatesWithUserEvents(year, month, userId);
     }
 
     @Override
@@ -181,5 +181,26 @@ public class EventServiceImpl implements EventService {
     public List<LocalDate> getAllDatesWithUserEvents(int userId) {
         return eventRepository.findAllDatesWithUserEvents(userId);
 
+    }
+
+    @Override
+    public List<Participant> getAllParticipantsByEventId(int eventId) {
+        Event event = eventRepository.findById(eventId);
+        if (event == null) {
+            throw new EntityNotFoundException("Evénement non trouvé");
+        }
+        return participantRepository.findAllByEventId(eventId);
+    }
+
+    @Override
+    public List<Participant> getAllParticipantsByEventIdAndStatusInvitedAndAccepted(int eventId) {
+        Event event = eventRepository.findById(eventId);
+        if (event == null) {
+            throw new EntityNotFoundException("Evénement non trouvé");
+        }
+        List<ParticipantStatus> statusList = new ArrayList<>();
+        statusList.add(ParticipantStatus.INVITED);
+        statusList.add(ParticipantStatus.ACCEPTED);
+        return participantRepository.findAllByEventIdAndStatusIn(eventId, statusList);
     }
 }
