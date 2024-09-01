@@ -54,6 +54,7 @@ export class CommentFormComponent {
   eventId: number = this.data.eventId || undefined;
   userId: number = this.data.userId || undefined;
   content: string = "";
+  ratingGiven: boolean = false;
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -90,9 +91,9 @@ export class CommentFormComponent {
     }
   }
 
-
   onRatingChange(newRating: number): void {
     this.rating = newRating;
+    this.ratingGiven = true;
   }
 
 }

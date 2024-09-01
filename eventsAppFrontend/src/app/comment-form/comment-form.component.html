@@ -14,7 +14,7 @@
     </p>
   </mat-dialog-content>
   <mat-dialog-actions>
-  <button mat-button (click)="onSubmit()">Envoyer ma note</button>
+  <button mat-button (click)="onSubmit()" [disabled]="!ratingGiven">Envoyer ma note</button>
   <button mat-button (click)="onNoClick()">Annuler</button>
   </mat-dialog-actions>
 </div>
