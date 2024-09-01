@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { InviteResponse } from '../interfaces/participant';
 import { CommentToClient } from '../interfaces/comment';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -52,8 +51,8 @@ export class HttpProviderService {
     );
   }
 
-  getEventById(id : number){
-    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}`);
+  getEventById(id: number) {
+    return this.webApiService.get(this.httpLinks.mappingEvents + `/${id}`);
   }
 
   postEvent(event: Event) {
@@ -66,7 +65,7 @@ export class HttpProviderService {
     return this.webApiService.put(
       this.httpLinks.mappingEvents + `/${event.id}`,
       {
-        createdBy: createdBy.id,
+        createdBy: createdBy.id ?? createdBy,
         title,
         description,
         date,
@@ -124,26 +123,35 @@ export class HttpProviderService {
     );
   }
 
-
-  getAllCommentsByEventId(id:number){
-    return this.webApiService.get(this.httpLinks.mappingComments+`/${id}`);
+  getAllCommentsByEventId(id: number) {
+    return this.webApiService.get(this.httpLinks.mappingComments + `/${id}`);
   }
 
-  getRatingByEventIt(id:number){
-    return this.webApiService.get(this.httpLinks.mappingComments+`/rating/${id}`);
+  getRatingByEventIt(id: number) {
+    return this.webApiService.get(
+      this.httpLinks.mappingComments + `/rating/${id}`
+    );
   }
 
-  createComment(comment:CommentToClient){
-    return this.webApiService.post(this.httpLinks.mappingComments, comment, true)
+  createComment(comment: CommentToClient) {
+    return this.webApiService.post(
+      this.httpLinks.mappingComments,
+      comment,
+      true
+    );
   }
 
-  getParticipantsByEventId(id: number){
-    console.log("get participants for event "+id);
-    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants`);
+  getParticipantsByEventId(id: number) {
+    console.log('get participants for event ' + id);
+    return this.webApiService.get(
+      this.httpLinks.mappingEvents + `/${id}/participants`
+    );
   }
 
-  getParticipantsByEventIdAndStatusInvitedAndAccepted(id: number){
-    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants/supposedly`);
+  getParticipantsByEventIdAndStatusInvitedAndAccepted(id: number) {
+    return this.webApiService.get(
+      this.httpLinks.mappingEvents + `/${id}/participants/supposedly`
+    );
   }
 
   // PathVariable int eventId,
@@ -151,7 +159,7 @@ export class HttpProviderService {
   //           @RequestParam("userId") int userId,
   //           @RequestParam("response") String response)
   // ("events/{eventId}/invite/{participantId}")
-  updateInvite(eventId: number, participantId: number, obj: InviteResponse){
+  updateInvite(eventId: number, participantId: number, obj: InviteResponse) {
     return this.webApiService.put(
       this.httpLinks.mappingEvents + `/${eventId}/invite/${participantId}`,
       obj,

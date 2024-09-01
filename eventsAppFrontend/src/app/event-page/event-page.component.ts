@@ -1,31 +1,40 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { AuthService } from '../../services/auth.service';
 import { Event } from '../../interfaces/event';
 import { User } from '../../interfaces/user';
 import { Participant } from '../../interfaces/participant';
-import { CustomAlertComponent } from '../../app/custom-alert/custom-alert.component'
+import { CustomAlertComponent } from '../../app/custom-alert/custom-alert.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-page',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, ReactiveFormsModule, CustomAlertComponent],
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    ReactiveFormsModule,
+    CustomAlertComponent,
+  ],
   templateUrl: './event-page.component.html',
   styleUrl: './event-page.component.css',
 })
 export class EventPageComponent implements OnInit {
-
   eventForm!: FormGroup;
   events: Event[] = [];
   users: User[] = []; // list of users to invite
   userId: number | undefined;
   isEditing = false;
   currentEventId?: number;
-  minDate: string = "";
+  minDate: string = '';
   timeOptions: string[] = [];
   showEventForm = false; // display of the Eventform
   showUserList = false; // display of the UserListForm
@@ -38,15 +47,16 @@ export class EventPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private fb: FormBuilder, 
-    private router: Router, 
-    private httpProviderService: HttpProviderService) {}
+    private fb: FormBuilder,
+    private router: Router,
+    private httpProviderService: HttpProviderService
+  ) {}
 
   formatTime(time: string): string {
     const [hours, minutes] = time.split(':');
     return `${hours}:${minutes}`;
   }
-  
+
   ngOnInit(): void {
     // get the connected user
     const user = JSON.parse(localStorage.getItem('eventAppUser') || '{}');
@@ -55,9 +65,11 @@ export class EventPageComponent implements OnInit {
     if (this.userId) {
       console.log('User ID:', this.userId);
       // Load all events for the connected user
-      this.httpProviderService.getAllEventsByUserId(this.userId).subscribe((response) => {
-        this.events = response.body || [];
-      });
+      this.httpProviderService
+        .getAllEventsByUserId(this.userId)
+        .subscribe((response) => {
+          this.events = response.body || [];
+        });
 
       this.httpProviderService.getPendingInvitations(this.userId).subscribe(
         (response) => {
@@ -65,11 +77,14 @@ export class EventPageComponent implements OnInit {
           if (Array.isArray(invitations)) {
             this.handleInvitations(invitations);
           } else {
-            console.error('La réponse n\'est pas un tableau:', invitations);
+            console.error("La réponse n'est pas un tableau:", invitations);
           }
         },
         (error) => {
-          console.error('Erreur lors de la récupération des invitations:', error);
+          console.error(
+            'Erreur lors de la récupération des invitations:',
+            error
+          );
         }
       );
     }
@@ -82,7 +97,7 @@ export class EventPageComponent implements OnInit {
       time: ['09:30', Validators.required],
       location: ['', Validators.required],
       capacity: ['', [Validators.required, Validators.min(1)]],
-      private: [false]
+      private: [false],
     });
     // Set the minimum date to today and generate time options for the event date picker
     const today = new Date();
@@ -156,7 +171,9 @@ export class EventPageComponent implements OnInit {
 
   deleteEvent(eventId?: number): void {
     if (eventId) {
-      this.httpProviderService.deleteEvent(eventId).subscribe(() => this.loadUserEvents());
+      this.httpProviderService
+        .deleteEvent(eventId)
+        .subscribe(() => this.loadUserEvents());
     }
   }
 
@@ -164,8 +181,8 @@ export class EventPageComponent implements OnInit {
     this.isEditing = false;
     this.currentEventId = undefined;
     this.eventForm.reset({
-      time: '09:30',  // Réinitialiser l'heure par défaut
-      private: false
+      time: '09:30', // Réinitialiser l'heure par défaut
+      private: false,
     });
   }
 
@@ -177,13 +194,13 @@ export class EventPageComponent implements OnInit {
   }
 
   toggleEventForm(): void {
-    this.showEventForm = !this.showEventForm;  // Alternate display of EventForm
+    this.showEventForm = !this.showEventForm; // Alternate display of EventForm
   }
 
   toggleUserList(event?: Event): void {
     if (event) {
       this.selectedEvent = event; // Définir l'événement sélectionné si défini
-      this.showUserList = !this.showUserList; // // Alternate 
+      this.showUserList = !this.showUserList; // // Alternate
     } else {
       this.showUserList = false; // Si aucun événement, masquer la liste des utilisateurs
     }
@@ -216,12 +233,17 @@ export class EventPageComponent implements OnInit {
 
   inviteUser(userId: number): void {
     if (this.selectedEvent && this.selectedEvent.id && this.userId) {
-      this.httpProviderService.inviteUsersToEvent(this.selectedEvent.id, userId, this.userId).subscribe(response => {
-        console.log('User invited:', response);
-        this.toggleUserList(this.selectedEvent); // Réafficher la liste des utilisateurs après l'invitation
-      }, error => {
-        console.error('Error inviting user:', error);
-      });
+      this.httpProviderService
+        .inviteUsersToEvent(this.selectedEvent.id, userId, this.userId)
+        .subscribe(
+          (response) => {
+            console.log('User invited:', response);
+            this.toggleUserList(this.selectedEvent); // Réafficher la liste des utilisateurs après l'invitation
+          },
+          (error) => {
+            console.error('Error inviting user:', error);
+          }
+        );
     } else {
       console.error('Selected event or user ID is undefined.');
     }
@@ -231,8 +253,11 @@ export class EventPageComponent implements OnInit {
     if (!this.selectedEvent) {
       return this.users;
     }
-    const creatorId = typeof this.selectedEvent.createdBy === 'number' ? this.selectedEvent.createdBy : this.selectedEvent.createdBy.id;
-    return this.users.filter(user => user.id !== creatorId);
+    const creatorId =
+      typeof this.selectedEvent.createdBy === 'number'
+        ? this.selectedEvent.createdBy
+        : this.selectedEvent.createdBy.id;
+    return this.users.filter((user) => user.id !== creatorId);
   }
 
   showAlert(message: string): void {
@@ -241,10 +266,13 @@ export class EventPageComponent implements OnInit {
 
   // Remplacez alert() par showAlert()
   private handleInvitations(invitations: any[]): void {
-    invitations.forEach(invitation => {
+    invitations.forEach((invitation) => {
       const creator = invitation.event.createdBy;
-      const creatorName = typeof creator !== 'number' ? creator.username : 'Unknown';
-      this.showAlert(`${creatorName} vous a invité à l'évènement "${invitation.event.title}"`);
+      const creatorName =
+        typeof creator !== 'number' ? creator.username : 'Unknown';
+      this.showAlert(
+        `${creatorName} vous a invité à l'évènement "${invitation.event.title}"`
+      );
     });
   }
 
@@ -256,16 +284,18 @@ export class EventPageComponent implements OnInit {
           if (Array.isArray(invitations)) {
             this.handleInvitations(invitations);
           } else {
-            console.error('La réponse n\'est pas un tableau:', invitations);
+            console.error("La réponse n'est pas un tableau:", invitations);
           }
         },
         (error) => {
-          console.error('Erreur lors de la récupération des invitations:', error);
+          console.error(
+            'Erreur lors de la récupération des invitations:',
+            error
+          );
         }
       );
     } else {
       console.error('User ID is undefined.');
     }
   }
-
 }
