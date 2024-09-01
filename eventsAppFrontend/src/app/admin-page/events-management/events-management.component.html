@@ -1,0 +1,14 @@
+<div class="eventManagement_container">
+  <div *ngFor="let event of eventsList" class="event-div">
+    <div class="event-info">
+      <h6>{{ event.title }}</h6>
+    </div>
+
+    <button mat-fab class="edit-button" (click)="openEditEventDialog(event)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-fab class="delete-button" (click)="openDeleteDialog(event)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

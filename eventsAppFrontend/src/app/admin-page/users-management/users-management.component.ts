@@ -76,14 +76,21 @@ export class UsersManagementComponent implements OnInit {
     this.editMode = false;
     this.selectedUser = null;
   };
-  onConfirm = (userId?: number) => {};
+  onConfirmEdit = (user: User) => {
+    // this.updateUserRole(userId, this.selectedRole);
+    console.log('updatedUser', user);
+    this.updateUserRole(user);
+    this.editMode = false;
+    this.selectedUser = null;
+  };
 
-  // updateUserRole(userId?: number, role: String): void {
-  //   console.log('userId to modify', userId);
-  //   if (userId) {
-  //     this.httpProviderService
-  //       .putUser(userId)
-  //       .subscribe(() => this.loadUsers());
-  //   }
-  // }
+  updateUserRole(updatedUser: User): void {
+    console.log('userId to modify', updatedUser);
+
+    if (updatedUser) {
+      this.httpProviderService
+        .putUser(updatedUser)
+        .subscribe(() => this.loadUsers());
+    }
+  }
 }

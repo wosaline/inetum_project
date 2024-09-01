@@ -1,0 +1,59 @@
+.event-div {
+  width: 80%;
+  margin: 15px auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 35px;
+  position: relative;
+  border: 1px solid #81c3d7;
+  border-radius: 12px;
+  justify-content: flex-start;
+}
+.event-info {
+  display: flex;
+  gap: 5px;
+}
+.delete-button {
+  width: 35px;
+  height: 35px;
+  color: white;
+  background-color: #e76f51;
+  position: absolute;
+  right: 30px;
+}
+
+.edit-button {
+  width: 35px;
+  height: 35px;
+  color: white;
+  background-color: #f4a261;
+  position: absolute;
+  right: 80px;
+}
+.role {
+  position: absolute;
+  left: 50%;
+}
+.role-select {
+  right: 300px;
+  width: 80px;
+}
+/* Add this CSS to the component's stylesheet */
+
+.confirm-button {
+  width: 80px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+}
+.cancel-button {
+  width: 70px;
+  height: 35px;
+  cursor: pointer;
+}
+
+mat-dialog-container {
+  width: 150px !important;
+}

@@ -1,0 +1,99 @@
+<h2 mat-dialog-title>Modifier l'événement</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="editEventForm" (ngSubmit)="onSubmit()">
+    <input type="text" placeholder="Titre" formControlName="title" />
+    <div
+      *ngIf="
+        editEventForm.get('title')?.invalid &&
+        editEventForm.get('title')?.touched
+      "
+      class="error"
+    >
+      Titre requis
+    </div>
+
+    <textarea
+      placeholder="Description"
+      formControlName="description"
+    ></textarea>
+    <div
+      *ngIf="
+        editEventForm.get('description')?.invalid &&
+        editEventForm.get('description')?.touched
+      "
+      class="error"
+    >
+      Description requise
+    </div>
+
+    <input type="date" formControlName="date" [attr.min]="minDate" required />
+    <div
+      *ngIf="
+        editEventForm.get('date')?.invalid && editEventForm.get('date')?.touched
+      "
+      class="error"
+    >
+      Date requise
+    </div>
+
+    <div class="time-container">
+      <select formControlName="time" required>
+        <option *ngFor="let time of timeOptions" [value]="time">
+          {{ time }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          editEventForm.get('time')?.invalid &&
+          editEventForm.get('time')?.touched
+        "
+        class="error"
+      >
+        Heure requise
+      </div>
+    </div>
+
+    <input type="text" placeholder="Lieu" formControlName="location" />
+    <div
+      *ngIf="
+        editEventForm.get('location')?.invalid &&
+        editEventForm.get('location')?.touched
+      "
+      class="error"
+    >
+      Lieu requis
+    </div>
+
+    <input
+      type="number"
+      placeholder="Capacité"
+      formControlName="capacity"
+      min="1"
+    />
+    <div
+      *ngIf="
+        editEventForm.get('capacity')?.invalid &&
+        editEventForm.get('capacity')?.touched
+      "
+      class="error"
+    >
+      La capacité est requise et doit être au moins 1
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" formControlName="private" />
+        Événement privé
+      </label>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="editEventForm.pristine || editEventForm.invalid"
+    >
+      Mettre à jour
+    </button>
+    <button type="button" (click)="cancel()">Annuler</button>
+  </form>
+</mat-dialog-content>

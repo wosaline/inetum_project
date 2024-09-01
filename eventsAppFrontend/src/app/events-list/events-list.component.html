@@ -1,12 +1,15 @@
-<div class="events-list-container">
-  <div *ngIf="loading" class="spinner-container">
-    <app-spinner></app-spinner>
+<div class="event-body">
+  <div class="events-list-container">
+    <div *ngIf="loading" class="spinner-container">
+      <app-spinner></app-spinner>
+    </div>
+    <div *ngIf="eventsList.length === 0 && !loading" class="no-event-message">
+      <h3>Aucun événement trouvé pour la date sélectionnée</h3>
+    </div>
+    <app-event-card
+      *ngFor="let item of eventsList"
+      [event]="item"
+    ></app-event-card>
   </div>
-  <div *ngIf="eventsList.length === 0 && !loading" class="no-event-message">
-    <h3>Aucun événement trouvé pour la date sélectionnée</h3>
-  </div>
-  <app-event-card
-    *ngFor="let item of eventsList"
-    [event]="item"
-  ></app-event-card>
+  
 </div>

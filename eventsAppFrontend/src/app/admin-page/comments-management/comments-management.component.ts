@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -23,8 +24,9 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+
 import { ModalComponent } from '../../modal/modal.component';
-import { CommentFromClient } from '../../../interfaces/comment';
+import { CommentFromClient, CommentToClient } from '../../../interfaces/comment';
 
 @Component({
   selector: 'app-comments-management',
@@ -70,17 +72,23 @@ export class CommentsManagementComponent implements OnInit {
       }
     );
   }
-  openDialog(): void {
+  openDialog(comment: CommentToClient): void {
     this.dialog.open(ModalComponent, {
       width: 'auto',
       data: {
         dialogTitle: this.dialogTitle,
         dialogSubtitle: this.dialogSubtitle,
-        onConfirm: this.onConfirm,
+        onConfirm: () => this.onConfirmDelete(comment.id),
       },
     });
   }
-  onConfirm(): void {
-    console.log('hi');
+
+  onConfirmDelete(commentId?: number): void {
+    console.log('commentId to delete', commentId);
+    if (commentId) {
+      this.httpProviderService
+        .deleteComment(commentId)
+        .subscribe(() => this.loadComments());
+    }
   }
 }
