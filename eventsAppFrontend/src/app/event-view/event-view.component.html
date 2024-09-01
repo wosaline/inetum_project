@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<div class="event-body">
+    <div class="event-view-container">
+        <div class="event-container" *ngIf="event">
+            <!-- <div class="image-container">
+                <img class="event-image" src="event-image.jpg" alt="event_img" />
+            </div> -->
+            <div class="event-main-info">
+                <div class="event-title">
+                    {{ event.title }}
+                    <app-star-rating [rating]="eventRating" *ngIf="isEventPassed"></app-star-rating>
+                </div>
+                <div class="event-details">
+                    <div class="event-datetime-location">
+                        <div class="event-public">
+                            {{ event.private ? 'événement privé' : 'événement public' }}
+                        </div>
+                        {{ event.location }}, le {{ event.date }} à {{ formatTime(event.time) }}
+                    </div>
+                    <div class="event-capacity">
+                        Capacité d'accueil : {{ event.capacity }}
+                    </div>
+                </div>
+                <div class="event-description">
+                    <div class="description-title">Description</div>
+                    <div class="description-content">
+                        {{ event.description }}
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="event-rating-and-comments" *ngIf="isEventPassed"> -->
+            <div class="event-rating-and-comments" *ngIf="isEventPassed">
+                <div class="event-add-comment">
+                    <button (click)="addComment()">Ajouter une note</button>
+                </div>
+                <div class="event-commentslist">
+                    <app-comment-card *ngFor="let item of commentsList"
+                    [comment]="item"></app-comment-card>
+                </div>
+            </div>
+        </div>
+    
+        <app-participants-list></app-participants-list>
+    </div>
+</div>

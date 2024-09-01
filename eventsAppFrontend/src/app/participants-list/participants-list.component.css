@@ -1,0 +1,86 @@
+.participants-list-container {
+    width: 19vw;
+    background-color: #f4a261;
+    height: 90vh;
+    color: white;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.participants-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.participant-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-top: 10px;
+}
+
+.participant-name {
+    flex: 1;
+    text-transform: uppercase;
+}
+
+.participant-status {
+    text-align: right;
+}
+
+.invitation-status {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.status-declined {
+    color: white;
+    /* color: #e9c46a; */
+}
+
+.status-accepted {
+    color: white;
+    /* color: #2a9d8f; */
+}
+
+.status-invited {
+    color: white;
+    /* color: #e9c46a; */
+}
+
+.status-canceled {
+    color: white;
+    /* color: #e9c46a; */
+}
+
+.participant-response button {
+    background-color: transparent;
+    border: none;
+}
+
+.accept-icon{
+    background-color: green;
+    color: white;
+}
+
+.refuse-icon{
+    background-color: red;
+    color: white;
+}
+
+.accept-icon:hover{
+    background-color: #0f640f;
+}
+
+.refuse-icon:hover{
+    background-color: rgb(218, 13, 13);
+}
+
+.cancel-icon{
+    color: yellow;
+}
+
+.cancel-icon:hover{
+    color: rgb(245, 222, 12);
+}

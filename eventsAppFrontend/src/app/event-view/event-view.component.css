@@ -1,0 +1,117 @@
+.event-body{
+    background: url("../../assets/background-register2.jpg") no-repeat center
+    center/cover;;
+    color: white;
+}
+
+.event-view-container{
+    min-height: 100vh;
+    display: flex;
+    width: 100vw;
+}
+
+.event-container{
+    /* margin-left: 50px; */
+    min-width: 80vw;
+    margin-right: 15px;;
+}
+
+/* #264653, #2a9d8f, #e9c46a, #f4a261, #e76f51, also add #3a738a for a lighter deep blue */
+
+.event-container .event-title{
+    
+    margin-bottom: 2px;
+    
+    text-transform: uppercase;
+    
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 40px;
+    letter-spacing: 2px;
+    transform: skew(-10deg);
+}
+
+.event-container .event-main-info{
+    padding:30px;
+    background-color: #2a9d8f;
+}
+
+.event-container .event-details{
+    margin-left: 15px;
+    font-size: 15px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.event-container .event-capacity{
+    margin-top: 5px;
+}
+
+.event-container .event-description .description-title {
+    font-size: 25px;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2px;
+    margin-left: 10px;
+}
+
+.event-container .event-description .description-content{
+    margin-left: 20px;
+}
+
+.event-container .event-public{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: skew(-10deg);
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.event-container .event-rating-and-comments{
+    margin-top: 20px;
+    background-color: #e9c46a;
+    height: 50vh; 
+    padding: 20px;
+    overflow-y: scroll; 
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* border-radius: 8px; */
+}
+
+.event-container .event-rating-and-comments .event-commentslist{
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    overflow-y: auto; 
+    gap: 10px;
+}
+
+.app-comment-card {
+    /* margin-bottom: 10px;  */
+    /* width: 100%; */
+    flex: 1 1 calc(33.33% - 20px);
+    margin-bottom: 10px; 
+    max-width: calc(33.33% - 20px);
+    box-sizing: border-box;
+}
+
+.event-add-comment button {
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #e76f51; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    letter-spacing: 2px;
+    cursor: pointer;  
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.event-add-comment button:hover {
+    background-color: rgb(180, 81, 57);
+}
+
+.event-add-comment {
+    display: flex;
+    justify-content: flex-end;  /* positionne le bouton à droite */
+    margin-bottom: 20px;  /* ajoute un peu d'espace en bas */
+}

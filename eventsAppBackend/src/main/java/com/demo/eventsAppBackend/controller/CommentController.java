@@ -21,40 +21,51 @@ public class CommentController {
     private final CommentService commentService;
     private final EventService eventService;
 
-    public CommentController(CommentService commentService,EventService eventService) {
+    public CommentController(CommentService commentService, EventService eventService) {
         this.commentService = commentService;
-        this.eventService=eventService;
+        this.eventService = eventService;
     }
 
     // Create a comment
     @PostMapping("/comments")
     @ResponseBody
     public ResponseEntity<Object> createComment(
-            @RequestParam("event_id") int eventId,
-            @RequestParam("user_id") int userId,
+            @RequestParam("eventId") int eventId,
+            @RequestParam("userId") int userId,
             @RequestParam("content") String content,
             @RequestParam("rating") int rating
     ) {
         try {
-            Event event =new Event();
+            Event event = new Event();
             event.setId(eventId);
             User user = new User();
             user.setId(userId);
             Comment comment = CommentConverter.convertToComment(event, user, content, rating);
             return ResponseEntity.ok(commentService.addComment(comment));
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().body("Error while creating category: "+ e.getMessage());
+            return ResponseEntity.badRequest().body("Error while creating category: " + e.getMessage());
+        } catch (SecurityException e){
+            return ResponseEntity.status(401).build();
         }
     }
 
     // Get comment by event ID
     @GetMapping("/comments/{eventId}")
-    public List<Comment> getCommentsByEvent(@PathVariable int eventId) {
+    public ResponseEntity<List<Comment>> getCommentsByEvent(@PathVariable int eventId) {
         Event event = eventService.getEventById(eventId);
         if (event == null) {
             throw new EntityNotFoundException("Event not found");
         }
-        return commentService.getCommentsByEvent(event);
+        return ResponseEntity.ok(commentService.getCommentsByEvent(event));
+    }
+
+    @GetMapping("/comments/rating/{eventId}")
+    public ResponseEntity<Double> getRatingByEventId(@PathVariable int eventId) {
+        try {
+            return ResponseEntity.ok(commentService.getRatingByEventId(eventId));
+        }catch(EntityNotFoundException e){
+            return ResponseEntity.badRequest().build();
+        }
     }
     
     // Delete Comment

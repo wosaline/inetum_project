@@ -182,4 +182,24 @@ public class EventController {
         return ResponseEntity.ok(dates);
     }
 
+
+    @GetMapping("/events/{eventId}/participants")
+    @ResponseBody
+    public ResponseEntity<List<Participant>> getAllParticipantsByEventId(@PathVariable int eventId) {
+        try {
+            return ResponseEntity.ok(eventService.getAllParticipantsByEventId(eventId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/events/{eventId}/participants/supposedly")
+    @ResponseBody
+    public ResponseEntity<List<Participant>> getAllParticipantsByEventIdAndStatusInvitedAndAccepted(@PathVariable int eventId) {
+        try {
+            return ResponseEntity.ok(eventService.getAllParticipantsByEventIdAndStatusInvitedAndAccepted(eventId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

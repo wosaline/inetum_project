@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpProviderService } from '../../../services/http-provider.service';
-import { Comment } from '../../../interfaces/Comment';
 import { AvatarComponent } from '../../avatar/avatar.component';
 import {
   MatDialog,
@@ -25,6 +24,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { ModalComponent } from '../../modal/modal.component';
+import { CommentFromClient } from '../../../interfaces/comment';
 
 @Component({
   selector: 'app-comments-management',
@@ -46,12 +46,12 @@ import { ModalComponent } from '../../modal/modal.component';
 })
 export class CommentsManagementComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  commentsList: Comment[] = [];
+  commentsList: CommentFromClient[] = [];
   loading: boolean = true;
   selectedUser: any;
-  dialogTitle: string = 'Confirmez vous la suppression ?';
+  dialogTitle: string = 'Confirmez-vous la suppression ?';
   dialogSubtitle: string =
-    'Si vous confirmer, ce commentaire sera supprimé definitivement';
+    'Si vous confirmez, ce commentaire sera supprimé définitivement';
 
   constructor(private httpProviderService: HttpProviderService) {}
   ngOnInit(): void {

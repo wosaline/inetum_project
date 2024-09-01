@@ -1,0 +1,8 @@
+<span class="star" *ngFor="let star of stars; let i = index" 
+      (click)="setRating(i)">
+  <ng-container [ngSwitch]="star">
+    <span *ngSwitchCase="1" class="filled">★</span> <!-- Full star -->
+    <span *ngSwitchCase="0.5" class="half-filled">★</span> <!-- Half star -->
+    <span *ngSwitchDefault class="empty">★</span> <!-- Empty star -->
+  </ng-container>
+</span>

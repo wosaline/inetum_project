@@ -1,0 +1,24 @@
+mat-dialog-content{
+    min-width: 450px;
+}
+h2{
+    padding:15px;
+    color:#e76f51;
+    margin:0 auto;
+}
+
+.star-rating{
+    cursor: pointer;
+}
+
+.star-rating-zone{
+    margin-bottom: 15px;
+}
+
+.rating-text{
+    margin:0 auto;
+}
+
+.content-text{
+    margin-top: 10px;
+}

@@ -4,6 +4,9 @@ import { User } from '../interfaces/user';
 import { Event } from '../interfaces/event';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { InviteResponse } from '../interfaces/participant';
+import { CommentToClient } from '../interfaces/comment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +50,10 @@ export class HttpProviderService {
     return this.webApiService.get(
       this.httpLinks.mappingUserEventsByDate + `/${date}/user/${userId}`
     );
+  }
+
+  getEventById(id : number){
+    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}`);
   }
 
   postEvent(event: Event) {
@@ -100,6 +107,41 @@ export class HttpProviderService {
   getPendingInvitations(userId: number) {
     return this.webApiService.get(
       this.httpLinks.mappingEvents + `/users/${userId}/invitations`
+    );
+  }
+
+
+  getAllCommentsByEventId(id:number){
+    return this.webApiService.get(this.httpLinks.mappingComments+`/${id}`);
+  }
+
+  getRatingByEventIt(id:number){
+    return this.webApiService.get(this.httpLinks.mappingComments+`/rating/${id}`);
+  }
+
+  createComment(comment:CommentToClient){
+    return this.webApiService.post(this.httpLinks.mappingComments, comment, true)
+  }
+
+  getParticipantsByEventId(id: number){
+    console.log("get participants for event "+id);
+    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants`);
+  }
+
+  getParticipantsByEventIdAndStatusInvitedAndAccepted(id: number){
+    return this.webApiService.get(this.httpLinks.mappingEvents+`/${id}/participants/supposedly`);
+  }
+
+  // PathVariable int eventId,
+  //           @PathVariable int participantId,
+  //           @RequestParam("userId") int userId,
+  //           @RequestParam("response") String response)
+  // ("events/{eventId}/invite/{participantId}")
+  updateInvite(eventId: number, participantId: number, obj: InviteResponse){
+    return this.webApiService.put(
+      this.httpLinks.mappingEvents + `/${eventId}/invite/${participantId}`,
+      obj,
+      true
     );
   }
 }

@@ -1,0 +1,20 @@
+<div class="comment-form-container">
+  <h2 mat-dialog-title>Notez {{eventName}} !</h2>
+  <mat-dialog-content class="dialog-comment">
+    <div class="star-rating-zone">
+      <p class="rating-text">Quelle note mettriez-vous à {{eventName}} ?</p>
+      <app-star-rating [(rating)]="rating" (ratingChange)="onRatingChange($event)" class="star-rating"></app-star-rating>
+    </div>
+    
+    <p class="context-text">
+      <mat-form-field appearance="outline">
+        <mat-label>Détaillez !</mat-label>
+        <textarea matInput [(ngModel)]="content"></textarea>
+      </mat-form-field>
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+  <button mat-button (click)="onSubmit()" [disabled]="!ratingGiven">Envoyer ma note</button>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  </mat-dialog-actions>
+</div>
