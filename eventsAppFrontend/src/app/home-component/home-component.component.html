@@ -2,7 +2,7 @@
   <app-navbar></app-navbar>
   <div class="events-list">
     <div class="filter-container">
-      <label>
+      <label *ngIf="isLoggedIn">
         <input type="checkbox" [(ngModel)]="showPrivateEvents" (change)="loadEvents()" />
         Voir les événements privés
       </label>

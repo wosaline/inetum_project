@@ -4,11 +4,12 @@ import { EventsListComponent } from '../events-list/events-list.component';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule, NgModel } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home-component',
   standalone: true,
-  imports: [NavbarComponent, EventsListComponent, FormsModule],
+  imports: [NavbarComponent, EventsListComponent, FormsModule, CommonModule],
   templateUrl: './home-component.component.html',
   styleUrl: './home-component.component.css',
 })
